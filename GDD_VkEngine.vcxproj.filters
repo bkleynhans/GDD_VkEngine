@@ -13,10 +13,120 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\GameManager">
+      <UniqueIdentifier>{efcf0aba-5a70-445f-9ad0-9177efdcd4d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GameManager">
+      <UniqueIdentifier>{64b14a10-e06e-492f-9cda-5ff915de6ea5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GameManager\WindowManager">
+      <UniqueIdentifier>{14d20174-a0a0-4e78-865a-9be121b89084}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GameManager\WindowManager">
+      <UniqueIdentifier>{f70370c9-5fdb-4a16-8a4f-f944f5301db7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GameManager\CameraManager">
+      <UniqueIdentifier>{e7a5bce3-5927-41f6-9bd8-00dfcb79911e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GameManager\CameraManager\ProjectionManager">
+      <UniqueIdentifier>{81521322-abb8-4a49-85fb-0b1d36170b94}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GameManager\ControlManager">
+      <UniqueIdentifier>{c77e9a2f-eca1-4440-a5bc-ccd055b1c276}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GameManager\ShaderManager">
+      <UniqueIdentifier>{77d81aa6-3589-4141-95df-eb20bfbb8104}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GameManager\LightingManager">
+      <UniqueIdentifier>{46dfdf92-5704-4ecd-aa25-733589e3227c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GameManager\EntityManager">
+      <UniqueIdentifier>{eb760d1e-5412-4543-8c05-bdbf94d09a77}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GameManager\EntityManager\BodyManager">
+      <UniqueIdentifier>{ad9cf386-67ee-40d4-b485-59605b14425d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GameManager\EntityManager\CollisionManager">
+      <UniqueIdentifier>{1b19d9ad-a9ab-44d0-b73f-81268ba1402e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GameManager\EntityManager\BodyManager\RigidBodyManager">
+      <UniqueIdentifier>{488e0240-7559-4330-8567-b7d852fecc68}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GameManager\EntityManager\BodyManager\DeformableBodyManager">
+      <UniqueIdentifier>{63de53d8-fe69-4007-b8eb-7f6412584d10}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GameManager\EntityManager\BodyManager\FluidicBodyManager">
+      <UniqueIdentifier>{755bb6fa-0ef6-4ecd-9626-fa8a1a83f031}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GameManager\EntityManager\BodyManager\MagneticBodyManager">
+      <UniqueIdentifier>{c271af53-5950-49f3-9486-37fbb3d840a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GameManager\CameraManager">
+      <UniqueIdentifier>{8b76d18a-52cc-4a8e-a248-2ec7b358dc8e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GameManager\CameraManager\ProjectionManager">
+      <UniqueIdentifier>{8d497400-55e2-4a58-bd9e-cdce206d55c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GameManager\ControlManager">
+      <UniqueIdentifier>{84dfd6dd-f234-4e91-84ab-70eb46e41a66}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GameManager\LightingManager">
+      <UniqueIdentifier>{a724f4cc-876e-42f1-85bb-0b423b98d590}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GameManager\EntityManager">
+      <UniqueIdentifier>{bfa1aa76-2330-4016-b605-0a8231e526df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GameManager\EntityManager\BodyManager">
+      <UniqueIdentifier>{fbe2fad4-46c2-4d6f-9002-7f545baffdce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GameManager\EntityManager\BodyManager\DeformableBodyManager">
+      <UniqueIdentifier>{61414258-14e6-491d-9bb7-c7b0c0a63d30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GameManager\EntityManager\BodyManager\FluidicBodyManager">
+      <UniqueIdentifier>{a1bf777d-5461-42a6-80b4-de1089eae27c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GameManager\EntityManager\BodyManager\MagneticBodyManager">
+      <UniqueIdentifier>{c5400890-93d3-4b15-9d5d-1df648b4cbf0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GameManager\EntityManager\BodyManager\RigidBodyManager">
+      <UniqueIdentifier>{1ceca4de-b405-4f36-a60f-1e56a12be6ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GameManager\EntityManager\CollisionManager">
+      <UniqueIdentifier>{f63ecd48-5fc5-4135-afed-5323ec118297}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GameManager\ShaderManager">
+      <UniqueIdentifier>{fc4bab71-8bc9-4f87-baa5-fbcefacd6c0e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GameManager\VulkanManager">
+      <UniqueIdentifier>{60b5c6e4-0673-4395-bb2f-262b39c37612}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GameManager\VulkanManager">
+      <UniqueIdentifier>{9e0690cd-3d64-4b16-9fe8-91b8b1b0cf5c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="WindowManager.cpp">
+      <Filter>Source Files\GameManager\WindowManager</Filter>
+    </ClCompile>
+    <ClCompile Include="GameManager.cpp">
+      <Filter>Source Files\GameManager</Filter>
+    </ClCompile>
+    <ClCompile Include="GameManager\VulkanManager\VulkanManager.cpp">
+      <Filter>Source Files\GameManager\VulkanManager</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="GameManager\GameManager.h">
+      <Filter>Header Files\GameManager</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowManager.h">
+      <Filter>Header Files\GameManager\WindowManager</Filter>
+    </ClInclude>
+    <ClInclude Include="GameManager\VulkanManager\VulkanManager.h">
+      <Filter>Header Files\GameManager\VulkanManager</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,38 +1,40 @@
-#define GLFW_INCLUDE_VULKAN
-#include <GLFW/glfw3.h>
-
-#define GLM_FORCE_RADIANS
-#define GLM_FORCE_DEPTH_ZERO_TO_ONE
-#include <glm/vec4.hpp>
-#include <glm/mat4x4.hpp>
+#include <vulkan/vulkan.h>
 
 #include <iostream>
+#include <stdexcept>
+#include <functional>
+#include <cstdlib>
 
+#include "GameManager/GameManager.h"
+
+#pragma region CREDITS
+/*** 
+
+    Thank you to Alexander Overvoorde for his Vulkan Tutorial from October 2019.  This
+    entire framework as well as all comments are taken either directly, or as a variation
+    of the information provided in his tutorial.
+
+    For more information related to the tutorial documentation, please refer to the
+    source website at:
+
+    https ://vulkan-tutorial.com/
+
+***/
+#pragma endregion
 
 int main()
 {
-    glfwInit();
+    GameManager app;
 
-    glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-    GLFWwindow* window = glfwCreateWindow(800, 600, "Vulkan window", nullptr, nullptr);
-
-    uint32_t extensionCount = 0;
-    vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, nullptr);
-
-    std::cout << extensionCount << " extensions supported" << std::endl;
-
-    glm::mat4 matrix;
-    glm::vec4 vec;
-    auto test = matrix * vec;
-
-    while (!glfwWindowShouldClose(window))
+    try
     {
-        glfwPollEvents();
+        app.run();
+    }
+    catch (const std::exception & e)
+    {
+        std::cerr << e.what() << std::endl;
+        return EXIT_FAILURE;
     }
 
-    glfwDestroyWindow(window);
-
-    glfwTerminate();
-
-    return 0;
+    return EXIT_SUCCESS;
 }
