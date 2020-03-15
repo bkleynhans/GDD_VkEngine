@@ -10,6 +10,10 @@
 #include <cstdlib>
 #include <string>
 
+#include "VulkanManager/SupportedComponents/GlfwExtensionProperties.h"
+#include "VulkanManager/SupportedComponents/VulkanExtensionProperties.h"
+#include "VulkanManager/SupportedComponents/VulkanLayerProperties.h"
+
 // STRUCT for Validation Layers
 /* Vulkan Tutorial - Alexander Overvoorde - October 2019 - page 50
     Add two configuration variables to the program to specify the layers
@@ -34,31 +38,28 @@
 class VulkanManager
 {
 public:
-    VulkanManager();
-    void createInstance();
+    VulkanManager();    
     ~VulkanManager();
 
+    void createInstance();
+
+    static VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(
+        VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
+        VkDebugUtilsMessageTypeFlagsEXT messageType,
+        const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData,
+        void* pUserData
+    );
+
 private:
+    GlfwExtensionProperties* pGlfwExtensionProperties = nullptr;
+    VulkanExtensionProperties* pVulkanExtensionProperties = nullptr;
+    VulkanLayerProperties* pVulkanLayerProperties = nullptr;
+
     VkInstance instance;
     // VkResult result;                         // --> 001
 
     VkApplicationInfo appInfo = {};             // Optional
     VkInstanceCreateInfo createInfo = {};       // Required
-
-    const char** glfwExtensions = nullptr;
-
-    uint32_t glfwExtensionCount = 0;
-    uint32_t extensionCount = 0;
-    uint32_t layerCount = 0;
-
-    std::vector<VkExtensionProperties>* extensions = nullptr;    
-    std::vector<VkLayerProperties>* availableLayers = nullptr;
-
-    const std::vector<const char*> validationLayers = {
-        "VK_LAYER_KHRONOS_validation"
-    };
-
-    bool checkValidationLayerSupport();
 };
 
 #endif // _VULKANMANAGER_H_

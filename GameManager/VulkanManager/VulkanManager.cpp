@@ -2,6 +2,10 @@
 
 VulkanManager::VulkanManager()
 {
+    this->pGlfwExtensionProperties = &GlfwExtensionProperties();
+    this->pVulkanExtensionProperties = &VulkanExtensionProperties();
+    this->pVulkanLayerProperties = &VulkanLayerProperties();
+
     this->createInstance();
 }
 
@@ -10,10 +14,14 @@ VulkanManager::VulkanManager()
     In order to create a Vulkan instance, we need to fill in a struct with
     some information about the application.
 */
-
 void VulkanManager::createInstance()
 {
-    if (enableValidationLayers && !checkValidationLayerSupport())
+    /* Vulkan Tutorial - Alexander Overvoorde - October 2019 - page 52
+        Check if required validation layers are available for use by
+        the program - Final part of Validation Layers tutorial starting on
+        page 49.
+    */
+    if (enableValidationLayers && !this->pVulkanLayerProperties->checkValidationLayerSupport())
     {
         throw std::runtime_error("validation layers requested, but not available");
     }
@@ -36,62 +44,32 @@ void VulkanManager::createInstance()
     this->createInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
     this->createInfo.pApplicationInfo = &this->appInfo;
 
-    /* Vulkan Tutorial - Alexander Overvoorde - October 2019 - page 46
-        Because Vulkan is a platform agnostic API, we need to specify the desired
-        global extensions in order to interface with the window system.  GLFW has
-        a handy built-in function that returns the extension(s) it needs to do that
-        which we can pass to the struct.
-    */    
-    this->glfwExtensions = glfwGetRequiredInstanceExtensions(&glfwExtensionCount);
-
-    this->createInfo.enabledExtensionCount = this->glfwExtensionCount;
-    this->createInfo.ppEnabledExtensionNames = this->glfwExtensions;
+    if (enableValidationLayers)
+    {
+        this->pGlfwExtensionProperties->addMessageCallback();
+        this->createInfo.enabledExtensionCount = static_cast<uint32_t>(this->pGlfwExtensionProperties->extensions.size());
+        this->createInfo.ppEnabledExtensionNames = this->pGlfwExtensionProperties->extensions.data();
+    }
+    else
+    {
+        this->createInfo.enabledExtensionCount = this->pGlfwExtensionProperties->count;
+        this->createInfo.ppEnabledExtensionNames = this->pGlfwExtensionProperties->glfwExtensions;
+    }
+    
     this->createInfo.enabledLayerCount = 0;
 
     /* Vulkan Tutorial - Alexander Overvoorde - October 2019 - page 52
         Add validation layer support to VkInstanceCreateInfo struct
     */
     if (enableValidationLayers)
-    {
-        this->createInfo.enabledLayerCount = static_cast<uint32_t>(this->validationLayers.size());
-        this->createInfo.ppEnabledLayerNames = this->validationLayers.data();
+    {        
+        this->createInfo.enabledLayerCount = static_cast<uint32_t>(this->pVulkanLayerProperties->validationLayers.size());
+        this->createInfo.ppEnabledLayerNames = this->pVulkanLayerProperties->validationLayers.data();
     }
     else
     {
         this->createInfo.enabledLayerCount = 0;
     }
-
-    /* Vulkan Tutorial - Alexander Overvoorde - October 2019 - page 47
-        If you look at the vkCreateInstance documentation then you'll see that one
-        of the possible error codes is VK_ERROR_EXTENSION_NOT_SUPPORTED. To retrieve
-        a list of supported extensions becore creating an instance, there's the
-        vkEnumerateInstanceExtensionProperties function.  It takes a pointer to a
-        variable that stores the number of extensions and an array of
-        VkExtensionProperties to store details of the extensions.
-    */
-    vkEnumerateInstanceExtensionProperties(nullptr, &this->extensionCount, nullptr);
-
-    /* Vulkan Tutorial - Alexander Overvoorde - October 2019 - page 47
-        Now allocate an array to hold the extension details
-    */
-    this->extensions = new std::vector<VkExtensionProperties>(extensionCount);
-
-    /* Vulkan Tutorial - Alexander Overvoorde - October 2019 - page 47
-        Now we can query the extension details
-    */
-    vkEnumerateInstanceExtensionProperties(nullptr, &this->extensionCount, this->extensions->data());
-
-    /* Vulkan Tutorial - Alexander Overvoorde - October 2019 - page 46
-        We can list the supported extensions with a for-loop to display some
-        details about Vulkan support
-    */
-    std::cout << std::endl;
-    std::cout << "Supported Extensions : " << std::endl;
-    for (const auto& extension : *this->extensions)
-    {
-        std::cout << "\t" << extension.extensionName << std::endl;
-    }
-    std::cout << std::endl;
 
     /* Vulkan Tutorial - Alexander Overvoorde - October 2019 - page 46
         We've now specified everything Vulkan needs to create an instance so
@@ -115,68 +93,20 @@ void VulkanManager::createInstance()
     std::cout << "Vulkan Manager Created" << std::endl;
 }
 
-// Validation Layers
-/* Vulkan Tutorial - Alexander Overvoorde - October 2019 - page 46
-    The Vulkan API is designed around the idea of minimal driver overhead and one
-    of the manifestations of that goal is that there is very limited error checking in
-    the API by default. Even mistakes as simple as setting enumerations to incorrect
-    values or passing null pointers to required parameters are generally not explicitly
-    handled and will simply result in crashes or undefined behavior. Because Vulkan
-    requires you to be very explicit about everything you’re doing, it’s easy to make
-    many small mistakes like using a new GPU feature and forgetting to request it
-    at logical device creation time.
-
-    However, that doesn’t mean that these checks can’t be added to the API. Vulkan
-    introduces an elegant system for this known as validation layers. Validation
-    layers are optional components that hook into Vulkan function calls to apply
-    additional operations.
-*/
-bool VulkanManager::checkValidationLayerSupport()
+VKAPI_ATTR VkBool32 VKAPI_CALL VulkanManager::debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity, VkDebugUtilsMessageTypeFlagsEXT messageType, const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData, void* pUserData)
 {
-    /* Vulkan Tutorial - Alexander Overvoorde - October 2019 - page 51
-        List all of the available layers using the vkEnumerateInstanceLayerProperties
-        function.  Its usage is identical to that of 
-        vkEnumerateInstanceExtensionProperties used above.
-    */
-    vkEnumerateInstanceLayerProperties(&this->layerCount, nullptr);
+    std::cerr << "validation layer : " << pCallbackData->pMessage << std::endl;
 
-    this->availableLayers = new std::vector<VkLayerProperties>(layerCount);
-
-    vkEnumerateInstanceLayerProperties(&this->layerCount, this->availableLayers->data());
-
-    /* Vulkan Tutorial - Alexander Overvoorde - October 2019 - page 51
-        Check if all of the layers in validationLayers exist in the
-        availableLayers list.
-    */
-    for (const char* layerName : this->validationLayers)
-    {
-        bool layerFound = false;
-
-        for (const auto& layerProperties : *this->availableLayers)
-        {
-            if (strcmp(layerName, layerProperties.layerName) == 0)
-            {
-                layerFound = true;
-                break;
-            }
-        }
-
-        if (!layerFound)
-        {
-            return false;
-        }
-    }
-
-    return true;
+    return VK_FALSE;
 }
 
 VulkanManager::~VulkanManager()
 {
-    // We created with the 'new' keyword so we need to clear memory
-    std::vector<VkExtensionProperties>().swap(*this->extensions);
-    std::vector<VkLayerProperties>().swap(*this->availableLayers);
+    vkDestroyInstance(this->instance, nullptr);
 
-    vkDestroyInstance(this->instance, nullptr);    
+    delete this->pVulkanLayerProperties;
+    delete this->pVulkanExtensionProperties;
+    delete this->pGlfwExtensionProperties;
 
     std::cout << "Vulkan Manager Destroyed" << std::endl;
 }

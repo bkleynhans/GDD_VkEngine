@@ -7,20 +7,25 @@ GameManager::GameManager()
 
 void GameManager::run()
 {    
-    //initWindow();
+    initWindow();
     initVulkan();
     mainLoop();
     cleanup();
 }
 
+void GameManager::initWindow()
+{
+    this->pWindowManager = new WindowManager();
+}
+
 void GameManager::initVulkan()
 {
-
+    this->pVulkanManager = new VulkanManager();
 }
 
 void GameManager::mainLoop()
 {
-    while (!glfwWindowShouldClose(windowManager.window))
+    while (!glfwWindowShouldClose(this->pWindowManager->window))
     {
         glfwPollEvents();
     }
@@ -33,5 +38,8 @@ void GameManager::cleanup()
 
 GameManager::~GameManager()
 {
+    delete this->pVulkanManager;
+    delete this->pWindowManager;
 
+    std::cout << "Game Manager Destroyed" << std::endl;
 }

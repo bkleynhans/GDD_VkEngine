@@ -21,8 +21,8 @@ public:
     ~GameManager();
 
 private:
-    WindowManager* windowManager = nullptr;
-    VulkanManager* vulkanManager = nullptr;
+    WindowManager* pWindowManager = nullptr;
+    VulkanManager* pVulkanManager = nullptr;
     
     void initWindow();
     void initVulkan();
