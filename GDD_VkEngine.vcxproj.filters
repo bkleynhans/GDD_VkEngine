@@ -103,18 +103,36 @@
     <Filter Include="Source Files\GameManager\VulkanManager">
       <UniqueIdentifier>{9e0690cd-3d64-4b16-9fe8-91b8b1b0cf5c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\GameManager\VulkanManager\SupportedComponents">
+      <UniqueIdentifier>{a0e9eada-6ed5-4692-bc82-2f0eb99309e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GameManager\VulkanManager\SupportedComponents">
+      <UniqueIdentifier>{438fe77c-10c9-480e-8b77-b31c099e0e00}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="WindowManager.cpp">
+    <ClCompile Include="GameManager\VulkanManager\VulkanManager.cpp">
+      <Filter>Source Files\GameManager\VulkanManager</Filter>
+    </ClCompile>
+    <ClCompile Include="GameManager\WindowManager\WindowManager.cpp">
       <Filter>Source Files\GameManager\WindowManager</Filter>
     </ClCompile>
-    <ClCompile Include="GameManager.cpp">
+    <ClCompile Include="GameManager\VulkanManager\SupportedComponents\VulkanExtensionProperties.cpp">
+      <Filter>Source Files\GameManager\VulkanManager\SupportedComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="GameManager\VulkanManager\SupportedComponents\GlfwExtensionProperties.cpp">
+      <Filter>Source Files\GameManager\VulkanManager\SupportedComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="GameManager\GameManager.cpp">
       <Filter>Source Files\GameManager</Filter>
     </ClCompile>
-    <ClCompile Include="GameManager\VulkanManager\VulkanManager.cpp">
+    <ClCompile Include="GameManager\VulkanManager\SupportedComponents\VulkanLayerProperties.cpp">
+      <Filter>Source Files\GameManager\VulkanManager\SupportedComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="GameManager\VulkanManager\SupportedComponents.cpp">
       <Filter>Source Files\GameManager\VulkanManager</Filter>
     </ClCompile>
   </ItemGroup>
@@ -122,10 +140,22 @@
     <ClInclude Include="GameManager\GameManager.h">
       <Filter>Header Files\GameManager</Filter>
     </ClInclude>
-    <ClInclude Include="WindowManager.h">
+    <ClInclude Include="GameManager\VulkanManager\VulkanManager.h">
+      <Filter>Header Files\GameManager\VulkanManager</Filter>
+    </ClInclude>
+    <ClInclude Include="GameManager\WindowManager\WindowManager.h">
       <Filter>Header Files\GameManager\WindowManager</Filter>
     </ClInclude>
-    <ClInclude Include="GameManager\VulkanManager\VulkanManager.h">
+    <ClInclude Include="GameManager\VulkanManager\SupportedComponents\VulkanExtensionProperties.h">
+      <Filter>Header Files\GameManager\VulkanManager\SupportedComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="GameManager\VulkanManager\SupportedComponents\VulkanLayerProperties.h">
+      <Filter>Header Files\GameManager\VulkanManager\SupportedComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="GameManager\VulkanManager\SupportedComponents\GlfwExtensionProperties.h">
+      <Filter>Header Files\GameManager\VulkanManager\SupportedComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="GameManager\VulkanManager\SupportedComponents.h">
       <Filter>Header Files\GameManager\VulkanManager</Filter>
     </ClInclude>
   </ItemGroup>

@@ -146,15 +146,23 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="GameManager.cpp" />
+    <ClCompile Include="GameManager\GameManager.cpp" />
+    <ClCompile Include="GameManager\VulkanManager\SupportedComponents\GlfwExtensionProperties.cpp" />
+    <ClCompile Include="GameManager\VulkanManager\SupportedComponents\VulkanExtensionProperties.cpp" />
+    <ClCompile Include="GameManager\VulkanManager\SupportedComponents\VulkanLayerProperties.cpp" />
     <ClCompile Include="GameManager\VulkanManager\VulkanManager.cpp" />
+    <ClCompile Include="GameManager\VulkanManager\SupportedComponents.cpp" />
+    <ClCompile Include="GameManager\WindowManager\WindowManager.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="WindowManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameManager\GameManager.h" />
+    <ClInclude Include="GameManager\VulkanManager\SupportedComponents\GlfwExtensionProperties.h" />
+    <ClInclude Include="GameManager\VulkanManager\SupportedComponents\VulkanExtensionProperties.h" />
+    <ClInclude Include="GameManager\VulkanManager\SupportedComponents\VulkanLayerProperties.h" />
     <ClInclude Include="GameManager\VulkanManager\VulkanManager.h" />
-    <ClInclude Include="WindowManager.h" />
+    <ClInclude Include="GameManager\VulkanManager\SupportedComponents.h" />
+    <ClInclude Include="GameManager\WindowManager\WindowManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
