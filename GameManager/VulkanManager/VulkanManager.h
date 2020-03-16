@@ -34,15 +34,16 @@
     creating it involves specifying some details about your application to the
     driver.
 */
-
 class VulkanManager
 {
 public:
-    VulkanManager();    
+    VulkanManager();
     ~VulkanManager();
 
     void createInstance();
-
+    void populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo);
+    void setupDebugMessenger();
+    
     static VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(
         VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
         VkDebugUtilsMessageTypeFlagsEXT messageType,
@@ -56,10 +57,7 @@ private:
     VulkanLayerProperties* pVulkanLayerProperties = nullptr;
 
     VkInstance instance;
-    // VkResult result;                         // --> 001
-
-    VkApplicationInfo appInfo = {};             // Optional
-    VkInstanceCreateInfo createInfo = {};       // Required
+    VkDebugUtilsMessengerEXT debugMessenger;
 };
 
 #endif // _VULKANMANAGER_H_

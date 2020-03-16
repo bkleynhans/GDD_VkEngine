@@ -1,3 +1,5 @@
+#include "VulkanManager/DebugTools.cpp"
+
 #include "VulkanManager.h"
 
 VulkanManager::VulkanManager()
@@ -7,6 +9,7 @@ VulkanManager::VulkanManager()
     this->pVulkanLayerProperties = &VulkanLayerProperties();
 
     this->createInstance();
+    this->setupDebugMessenger();
 }
 
 // createInstance Description
@@ -30,70 +33,97 @@ void VulkanManager::createInstance()
         The appInfo is optional, but may provide some useful information to 
         the driver to optimize this specific appliation
     */
-    this->appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
-    this->appInfo.pApplicationName = "Hello Triangle";
-    this->appInfo.applicationVersion = VK_MAKE_VERSION(1, 0, 0);
-    this->appInfo.pEngineName = "No Engine";
-    this->appInfo.engineVersion = VK_MAKE_VERSION(1, 0, 0);
-    this->appInfo.apiVersion = VK_API_VERSION_1_0;
+    VkApplicationInfo appInfo = {};
+    appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
+    appInfo.pApplicationName = "Hello Triangle";
+    appInfo.applicationVersion = VK_MAKE_VERSION(1, 0, 0);
+    appInfo.pEngineName = "No Engine";
+    appInfo.engineVersion = VK_MAKE_VERSION(1, 0, 0);
+    appInfo.apiVersion = VK_API_VERSION_1_0;
 
     /* Vulkan Tutorial - Alexander Overvoorde - October 2019 - page 46
         The createInfo struct information is NOT optional and tells the Vulkan
         driver which global extensions and validation layers we want to use.
-    */    
-    this->createInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
-    this->createInfo.pApplicationInfo = &this->appInfo;
+    */
+    VkInstanceCreateInfo createInfo = {};
+    createInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
+    createInfo.pApplicationInfo = &appInfo;
 
-    if (enableValidationLayers)
-    {
-        this->pGlfwExtensionProperties->addMessageCallback();
-        this->createInfo.enabledExtensionCount = static_cast<uint32_t>(this->pGlfwExtensionProperties->extensions.size());
-        this->createInfo.ppEnabledExtensionNames = this->pGlfwExtensionProperties->extensions.data();
-    }
-    else
-    {
-        this->createInfo.enabledExtensionCount = this->pGlfwExtensionProperties->count;
-        this->createInfo.ppEnabledExtensionNames = this->pGlfwExtensionProperties->glfwExtensions;
-    }
-    
-    this->createInfo.enabledLayerCount = 0;
+    VkDebugUtilsMessengerCreateInfoEXT debugCreateInfo;
 
     /* Vulkan Tutorial - Alexander Overvoorde - October 2019 - page 52
         Add validation layer support to VkInstanceCreateInfo struct
     */
     if (enableValidationLayers)
-    {        
-        this->createInfo.enabledLayerCount = static_cast<uint32_t>(this->pVulkanLayerProperties->validationLayers.size());
-        this->createInfo.ppEnabledLayerNames = this->pVulkanLayerProperties->validationLayers.data();
+    {
+        this->pGlfwExtensionProperties->addMessageCallback();
+        createInfo.enabledExtensionCount = static_cast<uint32_t>(this->pGlfwExtensionProperties->extensions.size());
+        createInfo.ppEnabledExtensionNames = this->pGlfwExtensionProperties->extensions.data();
+
+        createInfo.enabledLayerCount = static_cast<uint32_t>(this->pVulkanLayerProperties->validationLayers.size());
+        createInfo.ppEnabledLayerNames = this->pVulkanLayerProperties->validationLayers.data();
+
+        this->populateDebugMessengerCreateInfo(debugCreateInfo);
+        createInfo.pNext = (VkDebugUtilsMessengerCreateInfoEXT*) &debugCreateInfo;
     }
     else
     {
-        this->createInfo.enabledLayerCount = 0;
+        createInfo.enabledExtensionCount = this->pGlfwExtensionProperties->count;
+        createInfo.ppEnabledExtensionNames = this->pGlfwExtensionProperties->glfwExtensions;
+
+        createInfo.enabledLayerCount = 0;
+
+        createInfo.pNext = nullptr;
     }
-
-    /* Vulkan Tutorial - Alexander Overvoorde - October 2019 - page 46
-        We've now specified everything Vulkan needs to create an instance so
-        we can issue the vkCreateInstance call
-    */
-    // --> 001 - Store the result of the process in the result variable
-    //this->result = vkCreateInstance(&this->createInfo, nullptr, &this->instance);
-
+    
     /* Vulkan Tutorial - Alexander Overvoorde - October 2019 - page 46
         Nearly all Vulkan functions return a value of type VkResult that is either
         VK_SUCCESS or an error code.  To check if the instance was created
         successfully, we can either store the result in the 'result' variable (001), or
         we can just use a check for the success value instead (002).
     */
-    // --> 002 - Handle the result of the process and throw an error if required
-    if (vkCreateInstance(&this->createInfo, nullptr, &this->instance) != VK_SUCCESS)
+    // Handle the result of the process and throw an error if required
+    if (vkCreateInstance(&createInfo, nullptr, &this->instance) != VK_SUCCESS)
     {
         throw std::runtime_error("failed to create instance");
     }
 
-    std::cout << "Vulkan Manager Created" << std::endl;
+    //std::cout << "Vulkan Manager Created" << std::endl;
 }
 
-VKAPI_ATTR VkBool32 VKAPI_CALL VulkanManager::debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity, VkDebugUtilsMessageTypeFlagsEXT messageType, const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData, void* pUserData)
+void VulkanManager::populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo)
+{
+    createInfo = {};
+
+    createInfo.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
+    createInfo.messageSeverity = VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT | 
+        VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT | 
+        VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT;
+    createInfo.messageType = VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT | 
+        VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT | 
+        VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
+
+    createInfo.pfnUserCallback = debugCallback;
+}
+
+void VulkanManager::setupDebugMessenger()
+{
+    if (!enableValidationLayers) return;
+
+    VkDebugUtilsMessengerCreateInfoEXT createInfo;
+    this->populateDebugMessengerCreateInfo(createInfo);
+
+    if (CreateDebugUtilsMessengerEXT(this->instance, &createInfo, nullptr, &this->debugMessenger) != VK_SUCCESS)
+    {
+        throw std::runtime_error("failed to set up debug messenger!");
+    }
+}
+
+VKAPI_ATTR VkBool32 VKAPI_CALL VulkanManager::debugCallback(
+    VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity, 
+    VkDebugUtilsMessageTypeFlagsEXT messageType, 
+    const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData, 
+    void* pUserData)
 {
     std::cerr << "validation layer : " << pCallbackData->pMessage << std::endl;
 
@@ -102,13 +132,12 @@ VKAPI_ATTR VkBool32 VKAPI_CALL VulkanManager::debugCallback(VkDebugUtilsMessageS
 
 VulkanManager::~VulkanManager()
 {
+    if (enableValidationLayers)
+    {
+        DestroyDebugUtilsMessengerEXT(this->instance, this->debugMessenger, nullptr);
+    }
+
     vkDestroyInstance(this->instance, nullptr);
 
-    delete this->pVulkanLayerProperties;
-    delete this->pVulkanExtensionProperties;
-    delete this->pGlfwExtensionProperties;
-
-    std::cout << "Vulkan Manager Destroyed" << std::endl;
+    //std::cout << "Vulkan Manager Destroyed" << std::endl;
 }
-
-

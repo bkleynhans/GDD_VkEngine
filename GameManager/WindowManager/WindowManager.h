@@ -21,7 +21,7 @@ public:
     void createWindow();
     ~WindowManager();
 
-    GLFWwindow* pWindow;
+    GLFWwindow* pWindow = nullptr;
 
 private:    
 

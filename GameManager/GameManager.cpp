@@ -25,7 +25,7 @@ void GameManager::initVulkan()
 
 void GameManager::mainLoop()
 {
-    while (!glfwWindowShouldClose(this->pWindowManager->window))
+    while (!glfwWindowShouldClose(this->pWindowManager->pWindow))
     {
         glfwPollEvents();
     }
@@ -41,5 +41,5 @@ GameManager::~GameManager()
     delete this->pVulkanManager;
     delete this->pWindowManager;
 
-    std::cout << "Game Manager Destroyed" << std::endl;
+    //std::cout << "Game Manager Destroyed" << std::endl;
 }

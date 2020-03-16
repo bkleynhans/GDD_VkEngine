@@ -5,5 +5,5 @@ SupportedComponents::SupportedComponents()
 
 SupportedComponents::~SupportedComponents()
 {
-    std::cout << "Vulkan Supported Destroyed" << std::endl;
+    //std::cout << "Vulkan Supported Destroyed" << std::endl;
 }

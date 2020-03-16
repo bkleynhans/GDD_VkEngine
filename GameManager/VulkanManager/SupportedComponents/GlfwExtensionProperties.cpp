@@ -32,5 +32,5 @@ GlfwExtensionProperties::~GlfwExtensionProperties()
     // We created with the 'new' keyword so we need to clear memory
     std::vector<const char*>().swap(this->extensions);
 
-    std::cout << "GLFW Extension Properties Destroyed" << std::endl;
+    //std::cout << "GLFW Extension Properties Destroyed" << std::endl;
 }

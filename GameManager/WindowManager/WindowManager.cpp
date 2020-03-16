@@ -14,7 +14,7 @@ void WindowManager::createWindow()
 
     this->pWindow = glfwCreateWindow(WIDTH, HEIGHT, "Vulkan", nullptr, nullptr);
 
-    std::cout << "Window Manager Created" << std::endl;
+    //std::cout << "Window Manager Created" << std::endl;
 }
 
 WindowManager::~WindowManager()
@@ -23,5 +23,5 @@ WindowManager::~WindowManager()
 
     glfwTerminate();
 
-    std::cout << "Window Manager Destroyed" << std::endl;
+    //std::cout << "Window Manager Destroyed" << std::endl;
 }
