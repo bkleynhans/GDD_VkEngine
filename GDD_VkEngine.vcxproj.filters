@@ -158,5 +158,8 @@
     <ClInclude Include="GameManager\VulkanManager\SupportedComponents.h">
       <Filter>Header Files\GameManager\VulkanManager</Filter>
     </ClInclude>
+    <ClInclude Include="GameManager\VulkanManager\DebugTools.cpp">
+      <Filter>Source Files\GameManager\VulkanManager</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

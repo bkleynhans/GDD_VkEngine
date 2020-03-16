@@ -99,14 +99,14 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\VulkanSDK\1.2.131.2\Include;C:\Users\kleyn\Documents\Visual Studio 2019\Projects\GDD_VkEngine\include\glm;C:\Users\kleyn\Documents\Visual Studio 2019\Projects\GDD_VkEngine\include\glfw-3.3.2.bin.WIN64\include;C:\Users\kleyn\Documents\Visual Studio 2019\Projects\GDD_VkEngine\GameManager;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\VulkanSDK\1.2.131.2\Include;$(ProjectDir)include\glm;$(ProjectDir)include\glfw-3.3.2.bin.WIN64\include;$(ProjectDir)GameManager;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\VulkanSDK\1.2.131.2\Lib;C:\Users\kleyn\Documents\Visual Studio 2019\Projects\GDD_VkEngine\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>vulkan-1.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\VulkanSDK\1.2.131.2\Lib;$(ProjectDir)lib\glfw-3.3.2.bin.WIN64\lib-vc2019;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>vulkan-1.lib;VkLayer_utils.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -133,7 +133,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\VulkanSDK\1.2.131.2\Include;C:\Users\kleyn\Documents\Visual Studio 2019\Projects\GDD_VkEngine\include\glm;C:\Users\kleyn\Documents\Visual Studio 2019\Projects\GDD_VkEngine\include\glfw-3.3.2.bin.WIN64\include;C:\Users\kleyn\Documents\Visual Studio 2019\Projects\GDD_VkEngine\GameManager;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\VulkanSDK\1.2.131.2\Include;$(ProjectDir)include\glm;$(ProjectDir)include\glfw-3.3.2.bin.WIN64\include;$(ProjectDir)GameManager;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -141,8 +141,8 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\VulkanSDK\1.2.131.2\Lib;C:\Users\kleyn\Documents\Visual Studio 2019\Projects\GDD_VkEngine\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>vulkan-1.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\VulkanSDK\1.2.131.2\Lib;$(ProjectDir)lib\glfw-3.3.2.bin.WIN64\lib-vc2019;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>vulkan-1.lib;VkLayer_utils.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -157,6 +157,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameManager\GameManager.h" />
+    <ClInclude Include="GameManager\VulkanManager\DebugTools.cpp" />
     <ClInclude Include="GameManager\VulkanManager\SupportedComponents\GlfwExtensionProperties.h" />
     <ClInclude Include="GameManager\VulkanManager\SupportedComponents\VulkanExtensionProperties.h" />
     <ClInclude Include="GameManager\VulkanManager\SupportedComponents\VulkanLayerProperties.h" />
