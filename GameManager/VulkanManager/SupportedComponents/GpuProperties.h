@@ -2,8 +2,22 @@
 #define _GPUPROPERTIES_H_
 
 #include <map>
+#include <optional>
 
 #include "VulkanManager/SupportedComponents.h"
+
+// We will be using multiple queues for operations, therefore it is
+// better to contain them in a struct
+struct QueueFamilyIndices
+{
+    std::optional<uint32_t> graphicsFamily;
+    
+    bool isComplete()
+    {
+        return graphicsFamily.has_value();
+
+    }
+};
 
 // GpuProperties Description
 /* Vulkan Tutorial - Alexander Overvoorde - October 2019 - page 60
@@ -32,6 +46,8 @@ private:
 
     //bool isDeviceSuitable(VkPhysicalDevice device);
     int rateDeviceSuitability(VkPhysicalDevice device);
+    bool deviceIsSuitable(VkPhysicalDevice device);
+    QueueFamilyIndices findQueueFamilies(VkPhysicalDevice device);
 };
 
 #endif // _GPUPROPERTIES_H_

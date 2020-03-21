@@ -97,17 +97,24 @@ void GpuProperties::pickPhysicalDevice(VkInstance* pInstance)
     this->pDevices = new std::vector<VkPhysicalDevice>(this->count);
     vkEnumeratePhysicalDevices(*pInstance, &this->count, this->pDevices->data());
 
+    pCandidates = new std::multimap<int, VkPhysicalDevice>();
+
     // Use an ordered map to automatically sort candidates by increasing score
     for (const auto& device : *this->pDevices)
     {
         int score = this->rateDeviceSuitability(device);
-        this->pCandidates->insert(std::make_pair(score, device));
+        *this->pCandidates->insert(std::make_pair(score, device));
     }
-    
+
     // Check if the best candidate is suitable at all
     if (this->pCandidates->rbegin()->first > 0)
     {
         this->physicalDevice = this->pCandidates->rbegin()->second;
+
+        if (!deviceIsSuitable(this->physicalDevice))
+        {
+            throw std::runtime_error("failed to find a suitable GPU!");
+        }
     }
     else
     {
@@ -138,7 +145,7 @@ int GpuProperties::rateDeviceSuitability(VkPhysicalDevice device)
     // Device Performance
     /* Vulkan Tutorial - Alexander Overvoorde - October 2019 - page 62
         Discrete GPUs have a significant performance advantage.
-    */    
+    */
     if (this->deviceProperties.deviceType == VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU)
     {
         score += 1000;
@@ -159,8 +166,60 @@ int GpuProperties::rateDeviceSuitability(VkPhysicalDevice device)
     return score;
 }
 
+// Look for queues that support the types of commands we require support for.
+bool GpuProperties::deviceIsSuitable(VkPhysicalDevice device)
+{
+    QueueFamilyIndices indices = this->findQueueFamilies(device);
+
+    return indices.isComplete();
+}
+
+
+QueueFamilyIndices GpuProperties::findQueueFamilies(VkPhysicalDevice device)
+{
+    QueueFamilyIndices indices;
+
+    // Device Queue Family Count
+    /* Vulkan Tutorial - Alexander Overvoorde - October 2019 - page 65
+       Determine the number of queue families available for usage
+    */
+    uint32_t queueFamilyCount = 0;
+    vkGetPhysicalDeviceQueueFamilyProperties(device, &queueFamilyCount, nullptr);
+
+    // Device Queue Properties
+    /* Vulkan Tutorial - Alexander Overvoorde - October 2019 - page 65
+       Retrieve a list of queue families supported by this GPU
+    */
+    std::vector<VkQueueFamilyProperties> queueFamilies(queueFamilyCount);
+    vkGetPhysicalDeviceQueueFamilyProperties(device, &queueFamilyCount, queueFamilies.data());
+
+    // VK_QUEUE_GRAPHICS_BIT supporting family
+    /* Vulkan Tutorial - Alexander Overvoorde - October 2019 - page 66
+       We need to find at least one queue family that supports VK_QUEUE_GRAPHICS_BIT.
+    */
+    int i = 0;
+    for (const auto& queueFamily : queueFamilies)
+    {
+        if (queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT)
+        {
+            indices.graphicsFamily = i;
+        }
+
+        if (indices.isComplete())
+        {
+            break;
+        }
+
+        i++;
+    }
+
+    return indices;
+}
+
 GpuProperties::~GpuProperties()
 {
     // We created with the 'new' keyword so we need to clear memory
+    this->pCandidates->clear();
     std::vector<VkPhysicalDevice>().swap(*this->pDevices);
+
 }
