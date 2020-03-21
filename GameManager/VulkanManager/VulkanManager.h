@@ -13,6 +13,7 @@
 #include "VulkanManager/SupportedComponents/GlfwExtensionProperties.h"
 #include "VulkanManager/SupportedComponents/VulkanExtensionProperties.h"
 #include "VulkanManager/SupportedComponents/VulkanLayerProperties.h"
+#include "VulkanManager/SupportedComponents/GpuProperties.h"
 
 // STRUCT for Validation Layers
 /* Vulkan Tutorial - Alexander Overvoorde - October 2019 - page 50
@@ -55,6 +56,7 @@ private:
     GlfwExtensionProperties* pGlfwExtensionProperties = nullptr;
     VulkanExtensionProperties* pVulkanExtensionProperties = nullptr;
     VulkanLayerProperties* pVulkanLayerProperties = nullptr;
+    GpuProperties* pGpuProperties = nullptr;
 
     VkInstance instance;
     VkDebugUtilsMessengerEXT debugMessenger;

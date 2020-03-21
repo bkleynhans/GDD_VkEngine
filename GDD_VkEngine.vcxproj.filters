@@ -135,6 +135,9 @@
     <ClCompile Include="GameManager\VulkanManager\SupportedComponents.cpp">
       <Filter>Source Files\GameManager\VulkanManager</Filter>
     </ClCompile>
+    <ClCompile Include="GameManager\VulkanManager\SupportedComponents\GpuProperties.cpp">
+      <Filter>Source Files\GameManager\VulkanManager\SupportedComponents</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameManager\GameManager.h">
@@ -160,6 +163,9 @@
     </ClInclude>
     <ClInclude Include="GameManager\VulkanManager\DebugTools.cpp">
       <Filter>Source Files\GameManager\VulkanManager</Filter>
+    </ClInclude>
+    <ClInclude Include="GameManager\VulkanManager\SupportedComponents\GpuProperties.h">
+      <Filter>Header Files\GameManager\VulkanManager\SupportedComponents</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

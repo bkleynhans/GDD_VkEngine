@@ -6,10 +6,12 @@ VulkanManager::VulkanManager()
 {
     this->pGlfwExtensionProperties = &GlfwExtensionProperties();
     this->pVulkanExtensionProperties = &VulkanExtensionProperties();
-    this->pVulkanLayerProperties = &VulkanLayerProperties();
+    this->pVulkanLayerProperties = &VulkanLayerProperties();    
 
     this->createInstance();
     this->setupDebugMessenger();
+
+    this->pGpuProperties = &GpuProperties(&this->instance);
 }
 
 // createInstance Description
