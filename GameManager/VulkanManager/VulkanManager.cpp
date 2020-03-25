@@ -1,17 +1,16 @@
 #include "VulkanManager/DebugTools.cpp"
-
 #include "VulkanManager.h"
 
 VulkanManager::VulkanManager()
-{
-    this->pGlfwExtensionProperties = &GlfwExtensionProperties();
-    this->pVulkanExtensionProperties = &VulkanExtensionProperties();
-    this->pVulkanLayerProperties = &VulkanLayerProperties();
+{   
+    this->pGlfwExtensionProperties = new GlfwExtensionProperties();
+    this->pVulkanExtensionProperties = new VulkanExtensionProperties();
+    this->pVulkanLayerProperties = new VulkanLayerProperties();
 
     this->createInstance();
     this->setupDebugMessenger();
 
-    this->pGpuProperties = &GpuProperties(&this->instance);    
+    this->pGpuProperties = new GpuProperties(&this->instance, this->pVulkanLayerProperties);
 }
 
 // createInstance Description
@@ -32,7 +31,7 @@ void VulkanManager::createInstance()
     }
 
     /* Vulkan Tutorial - Alexander Overvoorde - October 2019 - page 45
-        The appInfo is optional, but may provide some useful information to 
+        The appInfo is optional, but may provide some useful information to
         the driver to optimize this specific appliation
     */
     VkApplicationInfo appInfo = {};
@@ -59,14 +58,14 @@ void VulkanManager::createInstance()
     if (enableValidationLayers)
     {
         this->pGlfwExtensionProperties->addMessageCallback();
-        createInfo.enabledExtensionCount = static_cast<uint32_t>(this->pGlfwExtensionProperties->extensions.size());
-        createInfo.ppEnabledExtensionNames = this->pGlfwExtensionProperties->extensions.data();
+        createInfo.enabledExtensionCount = static_cast<uint32_t>(this->pGlfwExtensionProperties->pExtensions.size());
+        createInfo.ppEnabledExtensionNames = this->pGlfwExtensionProperties->pExtensions.data();
 
         createInfo.enabledLayerCount = static_cast<uint32_t>(this->pVulkanLayerProperties->validationLayers.size());
         createInfo.ppEnabledLayerNames = this->pVulkanLayerProperties->validationLayers.data();
 
         this->populateDebugMessengerCreateInfo(debugCreateInfo);
-        createInfo.pNext = (VkDebugUtilsMessengerCreateInfoEXT*) &debugCreateInfo;
+        createInfo.pNext = (VkDebugUtilsMessengerCreateInfoEXT*)&debugCreateInfo;
     }
     else
     {
@@ -77,7 +76,7 @@ void VulkanManager::createInstance()
 
         createInfo.pNext = nullptr;
     }
-    
+
     /* Vulkan Tutorial - Alexander Overvoorde - October 2019 - page 46
         Nearly all Vulkan functions return a value of type VkResult that is either
         VK_SUCCESS or an error code.  To check if the instance was created
@@ -89,8 +88,6 @@ void VulkanManager::createInstance()
     {
         throw std::runtime_error("failed to create instance");
     }
-
-    //std::cout << "Vulkan Manager Created" << std::endl;
 }
 
 void VulkanManager::populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo)
@@ -98,11 +95,11 @@ void VulkanManager::populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreate
     createInfo = {};
 
     createInfo.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
-    createInfo.messageSeverity = VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT | 
-        VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT | 
+    createInfo.messageSeverity = VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT |
+        VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT |
         VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT;
-    createInfo.messageType = VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT | 
-        VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT | 
+    createInfo.messageType = VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT |
+        VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT |
         VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
 
     createInfo.pfnUserCallback = debugCallback;
@@ -122,9 +119,9 @@ void VulkanManager::setupDebugMessenger()
 }
 
 VKAPI_ATTR VkBool32 VKAPI_CALL VulkanManager::debugCallback(
-    VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity, 
-    VkDebugUtilsMessageTypeFlagsEXT messageType, 
-    const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData, 
+    VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
+    VkDebugUtilsMessageTypeFlagsEXT messageType,
+    const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData,
     void* pUserData)
 {
     std::cerr << "validation layer : " << pCallbackData->pMessage << std::endl;
@@ -139,7 +136,11 @@ VulkanManager::~VulkanManager()
         DestroyDebugUtilsMessengerEXT(this->instance, this->debugMessenger, nullptr);
     }
 
+    delete this->pGpuProperties;
+
     vkDestroyInstance(this->instance, nullptr);
 
-    //std::cout << "Vulkan Manager Destroyed" << std::endl;
+    delete this->pVulkanLayerProperties;
+    delete this->pVulkanExtensionProperties;
+    delete this->pGlfwExtensionProperties;    
 }

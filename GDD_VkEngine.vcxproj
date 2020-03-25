@@ -101,6 +101,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>C:\VulkanSDK\1.2.131.2\Include;$(ProjectDir)include\glm;$(ProjectDir)include\glfw-3.3.2.bin.WIN64\include;$(ProjectDir)GameManager;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -147,24 +148,28 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="GameManager\GameManager.cpp" />
-    <ClCompile Include="GameManager\VulkanManager\SupportedComponents\GlfwExtensionProperties.cpp" />
-    <ClCompile Include="GameManager\VulkanManager\SupportedComponents\GpuProperties.cpp" />
-    <ClCompile Include="GameManager\VulkanManager\SupportedComponents\VulkanExtensionProperties.cpp" />
-    <ClCompile Include="GameManager\VulkanManager\SupportedComponents\VulkanLayerProperties.cpp" />
+    <ClCompile Include="GameManager\VulkanManager\Components\GlfwExtensionProperties.cpp" />
+    <ClCompile Include="GameManager\VulkanManager\Components\GpuProperties.cpp" />
+    <ClCompile Include="GameManager\VulkanManager\Components\LogicalDevice.cpp" />
+    <ClCompile Include="GameManager\VulkanManager\Components\QueueFamilyIndices.cpp" />
+    <ClCompile Include="GameManager\VulkanManager\Components\VulkanExtensionProperties.cpp" />
+    <ClCompile Include="GameManager\VulkanManager\Components\VulkanLayerProperties.cpp" />
     <ClCompile Include="GameManager\VulkanManager\VulkanManager.cpp" />
-    <ClCompile Include="GameManager\VulkanManager\SupportedComponents.cpp" />
+    <ClCompile Include="GameManager\VulkanManager\ComponentsBase.cpp" />
     <ClCompile Include="GameManager\WindowManager\WindowManager.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameManager\GameManager.h" />
+    <ClInclude Include="GameManager\VulkanManager\Components\GlfwExtensionProperties.h" />
+    <ClInclude Include="GameManager\VulkanManager\Components\GpuProperties.h" />
+    <ClInclude Include="GameManager\VulkanManager\Components\LogicalDevice.h" />
+    <ClInclude Include="GameManager\VulkanManager\Components\QueueFamilyIndices.h" />
+    <ClInclude Include="GameManager\VulkanManager\Components\VulkanExtensionProperties.h" />
+    <ClInclude Include="GameManager\VulkanManager\Components\VulkanLayerProperties.h" />
     <ClInclude Include="GameManager\VulkanManager\DebugTools.cpp" />
-    <ClInclude Include="GameManager\VulkanManager\SupportedComponents\GlfwExtensionProperties.h" />
-    <ClInclude Include="GameManager\VulkanManager\SupportedComponents\GpuProperties.h" />
-    <ClInclude Include="GameManager\VulkanManager\SupportedComponents\VulkanExtensionProperties.h" />
-    <ClInclude Include="GameManager\VulkanManager\SupportedComponents\VulkanLayerProperties.h" />
     <ClInclude Include="GameManager\VulkanManager\VulkanManager.h" />
-    <ClInclude Include="GameManager\VulkanManager\SupportedComponents.h" />
+    <ClInclude Include="GameManager\VulkanManager\ComponentsBase.h" />
     <ClInclude Include="GameManager\WindowManager\WindowManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

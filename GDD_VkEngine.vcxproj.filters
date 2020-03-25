@@ -103,10 +103,10 @@
     <Filter Include="Source Files\GameManager\VulkanManager">
       <UniqueIdentifier>{9e0690cd-3d64-4b16-9fe8-91b8b1b0cf5c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\GameManager\VulkanManager\SupportedComponents">
+    <Filter Include="Source Files\GameManager\VulkanManager\Components">
       <UniqueIdentifier>{a0e9eada-6ed5-4692-bc82-2f0eb99309e9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\GameManager\VulkanManager\SupportedComponents">
+    <Filter Include="Header Files\GameManager\VulkanManager\Components">
       <UniqueIdentifier>{438fe77c-10c9-480e-8b77-b31c099e0e00}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -120,23 +120,29 @@
     <ClCompile Include="GameManager\WindowManager\WindowManager.cpp">
       <Filter>Source Files\GameManager\WindowManager</Filter>
     </ClCompile>
-    <ClCompile Include="GameManager\VulkanManager\SupportedComponents\VulkanExtensionProperties.cpp">
-      <Filter>Source Files\GameManager\VulkanManager\SupportedComponents</Filter>
-    </ClCompile>
-    <ClCompile Include="GameManager\VulkanManager\SupportedComponents\GlfwExtensionProperties.cpp">
-      <Filter>Source Files\GameManager\VulkanManager\SupportedComponents</Filter>
-    </ClCompile>
     <ClCompile Include="GameManager\GameManager.cpp">
       <Filter>Source Files\GameManager</Filter>
     </ClCompile>
-    <ClCompile Include="GameManager\VulkanManager\SupportedComponents\VulkanLayerProperties.cpp">
-      <Filter>Source Files\GameManager\VulkanManager\SupportedComponents</Filter>
-    </ClCompile>
-    <ClCompile Include="GameManager\VulkanManager\SupportedComponents.cpp">
+    <ClCompile Include="GameManager\VulkanManager\ComponentsBase.cpp">
       <Filter>Source Files\GameManager\VulkanManager</Filter>
     </ClCompile>
-    <ClCompile Include="GameManager\VulkanManager\SupportedComponents\GpuProperties.cpp">
-      <Filter>Source Files\GameManager\VulkanManager\SupportedComponents</Filter>
+    <ClCompile Include="GameManager\VulkanManager\Components\GlfwExtensionProperties.cpp">
+      <Filter>Source Files\GameManager\VulkanManager\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="GameManager\VulkanManager\Components\GpuProperties.cpp">
+      <Filter>Source Files\GameManager\VulkanManager\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="GameManager\VulkanManager\Components\VulkanExtensionProperties.cpp">
+      <Filter>Source Files\GameManager\VulkanManager\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="GameManager\VulkanManager\Components\VulkanLayerProperties.cpp">
+      <Filter>Source Files\GameManager\VulkanManager\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="GameManager\VulkanManager\Components\LogicalDevice.cpp">
+      <Filter>Source Files\GameManager\VulkanManager\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="GameManager\VulkanManager\Components\QueueFamilyIndices.cpp">
+      <Filter>Source Files\GameManager\VulkanManager\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -149,23 +155,29 @@
     <ClInclude Include="GameManager\WindowManager\WindowManager.h">
       <Filter>Header Files\GameManager\WindowManager</Filter>
     </ClInclude>
-    <ClInclude Include="GameManager\VulkanManager\SupportedComponents\VulkanExtensionProperties.h">
-      <Filter>Header Files\GameManager\VulkanManager\SupportedComponents</Filter>
-    </ClInclude>
-    <ClInclude Include="GameManager\VulkanManager\SupportedComponents\VulkanLayerProperties.h">
-      <Filter>Header Files\GameManager\VulkanManager\SupportedComponents</Filter>
-    </ClInclude>
-    <ClInclude Include="GameManager\VulkanManager\SupportedComponents\GlfwExtensionProperties.h">
-      <Filter>Header Files\GameManager\VulkanManager\SupportedComponents</Filter>
-    </ClInclude>
-    <ClInclude Include="GameManager\VulkanManager\SupportedComponents.h">
-      <Filter>Header Files\GameManager\VulkanManager</Filter>
-    </ClInclude>
     <ClInclude Include="GameManager\VulkanManager\DebugTools.cpp">
       <Filter>Source Files\GameManager\VulkanManager</Filter>
     </ClInclude>
-    <ClInclude Include="GameManager\VulkanManager\SupportedComponents\GpuProperties.h">
-      <Filter>Header Files\GameManager\VulkanManager\SupportedComponents</Filter>
+    <ClInclude Include="GameManager\VulkanManager\ComponentsBase.h">
+      <Filter>Header Files\GameManager\VulkanManager</Filter>
+    </ClInclude>
+    <ClInclude Include="GameManager\VulkanManager\Components\GlfwExtensionProperties.h">
+      <Filter>Header Files\GameManager\VulkanManager\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="GameManager\VulkanManager\Components\GpuProperties.h">
+      <Filter>Header Files\GameManager\VulkanManager\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="GameManager\VulkanManager\Components\VulkanExtensionProperties.h">
+      <Filter>Header Files\GameManager\VulkanManager\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="GameManager\VulkanManager\Components\VulkanLayerProperties.h">
+      <Filter>Header Files\GameManager\VulkanManager\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="GameManager\VulkanManager\Components\LogicalDevice.h">
+      <Filter>Header Files\GameManager\VulkanManager\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="GameManager\VulkanManager\Components\QueueFamilyIndices.h">
+      <Filter>Header Files\GameManager\VulkanManager\Components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

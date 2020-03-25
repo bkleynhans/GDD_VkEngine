@@ -40,6 +40,4 @@ GameManager::~GameManager()
 {
     delete this->pVulkanManager;
     delete this->pWindowManager;
-
-    //std::cout << "Game Manager Destroyed" << std::endl;
 }
