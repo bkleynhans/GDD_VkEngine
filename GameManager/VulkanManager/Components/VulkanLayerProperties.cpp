@@ -67,6 +67,4 @@ VulkanLayerProperties::~VulkanLayerProperties()
 {
     // We created with the 'new' keyword so we need to clear memory
     std::vector<VkLayerProperties>().swap(*this->pAvailableLayers);
-
-    //std::cout << "Vulkan Layer Properties Destroyed" << std::endl;
 }

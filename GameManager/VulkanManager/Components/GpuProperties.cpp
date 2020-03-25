@@ -1,8 +1,17 @@
 #include "GpuProperties.h"
 
-GpuProperties::GpuProperties(VkInstance* pInstance)
+GpuProperties::GpuProperties(VkInstance* pInstance, VulkanLayerProperties* pVulkanLayerProperties)
 {
     this->pickPhysicalDevice(pInstance);
+
+    this->pDevice = new VkDevice();
+
+    this->pLogicalDevice = new LogicalDevice(
+        this->physicalDevice,
+        this->pDevice,
+        pVulkanLayerProperties,
+        this->pIndices
+    );
 }
 
 // Basic Support
@@ -112,9 +121,11 @@ void GpuProperties::pickPhysicalDevice(VkInstance* pInstance)
         this->physicalDevice = this->pCandidates->rbegin()->second;
 
         if (!deviceIsSuitable(this->physicalDevice))
-        {
+        {            
             throw std::runtime_error("failed to find a suitable GPU!");
         }
+
+        this->pIndices = new QueueFamilyIndices(&this->physicalDevice);
     }
     else
     {
@@ -169,56 +180,16 @@ int GpuProperties::rateDeviceSuitability(VkPhysicalDevice device)
 // Look for queues that support the types of commands we require support for.
 bool GpuProperties::deviceIsSuitable(VkPhysicalDevice device)
 {
-    QueueFamilyIndices indices = this->findQueueFamilies(device);
+    QueueFamilyIndices indices = QueueFamilyIndices(&device);
 
     return indices.isComplete();
-}
-
-
-QueueFamilyIndices GpuProperties::findQueueFamilies(VkPhysicalDevice device)
-{
-    QueueFamilyIndices indices;
-
-    // Device Queue Family Count
-    /* Vulkan Tutorial - Alexander Overvoorde - October 2019 - page 65
-       Determine the number of queue families available for usage
-    */
-    uint32_t queueFamilyCount = 0;
-    vkGetPhysicalDeviceQueueFamilyProperties(device, &queueFamilyCount, nullptr);
-
-    // Device Queue Properties
-    /* Vulkan Tutorial - Alexander Overvoorde - October 2019 - page 65
-       Retrieve a list of queue families supported by this GPU
-    */
-    std::vector<VkQueueFamilyProperties> queueFamilies(queueFamilyCount);
-    vkGetPhysicalDeviceQueueFamilyProperties(device, &queueFamilyCount, queueFamilies.data());
-
-    // VK_QUEUE_GRAPHICS_BIT supporting family
-    /* Vulkan Tutorial - Alexander Overvoorde - October 2019 - page 66
-       We need to find at least one queue family that supports VK_QUEUE_GRAPHICS_BIT.
-    */
-    int i = 0;
-    for (const auto& queueFamily : queueFamilies)
-    {
-        if (queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT)
-        {
-            indices.graphicsFamily = i;
-        }
-
-        if (indices.isComplete())
-        {
-            break;
-        }
-
-        i++;
-    }
-
-    return indices;
 }
 
 GpuProperties::~GpuProperties()
 {
     // We created with the 'new' keyword so we need to clear memory
+    vkDestroyDevice(*this->pDevice, nullptr);
+    delete this->pIndices;
     this->pCandidates->clear();
     std::vector<VkPhysicalDevice>().swap(*this->pDevices);
 

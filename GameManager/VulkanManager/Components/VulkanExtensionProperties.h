@@ -1,10 +1,10 @@
 #ifndef _VULKANEXTENSIONPROPERTIES_H_
 #define _VULKANEXTENSIONPROPERTIES_H_
 
-#include "VulkanManager/SupportedComponents.h"
+#include "VulkanManager/ComponentsBase.h"
 
 class VulkanExtensionProperties :
-    public SupportedComponents
+    public ComponentsBase
 {
 public:
     VulkanExtensionProperties();

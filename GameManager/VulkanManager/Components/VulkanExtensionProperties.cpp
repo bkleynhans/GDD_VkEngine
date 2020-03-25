@@ -48,6 +48,4 @@ VulkanExtensionProperties::~VulkanExtensionProperties()
 {
     // We created with the 'new' keyword so we need to clear memory
     std::vector<VkExtensionProperties>().swap(*this->pExtensions);
-
-    //std::cout << "Vulkan Extension Properties Destroyed" << std::endl;
 }

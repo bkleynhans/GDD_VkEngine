@@ -1,10 +1,10 @@
 #ifndef _GLFWEXTENSIONPROPERTIES_H_
 #define _GLFWEXTENSIONPROPERTIES_H_
 
-#include "VulkanManager/SupportedComponents.h"
+#include "VulkanManager/ComponentsBase.h"
 
 class GlfwExtensionProperties :
-    public SupportedComponents
+    public ComponentsBase
 {
 public:
     GlfwExtensionProperties();
@@ -12,9 +12,9 @@ public:
 
     void addMessageCallback();
 
-    std::vector<const char*> extensions;
+    std::vector<const char*> pExtensions;
     const char** glfwExtensions = nullptr;
-    
+
 };
 
 #endif // _GLFWEXTENSIONPROPERTIES_H_

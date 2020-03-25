@@ -4,20 +4,9 @@
 #include <map>
 #include <optional>
 
-#include "VulkanManager/SupportedComponents.h"
-
-// We will be using multiple queues for operations, therefore it is
-// better to contain them in a struct
-struct QueueFamilyIndices
-{
-    std::optional<uint32_t> graphicsFamily;
-    
-    bool isComplete()
-    {
-        return graphicsFamily.has_value();
-
-    }
-};
+#include "VulkanManager/ComponentsBase.h"
+#include "VulkanManager/Components/QueueFamilyIndices.h"
+#include "VulkanManager/Components/LogicalDevice.h"
 
 // GpuProperties Description
 /* Vulkan Tutorial - Alexander Overvoorde - October 2019 - page 60
@@ -27,27 +16,30 @@ struct QueueFamilyIndices
     new in the cleanup function.
 */
 class GpuProperties :
-    public SupportedComponents
+    public ComponentsBase
 {
 public:
-    GpuProperties(VkInstance* pInstance);
+    GpuProperties(VkInstance* pInstance, VulkanLayerProperties* pVulkanLayerProperties);
     ~GpuProperties();
+
+    QueueFamilyIndices* pIndices = nullptr;
 
     void pickPhysicalDevice(VkInstance* pInstance);
 
-    VkPhysicalDevice physicalDevice = VK_NULL_HANDLE;    
+    VkPhysicalDevice physicalDevice = VK_NULL_HANDLE;
 
 private:
+    LogicalDevice* pLogicalDevice = nullptr;
+
     std::vector<VkPhysicalDevice>* pDevices = nullptr;
     std::multimap<int, VkPhysicalDevice>* pCandidates = nullptr;
 
+    VkDevice* pDevice = nullptr;
     VkPhysicalDeviceProperties deviceProperties;
     VkPhysicalDeviceFeatures deviceFeatures;
 
-    //bool isDeviceSuitable(VkPhysicalDevice device);
     int rateDeviceSuitability(VkPhysicalDevice device);
     bool deviceIsSuitable(VkPhysicalDevice device);
-    QueueFamilyIndices findQueueFamilies(VkPhysicalDevice device);
 };
 
 #endif // _GPUPROPERTIES_H_

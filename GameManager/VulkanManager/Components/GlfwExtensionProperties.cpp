@@ -11,7 +11,7 @@ GlfwExtensionProperties::GlfwExtensionProperties()
     this->glfwExtensions = glfwGetRequiredInstanceExtensions(&count);
 
     // Create a list of extensions
-    std::vector<const char*>(this->glfwExtensions, this->glfwExtensions + this->count).swap(this->extensions);
+    std::vector<const char*>(this->glfwExtensions, this->glfwExtensions + this->count).swap(this->pExtensions);
 }
 
 // Message Callback
@@ -24,13 +24,11 @@ GlfwExtensionProperties::GlfwExtensionProperties()
 void GlfwExtensionProperties::addMessageCallback()
 {
     // Add the VK_EXT_DEBUG_UTILS_EXTENSION_NAME extension if enableValidationLayers is true
-    this->extensions.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
+    this->pExtensions.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
 }
 
 GlfwExtensionProperties::~GlfwExtensionProperties()
 {
     // We created with the 'new' keyword so we need to clear memory
-    std::vector<const char*>().swap(this->extensions);
-
-    //std::cout << "GLFW Extension Properties Destroyed" << std::endl;
+    std::vector<const char*>().swap(this->pExtensions);
 }
