@@ -19,12 +19,12 @@ class GpuProperties :
     public ComponentsBase
 {
 public:
-    GpuProperties(VkInstance* pInstance, VulkanLayerProperties* pVulkanLayerProperties);
+    GpuProperties(VkInstance* pInstance, VulkanLayerProperties* pVulkanLayerProperties, VkSurfaceKHR* pSurface);    
     ~GpuProperties();
 
     QueueFamilyIndices* pIndices = nullptr;
 
-    void pickPhysicalDevice(VkInstance* pInstance);
+    void pickPhysicalDevice(VkInstance* pInstance, VkSurfaceKHR* pSurface);
 
     VkPhysicalDevice physicalDevice = VK_NULL_HANDLE;
 
@@ -39,7 +39,7 @@ private:
     VkPhysicalDeviceFeatures deviceFeatures;
 
     int rateDeviceSuitability(VkPhysicalDevice device);
-    bool deviceIsSuitable(VkPhysicalDevice device);
+    bool deviceIsSuitable(VkPhysicalDevice device, VkSurfaceKHR* pSurface);
 };
 
 #endif // _GPUPROPERTIES_H_

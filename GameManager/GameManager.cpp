@@ -20,7 +20,7 @@ void GameManager::initWindow()
 
 void GameManager::initVulkan()
 {
-    this->pVulkanManager = new VulkanManager();
+    this->pVulkanManager = new VulkanManager(this->pWindowManager);
 }
 
 void GameManager::mainLoop()

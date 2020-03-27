@@ -10,6 +10,7 @@
 #include <cstdlib>
 #include <string>
 
+#include "WindowManager/WindowManager.h"
 #include "VulkanManager/Components/GlfwExtensionProperties.h"
 #include "VulkanManager/Components/VulkanExtensionProperties.h"
 #include "VulkanManager/Components/VulkanLayerProperties.h"
@@ -25,19 +26,20 @@
 class VulkanManager
 {
 public:
-    VulkanManager();
+    VulkanManager(WindowManager* pWindowManager);
     ~VulkanManager();
 
     void createInstance();
     void populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo);
     void setupDebugMessenger();
+    void createSurface(WindowManager* pWindowManager);
 
     static VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(
         VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
         VkDebugUtilsMessageTypeFlagsEXT messageType,
         const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData,
         void* pUserData
-        );
+    );
 
 private:
     GlfwExtensionProperties* pGlfwExtensionProperties = nullptr;
@@ -46,6 +48,8 @@ private:
     GpuProperties* pGpuProperties = nullptr;
 
     VkInstance instance;
+    VkSurfaceKHR surface;
+
     VkDebugUtilsMessengerEXT debugMessenger;
 
 // STRUCT for Validation Layers

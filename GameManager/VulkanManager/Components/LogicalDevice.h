@@ -1,6 +1,8 @@
 #ifndef _LOGICALDEVICE_H_
 #define _LOGICALDEVICE_H_
 
+#include <set>
+
 #include "VulkanLayerProperties.h"
 #include "VulkanManager/ComponentsBase.h"
 #include "VulkanManager/Components/QueueFamilyIndices.h"
@@ -34,6 +36,7 @@ public:
     VkPhysicalDeviceFeatures deviceFeatures = {};
 
     VkQueue graphicsQueue;
+    VkQueue presentQueue;
 
 private:
     VkDeviceCreateInfo createInfo = {};

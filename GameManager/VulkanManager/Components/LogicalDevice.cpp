@@ -6,9 +6,9 @@ LogicalDevice::LogicalDevice(
     QueueFamilyIndices* pIndices)
 {    
     this->specifyQueuesToCreate(pIndices);
-    this->createLogicalDevice(pVulkanLayerProperties);
+    this->createLogicalDevice(pVulkanLayerProperties);    
     
-    if (vkCreateDevice(physicalDevice, &this->createInfo, nullptr, pDevice) != VK_SUCCESS)
+    if (vkCreateDevice(physicalDevice, &this->createInfo, nullptr, pDevice) != VK_SUCCESS)    
     {
         throw std::runtime_error("failed to create logical device!");
     }
@@ -23,7 +23,7 @@ LogicalDevice::LogicalDevice(
         and a pointer to the variable to store the queue handle in. Because we’re only
         creating a single queue from this family, we’ll simply use index 0.
     */
-    vkGetDeviceQueue(*pDevice, pIndices->graphicsFamily.value(), 0, &this->graphicsQueue);
+    vkGetDeviceQueue(*pDevice, pIndices->graphicsFamily.value(), 0, &this->graphicsQueue);    
 }
 
 // Specify which queues to create
@@ -37,7 +37,7 @@ void LogicalDevice::specifyQueuesToCreate(QueueFamilyIndices* pIndices)
 {
     this->queueCreateInfo.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
     this->queueCreateInfo.pNext = NULL;
-    this->queueCreateInfo.queueFamilyIndex = pIndices->graphicsFamily.value();
+    this->queueCreateInfo.queueFamilyIndex = pIndices->graphicsFamily.value();    
     this->queueCreateInfo.queueCount = 1;
 
     this->queueCreateInfo.pQueuePriorities = &this->queuePriority;
@@ -62,7 +62,7 @@ void LogicalDevice::createLogicalDevice(VulkanLayerProperties* pVulkanLayerPrope
     if (enableValidationLayers)
     {
         this->createInfo.enabledLayerCount = static_cast<uint32_t>(pVulkanLayerProperties->validationLayers.size());
-        this->createInfo.ppEnabledLayerNames = pVulkanLayerProperties->validationLayers.data();        
+        this->createInfo.ppEnabledLayerNames = pVulkanLayerProperties->validationLayers.data();
     }
     else
     {

@@ -41,6 +41,7 @@ bool VulkanLayerProperties::checkValidationLayerSupport()
         Check if all of the layers in validationLayers exist in the
         availableLayers list.
     */
+    /*for (const char* layerName : this->validationLayers)*/
     for (const char* layerName : this->validationLayers)
     {
         bool layerFound = false;

@@ -16,7 +16,7 @@ public:
     ComponentsBase();
     ~ComponentsBase();
 
-    uint32_t count = 0;
+    uint32_t count = 0;    
         
 // STRUCT for Validation Layers
 /* Vulkan Tutorial - Alexander Overvoorde - October 2019 - page 50
@@ -30,6 +30,7 @@ public:
 #else
     static const bool enableValidationLayers = true;
 #endif
+
 private:
     
 };

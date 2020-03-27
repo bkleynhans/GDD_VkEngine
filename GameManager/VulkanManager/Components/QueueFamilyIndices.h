@@ -19,7 +19,7 @@ class QueueFamilyIndices :
     public ComponentsBase
 {
 public:
-    QueueFamilyIndices(VkPhysicalDevice* pDevice);
+    QueueFamilyIndices(VkPhysicalDevice* pDevice, VkSurfaceKHR* pSurface);
     ~QueueFamilyIndices();
 
     bool isComplete();
@@ -37,10 +37,23 @@ public:
     */
     std::optional<uint32_t> graphicsFamily;
 
+    // We need to determine whether the devices has presentation support
+    /* Vulkan Tutorial - Alexander Overvoorde - October 2019 - page 74
+        Although the Vulkan implementation may support window system integration,
+        that does not mean that every device in the system supports it.  Since the 
+        presentation is a queue-specific feature, the problem is actually about 
+        finding a queue family that supports presenting to the surface we created.
+
+        It’s actually possible that the queue families supporting drawing commands and
+        the ones supporting presentation do not overlap. Therefore we have to take into
+        account that there could be a distinct presentation queue
+    */
+    std::optional<uint32_t> presentFamily;
+
 private:
     std::vector<VkQueueFamilyProperties>* pQueueFamilies = nullptr;
 
-    void findQueueFamilies(VkPhysicalDevice* pDevice);
+    void findQueueFamilies(VkPhysicalDevice* pDevice, VkSurfaceKHR* pSurface);
 };
 
 #endif // _QUEUEFAMILYINDICES_H_

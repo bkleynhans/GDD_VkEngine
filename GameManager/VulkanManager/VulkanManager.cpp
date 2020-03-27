@@ -1,7 +1,7 @@
 #include "VulkanManager/DebugTools.cpp"
 #include "VulkanManager.h"
 
-VulkanManager::VulkanManager()
+VulkanManager::VulkanManager(WindowManager* pWindowManager)
 {   
     this->pGlfwExtensionProperties = new GlfwExtensionProperties();
     this->pVulkanExtensionProperties = new VulkanExtensionProperties();
@@ -9,8 +9,9 @@ VulkanManager::VulkanManager()
 
     this->createInstance();
     this->setupDebugMessenger();
+    this->createSurface(pWindowManager);
 
-    this->pGpuProperties = new GpuProperties(&this->instance, this->pVulkanLayerProperties);
+    this->pGpuProperties = new GpuProperties(&this->instance, this->pVulkanLayerProperties, &this->surface);    
 }
 
 // createInstance Description
@@ -118,6 +119,14 @@ void VulkanManager::setupDebugMessenger()
     }
 }
 
+void VulkanManager::createSurface(WindowManager* pWindowManager)
+{
+    if (glfwCreateWindowSurface(this->instance, pWindowManager->pWindow, nullptr, &this->surface) != VK_SUCCESS)
+    {
+        throw std::runtime_error("failed to create window surface!");
+    }
+}
+
 VKAPI_ATTR VkBool32 VKAPI_CALL VulkanManager::debugCallback(
     VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
     VkDebugUtilsMessageTypeFlagsEXT messageType,
@@ -138,6 +147,7 @@ VulkanManager::~VulkanManager()
 
     delete this->pGpuProperties;
 
+    vkDestroySurfaceKHR(this->instance, this->surface, nullptr);
     vkDestroyInstance(this->instance, nullptr);
 
     delete this->pVulkanLayerProperties;

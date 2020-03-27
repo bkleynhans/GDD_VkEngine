@@ -1,8 +1,8 @@
 #include "GpuProperties.h"
 
-GpuProperties::GpuProperties(VkInstance* pInstance, VulkanLayerProperties* pVulkanLayerProperties)
+GpuProperties::GpuProperties(VkInstance* pInstance, VulkanLayerProperties* pVulkanLayerProperties, VkSurfaceKHR* pSurface)
 {
-    this->pickPhysicalDevice(pInstance);
+    this->pickPhysicalDevice(pInstance, pSurface);
 
     this->pDevice = new VkDevice();
 
@@ -91,7 +91,7 @@ GpuProperties::GpuProperties(VkInstance* pInstance, VulkanLayerProperties* pVulk
     could favor a dedicated graphics card by giving it a higher score, but fall back
     to an integrated GPU if that’s the only available one.
 */
-void GpuProperties::pickPhysicalDevice(VkInstance* pInstance)
+void GpuProperties::pickPhysicalDevice(VkInstance* pInstance, VkSurfaceKHR* pSurface)
 {
     // Query the number of graphics cards with Vulkan support in the computer
     vkEnumeratePhysicalDevices(*pInstance, &this->count, nullptr);
@@ -118,14 +118,14 @@ void GpuProperties::pickPhysicalDevice(VkInstance* pInstance)
     // Check if the best candidate is suitable at all
     if (this->pCandidates->rbegin()->first > 0)
     {
-        this->physicalDevice = this->pCandidates->rbegin()->second;
+        this->physicalDevice = this->pCandidates->rbegin()->second;        
 
-        if (!deviceIsSuitable(this->physicalDevice))
+        if (!deviceIsSuitable(this->physicalDevice, pSurface))        
         {            
             throw std::runtime_error("failed to find a suitable GPU!");
         }
 
-        this->pIndices = new QueueFamilyIndices(&this->physicalDevice);
+        this->pIndices = new QueueFamilyIndices(&this->physicalDevice, pSurface);        
     }
     else
     {
@@ -178,9 +178,9 @@ int GpuProperties::rateDeviceSuitability(VkPhysicalDevice device)
 }
 
 // Look for queues that support the types of commands we require support for.
-bool GpuProperties::deviceIsSuitable(VkPhysicalDevice device)
+bool GpuProperties::deviceIsSuitable(VkPhysicalDevice device, VkSurfaceKHR* pSurface)
 {
-    QueueFamilyIndices indices = QueueFamilyIndices(&device);
+    QueueFamilyIndices indices = QueueFamilyIndices(&device, pSurface);    
 
     return indices.isComplete();
 }
@@ -188,7 +188,7 @@ bool GpuProperties::deviceIsSuitable(VkPhysicalDevice device)
 GpuProperties::~GpuProperties()
 {
     // We created with the 'new' keyword so we need to clear memory
-    vkDestroyDevice(*this->pDevice, nullptr);
+    vkDestroyDevice(*pDevice, nullptr);
     delete this->pIndices;
     this->pCandidates->clear();
     std::vector<VkPhysicalDevice>().swap(*this->pDevices);
