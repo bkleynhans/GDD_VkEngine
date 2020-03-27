@@ -32,7 +32,9 @@ public:
     void specifyQueuesToCreate(QueueFamilyIndices* pIndices);
     void createLogicalDevice(VulkanLayerProperties* pVulkanLayerProperties);
 
-    VkDeviceQueueCreateInfo queueCreateInfo = {};
+    std::vector<VkDeviceQueueCreateInfo> queueCreateInfos;
+    std::set<uint32_t> uniqueQueueFamilies;
+
     VkPhysicalDeviceFeatures deviceFeatures = {};
 
     VkQueue graphicsQueue;
