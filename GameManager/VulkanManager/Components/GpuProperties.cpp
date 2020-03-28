@@ -10,7 +10,8 @@ GpuProperties::GpuProperties(VkInstance* pInstance, VulkanLayerProperties* pVulk
         this->physicalDevice,
         this->pDevice,
         pVulkanLayerProperties,
-        this->pIndices
+        this->pIndices,
+        this->pSwapChains
     );
 }
 
@@ -125,7 +126,8 @@ void GpuProperties::pickPhysicalDevice(VkInstance* pInstance, VkSurfaceKHR* pSur
             throw std::runtime_error("failed to find a suitable GPU!");
         }
 
-        this->pIndices = new QueueFamilyIndices(&this->physicalDevice, pSurface);        
+        this->pIndices = new QueueFamilyIndices(&this->physicalDevice, pSurface);
+        this->pSwapChains = new SwapChainSupport(&this->physicalDevice, pSurface);
     }
     else
     {
@@ -181,15 +183,16 @@ int GpuProperties::rateDeviceSuitability(VkPhysicalDevice device)
 bool GpuProperties::deviceIsSuitable(VkPhysicalDevice device, VkSurfaceKHR* pSurface)
 {
     QueueFamilyIndices indices = QueueFamilyIndices(&device, pSurface);
-    SwapChains swapChains = SwapChains(&device);
+    SwapChainSupport swapChains = SwapChainSupport(&device, pSurface);
     
-    return indices.isComplete() && swapChains.extensionsSupported();    
+    return indices.isComplete() && swapChains.extensionsSupported() && swapChains.swapChainAdequate();
 }
 
 GpuProperties::~GpuProperties()
 {
     // We created with the 'new' keyword so we need to clear memory
     vkDestroyDevice(*pDevice, nullptr);
+    delete this->pSwapChains;
     delete this->pIndices;
     this->pCandidates->clear();
     std::vector<VkPhysicalDevice>().swap(*this->pDevices);
