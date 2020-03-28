@@ -73,7 +73,7 @@ void LogicalDevice::createLogicalDevice(VulkanLayerProperties* pVulkanLayerPrope
     if (enableValidationLayers)
     {
         this->createInfo.enabledLayerCount = static_cast<uint32_t>(pVulkanLayerProperties->validationLayers.size());
-        this->createInfo.ppEnabledLayerNames = pVulkanLayerProperties->validationLayers.data();
+        this->createInfo.ppEnabledLayerNames = pVulkanLayerProperties->validationLayers.data();        
     }
     else
     {
