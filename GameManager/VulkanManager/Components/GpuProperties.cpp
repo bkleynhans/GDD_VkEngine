@@ -180,9 +180,10 @@ int GpuProperties::rateDeviceSuitability(VkPhysicalDevice device)
 // Look for queues that support the types of commands we require support for.
 bool GpuProperties::deviceIsSuitable(VkPhysicalDevice device, VkSurfaceKHR* pSurface)
 {
-    QueueFamilyIndices indices = QueueFamilyIndices(&device, pSurface);    
-
-    return indices.isComplete();
+    QueueFamilyIndices indices = QueueFamilyIndices(&device, pSurface);
+    SwapChains swapChains = SwapChains(&device);
+    
+    return indices.isComplete() && swapChains.extensionsSupported();    
 }
 
 GpuProperties::~GpuProperties()
