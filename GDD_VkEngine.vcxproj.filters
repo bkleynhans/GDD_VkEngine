@@ -144,6 +144,9 @@
     <ClCompile Include="GameManager\VulkanManager\Components\QueueFamilyIndices.cpp">
       <Filter>Source Files\GameManager\VulkanManager\Components</Filter>
     </ClCompile>
+    <ClCompile Include="GameManager\VulkanManager\Components\SwapChains.cpp">
+      <Filter>Source Files\GameManager\VulkanManager\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameManager\GameManager.h">
@@ -177,6 +180,9 @@
       <Filter>Header Files\GameManager\VulkanManager\Components</Filter>
     </ClInclude>
     <ClInclude Include="GameManager\VulkanManager\Components\QueueFamilyIndices.h">
+      <Filter>Header Files\GameManager\VulkanManager\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="GameManager\VulkanManager\Components\SwapChains.h">
       <Filter>Header Files\GameManager\VulkanManager\Components</Filter>
     </ClInclude>
   </ItemGroup>
