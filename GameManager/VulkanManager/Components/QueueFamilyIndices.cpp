@@ -15,7 +15,7 @@ void QueueFamilyIndices::findQueueFamilies(VkPhysicalDevice* pPhysicalDevice, Vk
     // Query the number of queue families supported by the device
     vkGetPhysicalDeviceQueueFamilyProperties(*pPhysicalDevice, &this->count, nullptr);
 
-    pQueueFamilies = new std::vector<VkQueueFamilyProperties>(this->count);
+    this->pQueueFamilies = new std::vector<VkQueueFamilyProperties>(this->count);
 
     // Get data pertaining to the previously discovered queue families
     vkGetPhysicalDeviceQueueFamilyProperties(*pPhysicalDevice, &this->count, this->pQueueFamilies->data());
