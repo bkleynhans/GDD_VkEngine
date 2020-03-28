@@ -17,9 +17,12 @@
 class WindowManager
 {
 public:
-    WindowManager();
-    void createWindow();
+    WindowManager();    
     ~WindowManager();
+
+    void createWindow();
+    int getWidth();
+    int getHeight();    
 
     GLFWwindow* pWindow = nullptr;
 

@@ -13,8 +13,16 @@ void WindowManager::createWindow()
     glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
 
     this->pWindow = glfwCreateWindow(WIDTH, HEIGHT, "Vulkan", nullptr, nullptr);
+}
 
-    //std::cout << "Window Manager Created" << std::endl;
+int WindowManager::getWidth()
+{
+    return this->WIDTH;
+}
+
+int WindowManager::getHeight()
+{
+    return this->HEIGHT;
 }
 
 WindowManager::~WindowManager()
@@ -22,6 +30,4 @@ WindowManager::~WindowManager()
     glfwDestroyWindow(this->pWindow);
 
     glfwTerminate();
-
-    //std::cout << "Window Manager Destroyed" << std::endl;
 }
