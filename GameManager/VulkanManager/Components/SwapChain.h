@@ -27,12 +27,12 @@
     • Available presentation modes
 */
 
-class SwapChainSupport :
+class SwapChain :
     public ComponentsBase
 {
 public:
-    SwapChainSupport(VkPhysicalDevice* pPhysicalDevice, VkSurfaceKHR* pSurface);
-    ~SwapChainSupport();
+    SwapChain(VkPhysicalDevice* pPhysicalDevice, VkSurfaceKHR* pSurface);
+    ~SwapChain();
 
     bool extensionsSupported();
     bool swapChainAdequate();

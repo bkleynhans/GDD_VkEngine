@@ -152,7 +152,7 @@
     <ClCompile Include="GameManager\VulkanManager\Components\GpuProperties.cpp" />
     <ClCompile Include="GameManager\VulkanManager\Components\LogicalDevice.cpp" />
     <ClCompile Include="GameManager\VulkanManager\Components\QueueFamilyIndices.cpp" />
-    <ClCompile Include="GameManager\VulkanManager\Components\SwapChainSupport.cpp" />
+    <ClCompile Include="GameManager\VulkanManager\Components\SwapChain.cpp" />
     <ClCompile Include="GameManager\VulkanManager\Components\VulkanExtensionProperties.cpp" />
     <ClCompile Include="GameManager\VulkanManager\Components\VulkanLayerProperties.cpp" />
     <ClCompile Include="GameManager\VulkanManager\VulkanManager.cpp" />
@@ -166,7 +166,7 @@
     <ClInclude Include="GameManager\VulkanManager\Components\GpuProperties.h" />
     <ClInclude Include="GameManager\VulkanManager\Components\LogicalDevice.h" />
     <ClInclude Include="GameManager\VulkanManager\Components\QueueFamilyIndices.h" />
-    <ClInclude Include="GameManager\VulkanManager\Components\SwapChainSupport.h" />
+    <ClInclude Include="GameManager\VulkanManager\Components\SwapChain.h" />
     <ClInclude Include="GameManager\VulkanManager\Components\VulkanExtensionProperties.h" />
     <ClInclude Include="GameManager\VulkanManager\Components\VulkanLayerProperties.h" />
     <ClInclude Include="GameManager\VulkanManager\DebugTools.cpp" />

@@ -4,7 +4,7 @@ LogicalDevice::LogicalDevice(
     VkPhysicalDevice physicalDevice, VkDevice* pDevice,
     VulkanLayerProperties* pVulkanLayerProperties,
     QueueFamilyIndices* pIndices,
-    SwapChainSupport* pSwapChains)
+    SwapChain* pSwapChains)
 {    
     this->specifyQueuesToCreate(pIndices);
     this->createLogicalDevice(pVulkanLayerProperties, pSwapChains);
@@ -59,7 +59,7 @@ void LogicalDevice::specifyQueuesToCreate(QueueFamilyIndices* pIndices)
 /* Vulkan Tutorial - Alexander Overvoorde - October 2019 - page 68
     Start filling in the main VkDeviceCreateInfo structure.
 */
-void LogicalDevice::createLogicalDevice(VulkanLayerProperties* pVulkanLayerProperties, SwapChainSupport* pSwapChains)
+void LogicalDevice::createLogicalDevice(VulkanLayerProperties* pVulkanLayerProperties, SwapChain* pSwapChains)
 {
     this->createInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
     this->createInfo.pNext = NULL;

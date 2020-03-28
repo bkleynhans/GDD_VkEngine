@@ -127,7 +127,7 @@ void GpuProperties::pickPhysicalDevice(VkInstance* pInstance, VkSurfaceKHR* pSur
         }
 
         this->pIndices = new QueueFamilyIndices(&this->physicalDevice, pSurface);
-        this->pSwapChains = new SwapChainSupport(&this->physicalDevice, pSurface);
+        this->pSwapChains = new SwapChain(&this->physicalDevice, pSurface);
     }
     else
     {
@@ -183,7 +183,7 @@ int GpuProperties::rateDeviceSuitability(VkPhysicalDevice device)
 bool GpuProperties::deviceIsSuitable(VkPhysicalDevice device, VkSurfaceKHR* pSurface)
 {
     QueueFamilyIndices indices = QueueFamilyIndices(&device, pSurface);
-    SwapChainSupport swapChains = SwapChainSupport(&device, pSurface);
+    SwapChain swapChains = SwapChain(&device, pSurface);
     
     return indices.isComplete() && swapChains.extensionsSupported() && swapChains.swapChainAdequate();
 }
