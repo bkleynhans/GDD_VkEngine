@@ -67,6 +67,7 @@ public:
     void deleteSwapChainImages();
 
     VkSwapchainKHR getSwapChain();
+    VkFormat getSwapChainImageFormat();
 
     std::vector<VkImage>* getSwapChainImages();
 
@@ -76,8 +77,7 @@ public:
     
 private:
     VkSwapchainKHR swapChain;
-    VkFormat swapChainImageFormat;
-    
+    VkFormat swapChainImageFormat;    
 
     VkSurfaceCapabilitiesKHR capabilities;
     VkExtent2D actualExtent;

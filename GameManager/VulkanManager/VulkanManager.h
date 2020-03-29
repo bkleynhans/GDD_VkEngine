@@ -33,6 +33,7 @@ public:
     void populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo);
     void setupDebugMessenger();
     void createSurface(WindowManager* pWindowManager);
+    void createImageViews();
 
     static VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(
         VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
@@ -51,6 +52,9 @@ private:
     VkSurfaceKHR surface;
 
     VkDebugUtilsMessengerEXT debugMessenger;
+
+    std::vector<VkImageView>* pSwapChainImageViews = nullptr;
+    /*std::vector<VkImageView> swapChainImageViews;*/
 
 // STRUCT for Validation Layers
 /* Vulkan Tutorial - Alexander Overvoorde - October 2019 - page 50

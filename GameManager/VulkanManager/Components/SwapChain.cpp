@@ -22,6 +22,11 @@ VkSwapchainKHR SwapChain::getSwapChain()
     return this->swapChain;
 }
 
+VkFormat SwapChain::getSwapChainImageFormat()
+{
+    return this->swapChainImageFormat;
+}
+
 std::vector<VkImage>* SwapChain::getSwapChainImages()
 {
     return this->pSwapChainImages;
@@ -324,7 +329,7 @@ void SwapChain::createSwapChain(
     this->pSwapChainImages = new std::vector<VkImage>(this->imageCount);
     vkGetSwapchainImagesKHR(*pDevice, this->swapChain, &this->imageCount, this->pSwapChainImages->data());
 
-
+    this->swapChainImageFormat = this->surfaceFormat.format;
 }
 
 void SwapChain::deleteSwapChainImages()
@@ -334,7 +339,7 @@ void SwapChain::deleteSwapChainImages()
 
 SwapChain::~SwapChain()
 {
-    // We created with the 'new' keyword so we need to clear memory    
+    // We created with the 'new' keyword so we need to clear memory
     std::vector<VkSurfaceFormatKHR>().swap(*this->pSurfaceFormats);
     std::vector<VkPresentModeKHR>().swap(*this->pPresentModes);
     std::set<std::string>().swap(*this->pRequiredExtensions);

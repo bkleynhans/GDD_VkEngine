@@ -16,7 +16,9 @@ VulkanManager::VulkanManager(WindowManager* pWindowManager)
         this->pVulkanLayerProperties,
         &this->surface,
         pWindowManager
-    );    
+    );
+
+    this->createImageViews();
 }
 
 // createInstance Description
@@ -132,6 +134,39 @@ void VulkanManager::createSurface(WindowManager* pWindowManager)
     }
 }
 
+void VulkanManager::createImageViews()
+{
+    int sizeOfSwapChainImages = this->pGpuProperties->pSwapChain->getSwapChainImages()->size();
+
+    this->pSwapChainImageViews = new std::vector<VkImageView>(sizeOfSwapChainImages);
+    /*this->swapChainImageViews.resize(sizeOfSwapChainImages);*/
+
+    for (size_t i = 0; i < sizeOfSwapChainImages; i++)
+    {
+        VkImageViewCreateInfo createInfo = {};
+
+        createInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
+        createInfo.image = (*this->pGpuProperties->pSwapChain->getSwapChainImages())[i];
+        createInfo.viewType = VK_IMAGE_VIEW_TYPE_2D;
+        createInfo.format = this->pGpuProperties->pSwapChain->getSwapChainImageFormat();
+        createInfo.components.r = VK_COMPONENT_SWIZZLE_IDENTITY;
+        createInfo.components.g = VK_COMPONENT_SWIZZLE_IDENTITY;
+        createInfo.components.b = VK_COMPONENT_SWIZZLE_IDENTITY;
+        createInfo.components.a = VK_COMPONENT_SWIZZLE_IDENTITY;
+        createInfo.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+        createInfo.subresourceRange.baseMipLevel = 0;
+        createInfo.subresourceRange.levelCount = 1;
+        createInfo.subresourceRange.baseArrayLayer = 0;
+        createInfo.subresourceRange.layerCount = 1;
+
+        if (vkCreateImageView(*this->pGpuProperties->getPDevice(), &createInfo, nullptr, &(*this->pSwapChainImageViews)[i]) != VK_SUCCESS)
+        /*if (vkCreateImageView(*this->pGpuProperties->getPDevice(), &createInfo, nullptr, &this->swapChainImageViews[i]) != VK_SUCCESS)*/
+        {
+            throw std::runtime_error("failed to create image views!");
+        }
+    }
+}
+
 VKAPI_ATTR VkBool32 VKAPI_CALL VulkanManager::debugCallback(
     VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
     VkDebugUtilsMessageTypeFlagsEXT messageType,
@@ -145,6 +180,12 @@ VKAPI_ATTR VkBool32 VKAPI_CALL VulkanManager::debugCallback(
 
 VulkanManager::~VulkanManager()
 {
+    // We explicitely created the image views, so we need to destroy them
+    for (auto imageView : *this->pSwapChainImageViews)
+    {
+        vkDestroyImageView(*this->pGpuProperties->getPDevice(), imageView, nullptr);
+    }
+
     if (enableValidationLayers)
     {
         DestroyDebugUtilsMessengerEXT(this->instance, this->debugMessenger, nullptr);

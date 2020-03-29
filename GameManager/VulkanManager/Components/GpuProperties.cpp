@@ -21,6 +21,11 @@ GpuProperties::GpuProperties(
     this->pSwapChain->createSwapChain(pWindowManager, pSurface, this->pIndices, pDevice);
 }
 
+VkDevice* GpuProperties::getPDevice()
+{
+    return this->pDevice;
+}
+
 // Basic Support
 /* If the only requirement for the graphics card is Vulkan, and shader
     support.  The following two methods look at available devices and chooses

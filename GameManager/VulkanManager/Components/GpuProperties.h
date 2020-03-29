@@ -29,6 +29,8 @@ public:
     );
     ~GpuProperties();
 
+    VkDevice* getPDevice();
+
     QueueFamilyIndices* pIndices = nullptr;
     SwapChain* pSwapChain = nullptr;
 
