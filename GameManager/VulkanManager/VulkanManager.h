@@ -54,7 +54,6 @@ private:
     VkDebugUtilsMessengerEXT debugMessenger;
 
     std::vector<VkImageView>* pSwapChainImageViews = nullptr;
-    /*std::vector<VkImageView> swapChainImageViews;*/
 
 // STRUCT for Validation Layers
 /* Vulkan Tutorial - Alexander Overvoorde - October 2019 - page 50

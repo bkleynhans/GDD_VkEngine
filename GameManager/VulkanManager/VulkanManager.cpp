@@ -139,7 +139,6 @@ void VulkanManager::createImageViews()
     int sizeOfSwapChainImages = this->pGpuProperties->pSwapChain->getSwapChainImages()->size();
 
     this->pSwapChainImageViews = new std::vector<VkImageView>(sizeOfSwapChainImages);
-    /*this->swapChainImageViews.resize(sizeOfSwapChainImages);*/
 
     for (size_t i = 0; i < sizeOfSwapChainImages; i++)
     {
@@ -160,7 +159,6 @@ void VulkanManager::createImageViews()
         createInfo.subresourceRange.layerCount = 1;
 
         if (vkCreateImageView(*this->pGpuProperties->getPDevice(), &createInfo, nullptr, &(*this->pSwapChainImageViews)[i]) != VK_SUCCESS)
-        /*if (vkCreateImageView(*this->pGpuProperties->getPDevice(), &createInfo, nullptr, &this->swapChainImageViews[i]) != VK_SUCCESS)*/
         {
             throw std::runtime_error("failed to create image views!");
         }
