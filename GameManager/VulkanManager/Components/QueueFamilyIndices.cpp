@@ -2,9 +2,9 @@
 
 QueueFamilyIndices::QueueFamilyIndices() {}
 
-QueueFamilyIndices::QueueFamilyIndices(VkPhysicalDevice* pDevice, VkSurfaceKHR* pSurface)
+QueueFamilyIndices::QueueFamilyIndices(VkPhysicalDevice* pPhysicalDevice, VkSurfaceKHR* pSurface)
 {
-    this->findQueueFamilies(pDevice, pSurface);
+    this->findQueueFamilies(pPhysicalDevice, pSurface);
 }
 
 bool QueueFamilyIndices::isComplete()
@@ -12,15 +12,15 @@ bool QueueFamilyIndices::isComplete()
     return this->graphicsFamily.has_value() && presentFamily.has_value();
 }
 
-void QueueFamilyIndices::findQueueFamilies(VkPhysicalDevice* pDevice, VkSurfaceKHR* pSurface)
+void QueueFamilyIndices::findQueueFamilies(VkPhysicalDevice* pPhysicalDevice, VkSurfaceKHR* pSurface)
 {
     // Query the number of queue families supported by the device
-    vkGetPhysicalDeviceQueueFamilyProperties(*pDevice, &this->count, nullptr);
+    vkGetPhysicalDeviceQueueFamilyProperties(*pPhysicalDevice, &this->count, nullptr);
 
     this->pQueueFamilies = new std::vector<VkQueueFamilyProperties>(this->count);
 
     // Get data pertaining to the previously discovered queue families
-    vkGetPhysicalDeviceQueueFamilyProperties(*pDevice, &this->count, this->pQueueFamilies->data());
+    vkGetPhysicalDeviceQueueFamilyProperties(*pPhysicalDevice, &this->count, this->pQueueFamilies->data());
 
     int i = 0;
 
@@ -32,7 +32,7 @@ void QueueFamilyIndices::findQueueFamilies(VkPhysicalDevice* pDevice, VkSurfaceK
         }
 
         VkBool32 presentSupport = false;
-        vkGetPhysicalDeviceSurfaceSupportKHR(*pDevice, i, *pSurface, &presentSupport);
+        vkGetPhysicalDeviceSurfaceSupportKHR(*pPhysicalDevice, i, *pSurface, &presentSupport);
 
         if (presentSupport)
         {

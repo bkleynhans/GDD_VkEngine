@@ -2,9 +2,9 @@
 
 SwapChain::SwapChain() {}
 
-SwapChain::SwapChain(VkPhysicalDevice* pDevice, VkSurfaceKHR* pSurface)
+SwapChain::SwapChain(VkPhysicalDevice* pPhysicalDevice, VkSurfaceKHR* pSurface)
 {
-    this->checkDeviceExtensionSupport(pDevice, pSurface);
+    this->checkDeviceExtensionSupport(pPhysicalDevice, pSurface);
 }
 
 bool SwapChain::extensionsSupported()
@@ -33,15 +33,15 @@ std::vector<VkImage>* SwapChain::getSwapChainImages()
 }
 
 // Test for required extensions
-void SwapChain::checkDeviceExtensionSupport(VkPhysicalDevice* pDevice, VkSurfaceKHR* pSurface)
+void SwapChain::checkDeviceExtensionSupport(VkPhysicalDevice* pPhysicalDevice, VkSurfaceKHR* pSurface)
 {
     // Query the number of extensions available to device
-    vkEnumerateDeviceExtensionProperties(*pDevice, nullptr, &this->count, nullptr);
+    vkEnumerateDeviceExtensionProperties(*pPhysicalDevice, nullptr, &this->count, nullptr);
 
     this->pAvailableExtensions = new std::vector<VkExtensionProperties>(this->count);
 
     // Get data pertaining to the discovered extensions
-    vkEnumerateDeviceExtensionProperties(*pDevice, nullptr, &this->count, this->pAvailableExtensions->data());
+    vkEnumerateDeviceExtensionProperties(*pPhysicalDevice, nullptr, &this->count, this->pAvailableExtensions->data());
 
     this->pRequiredExtensions = new std::set<std::string>(this->deviceExtensions.begin(), this->deviceExtensions.end());
 
@@ -59,25 +59,25 @@ void SwapChain::checkDeviceExtensionSupport(VkPhysicalDevice* pDevice, VkSurface
 
     if (this->extensionsSupported())
     {
-        this->querySwapChainSupport(pDevice, pSurface);
+        this->querySwapChainSupport(pPhysicalDevice, pSurface);
     }
 }
 
 // Populate swap chain support (this object)
-void SwapChain::querySwapChainSupport(VkPhysicalDevice* pDevice, VkSurfaceKHR* pSurface)
+void SwapChain::querySwapChainSupport(VkPhysicalDevice* pPhysicalDevice, VkSurfaceKHR* pSurface)
 {
     // Query basic surface capabilities
-    vkGetPhysicalDeviceSurfaceCapabilitiesKHR(*pDevice, *pSurface, &this->capabilities);
+    vkGetPhysicalDeviceSurfaceCapabilitiesKHR(*pPhysicalDevice, *pSurface, &this->capabilities);
 
     // Query supported surface formats
-    vkGetPhysicalDeviceSurfaceFormatsKHR(*pDevice, *pSurface, &this->formatCount, nullptr);
+    vkGetPhysicalDeviceSurfaceFormatsKHR(*pPhysicalDevice, *pSurface, &this->formatCount, nullptr);
 
     if (this->formatCount != 0)
     {
         this->pSurfaceFormats = new std::vector<VkSurfaceFormatKHR>(this->formatCount);
 
         vkGetPhysicalDeviceSurfaceFormatsKHR(
-            *pDevice,
+            *pPhysicalDevice,
             *pSurface,
             &this->formatCount,
             this->pSurfaceFormats->data()
@@ -85,14 +85,14 @@ void SwapChain::querySwapChainSupport(VkPhysicalDevice* pDevice, VkSurfaceKHR* p
     }
 
     // Query the supported presentation modes
-    vkGetPhysicalDeviceSurfacePresentModesKHR(*pDevice, *pSurface, &this->presentModeCount, nullptr);
+    vkGetPhysicalDeviceSurfacePresentModesKHR(*pPhysicalDevice, *pSurface, &this->presentModeCount, nullptr);
 
     if (this->presentModeCount != 0)
     {
         this->pPresentModes = new std::vector<VkPresentModeKHR>(this->presentModeCount);
 
         vkGetPhysicalDeviceSurfacePresentModesKHR(
-            *pDevice,
+            *pPhysicalDevice,
             *pSurface,
             &this->presentModeCount,
             this->pPresentModes->data()
