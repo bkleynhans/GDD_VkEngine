@@ -109,6 +109,12 @@
     <Filter Include="Header Files\GameManager\VulkanManager\Components">
       <UniqueIdentifier>{438fe77c-10c9-480e-8b77-b31c099e0e00}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\GameManager\ShaderManager\shaders_src">
+      <UniqueIdentifier>{44424e30-0630-4a59-93d5-ead13edb9d47}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GameManager\ShaderManager\shaders_bin">
+      <UniqueIdentifier>{a4718ceb-89a4-4074-925d-26ac05580d67}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -145,6 +151,9 @@
       <Filter>Source Files\GameManager\VulkanManager\Components</Filter>
     </ClCompile>
     <ClCompile Include="GameManager\VulkanManager\Components\SwapChain.cpp">
+      <Filter>Source Files\GameManager\VulkanManager\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="GameManager\VulkanManager\Components\GraphicsPipeline.cpp">
       <Filter>Source Files\GameManager\VulkanManager\Components</Filter>
     </ClCompile>
   </ItemGroup>
@@ -185,5 +194,25 @@
     <ClInclude Include="GameManager\VulkanManager\Components\SwapChain.h">
       <Filter>Header Files\GameManager\VulkanManager\Components</Filter>
     </ClInclude>
+    <ClInclude Include="GameManager\VulkanManager\Components\GraphicsPipeline.h">
+      <Filter>Header Files\GameManager\VulkanManager\Components</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="GameManager\ShaderManager\shaders\shader.frag">
+      <Filter>Header Files\GameManager\ShaderManager\shaders_src</Filter>
+    </None>
+    <None Include="GameManager\ShaderManager\shaders\shader.vert">
+      <Filter>Header Files\GameManager\ShaderManager\shaders_src</Filter>
+    </None>
+    <None Include="GameManager\ShaderManager\compile.bat">
+      <Filter>Header Files\GameManager\ShaderManager</Filter>
+    </None>
+    <None Include="GameManager\ShaderManager\shaders_bin\frag.spv">
+      <Filter>Header Files\GameManager\ShaderManager\shaders_bin</Filter>
+    </None>
+    <None Include="GameManager\ShaderManager\shaders_bin\vert.spv">
+      <Filter>Header Files\GameManager\ShaderManager\shaders_bin</Filter>
+    </None>
   </ItemGroup>
 </Project>

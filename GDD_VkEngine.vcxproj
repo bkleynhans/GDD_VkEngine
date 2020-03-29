@@ -150,6 +150,7 @@
     <ClCompile Include="GameManager\GameManager.cpp" />
     <ClCompile Include="GameManager\VulkanManager\Components\GlfwExtensionProperties.cpp" />
     <ClCompile Include="GameManager\VulkanManager\Components\GpuProperties.cpp" />
+    <ClCompile Include="GameManager\VulkanManager\Components\GraphicsPipeline.cpp" />
     <ClCompile Include="GameManager\VulkanManager\Components\LogicalDevice.cpp" />
     <ClCompile Include="GameManager\VulkanManager\Components\QueueFamilyIndices.cpp" />
     <ClCompile Include="GameManager\VulkanManager\Components\SwapChain.cpp" />
@@ -164,6 +165,7 @@
     <ClInclude Include="GameManager\GameManager.h" />
     <ClInclude Include="GameManager\VulkanManager\Components\GlfwExtensionProperties.h" />
     <ClInclude Include="GameManager\VulkanManager\Components\GpuProperties.h" />
+    <ClInclude Include="GameManager\VulkanManager\Components\GraphicsPipeline.h" />
     <ClInclude Include="GameManager\VulkanManager\Components\LogicalDevice.h" />
     <ClInclude Include="GameManager\VulkanManager\Components\QueueFamilyIndices.h" />
     <ClInclude Include="GameManager\VulkanManager\Components\SwapChain.h" />
@@ -173,6 +175,13 @@
     <ClInclude Include="GameManager\VulkanManager\VulkanManager.h" />
     <ClInclude Include="GameManager\VulkanManager\ComponentsBase.h" />
     <ClInclude Include="GameManager\WindowManager\WindowManager.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="GameManager\ShaderManager\compile.bat" />
+    <None Include="GameManager\ShaderManager\shaders\shader.frag" />
+    <None Include="GameManager\ShaderManager\shaders\shader.vert" />
+    <None Include="GameManager\ShaderManager\shaders_bin\frag.spv" />
+    <None Include="GameManager\ShaderManager\shaders_bin\vert.spv" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
