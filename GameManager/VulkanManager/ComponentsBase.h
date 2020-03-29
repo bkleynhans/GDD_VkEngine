@@ -17,7 +17,7 @@ public:
     ~ComponentsBase();
 
     VkDevice getDevice();
-    //VkPhysicalDevice getPhysicalDevice();
+    VkPhysicalDevice getPhysicalDevice();
 
     uint32_t count = 0;
         
@@ -36,7 +36,7 @@ public:
 
 protected:
     static VkDevice* pDevice;
-    //static VkPhysicalDevice* pPhysicalDevice;
+    static VkPhysicalDevice* pPhysicalDevice;
 };
 
 #endif // _COMPONENTSBASE_H_

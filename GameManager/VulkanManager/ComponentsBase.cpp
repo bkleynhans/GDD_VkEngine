@@ -1,7 +1,7 @@
 #include "ComponentsBase.h"
 
 VkDevice* ComponentsBase::pDevice = nullptr;
-//VkPhysicalDevice* ComponentsBase::pPhysicalDevice = nullptr;
+VkPhysicalDevice* ComponentsBase::pPhysicalDevice = VK_NULL_HANDLE;
 
 ComponentsBase::ComponentsBase()
 {
@@ -13,10 +13,10 @@ VkDevice ComponentsBase::getDevice()
     return *pDevice;
 }
 
-//VkPhysicalDevice ComponentsBase::getPhysicalDevice()
-//{
-//    return *this->pPhysicalDevice;
-//}
+VkPhysicalDevice ComponentsBase::getPhysicalDevice()
+{
+    return *pPhysicalDevice;
+}
 
 ComponentsBase::~ComponentsBase()
 {

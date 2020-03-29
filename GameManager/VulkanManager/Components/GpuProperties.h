@@ -36,8 +36,6 @@ public:
 
     void pickPhysicalDevice(VkInstance* pInstance, VkSurfaceKHR* pSurface);
 
-    VkPhysicalDevice physicalDevice = VK_NULL_HANDLE;
-
 private:
     LogicalDevice* pLogicalDevice = nullptr;
 
@@ -47,8 +45,9 @@ private:
     VkPhysicalDeviceProperties deviceProperties;
     VkPhysicalDeviceFeatures deviceFeatures;
 
-    int rateDeviceSuitability(VkPhysicalDevice device);
-    bool deviceIsSuitable(VkPhysicalDevice device, VkSurfaceKHR* pSurface);
+    int rateDeviceSuitability(VkPhysicalDevice candidate);
+    /*bool deviceIsSuitable(VkPhysicalDevice device, VkSurfaceKHR* pSurface);*/
+    bool deviceIsSuitable(VkSurfaceKHR* pSurface);
 };
 
 #endif // _GPUPROPERTIES_H_

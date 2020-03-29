@@ -20,7 +20,8 @@ class QueueFamilyIndices :
 {
 public:
     QueueFamilyIndices();
-    QueueFamilyIndices(VkPhysicalDevice* pPhysicalDevice, VkSurfaceKHR* pSurface);
+    QueueFamilyIndices(VkSurfaceKHR* pSurface);
+
     ~QueueFamilyIndices();
 
     bool isComplete();
@@ -54,7 +55,7 @@ public:
 private:
     std::vector<VkQueueFamilyProperties>* pQueueFamilies = nullptr;
 
-    void findQueueFamilies(VkPhysicalDevice* pPhysicalDevice, VkSurfaceKHR* pSurface);
+    void findQueueFamilies(VkSurfaceKHR* pSurface);
 };
 
 #endif // _QUEUEFAMILYINDICES_H_

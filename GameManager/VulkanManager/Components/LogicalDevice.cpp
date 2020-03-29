@@ -3,7 +3,6 @@
 LogicalDevice::LogicalDevice() {}
 
 LogicalDevice::LogicalDevice(
-    VkPhysicalDevice physicalDevice,
     VulkanLayerProperties* pVulkanLayerProperties,
     QueueFamilyIndices* pIndices,
     SwapChain* pSwapChain)
@@ -11,7 +10,7 @@ LogicalDevice::LogicalDevice(
     this->specifyQueuesToCreate(pIndices);
     this->createLogicalDevice(pVulkanLayerProperties, pSwapChain);
     
-    if (vkCreateDevice(physicalDevice, &this->createInfo, nullptr, pDevice) != VK_SUCCESS)    
+    if (vkCreateDevice(*pPhysicalDevice, &this->createInfo, nullptr, pDevice) != VK_SUCCESS)
     {
         throw std::runtime_error("failed to create logical device!");
     }

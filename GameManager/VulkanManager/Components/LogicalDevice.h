@@ -24,7 +24,6 @@ class LogicalDevice :
 public:
     LogicalDevice();
     LogicalDevice(
-        VkPhysicalDevice physicalDevice,
         VulkanLayerProperties* pVulkanLayerProperties,
         QueueFamilyIndices* pIndices,
         SwapChain* pSwapChains
