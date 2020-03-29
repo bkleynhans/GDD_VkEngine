@@ -21,15 +21,15 @@ public:
     ~WindowManager();
 
     void createWindow();
-    int getWidth();
-    int getHeight();    
+    uint32_t getWidth();
+    uint32_t getHeight();    
 
     GLFWwindow* pWindow = nullptr;
 
 private:    
 
-    const int WIDTH = 800;
-    const int HEIGHT = 600;
+    const uint32_t WIDTH = 800;
+    const uint32_t HEIGHT = 600;
 };
 
 #endif // _WINDOWMANAGER_H_

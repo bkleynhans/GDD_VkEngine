@@ -1,18 +1,24 @@
 #include "GpuProperties.h"
 
-GpuProperties::GpuProperties(VkInstance* pInstance, VulkanLayerProperties* pVulkanLayerProperties, VkSurfaceKHR* pSurface)
-{
-    this->pickPhysicalDevice(pInstance, pSurface);
-
+GpuProperties::GpuProperties(
+    VkInstance* pInstance, VulkanLayerProperties* pVulkanLayerProperties, 
+    VkSurfaceKHR* pSurface, WindowManager* pWindowManager)
+{   
     this->pDevice = new VkDevice();
+    this->pSwapChain = new SwapChain();
+
+    this->pickPhysicalDevice(pInstance, pSurface);
 
     this->pLogicalDevice = new LogicalDevice(
         this->physicalDevice,
         this->pDevice,
         pVulkanLayerProperties,
         this->pIndices,
-        this->pSwapChains
+        this->pSwapChain            // This is a reference to a predefined list in the SwapChain class
     );
+
+    this->pSwapChain = new SwapChain(&this->physicalDevice, pSurface);
+    this->pSwapChain->createSwapChain(pWindowManager, pSurface, this->pIndices, pDevice);
 }
 
 // Basic Support
@@ -121,13 +127,12 @@ void GpuProperties::pickPhysicalDevice(VkInstance* pInstance, VkSurfaceKHR* pSur
     {
         this->physicalDevice = this->pCandidates->rbegin()->second;        
 
-        if (!deviceIsSuitable(this->physicalDevice, pSurface))        
+        if (!deviceIsSuitable(this->physicalDevice, pSurface))
         {            
             throw std::runtime_error("failed to find a suitable GPU!");
         }
 
         this->pIndices = new QueueFamilyIndices(&this->physicalDevice, pSurface);
-        this->pSwapChains = new SwapChain(&this->physicalDevice, pSurface);
     }
     else
     {
@@ -191,10 +196,14 @@ bool GpuProperties::deviceIsSuitable(VkPhysicalDevice device, VkSurfaceKHR* pSur
 GpuProperties::~GpuProperties()
 {
     // We created with the 'new' keyword so we need to clear memory
-    vkDestroyDevice(*pDevice, nullptr);
-    delete this->pSwapChains;
+    // Delete swapchain and conditional components
+    this->pSwapChain->deleteSwapChainImages();
+    vkDestroySwapchainKHR(*pDevice, this->pSwapChain->getSwapChain(), nullptr);
+
+    // Delete remaining items
+    vkDestroyDevice(*pDevice, nullptr);    
+    delete this->pSwapChain;
     delete this->pIndices;
     this->pCandidates->clear();
     std::vector<VkPhysicalDevice>().swap(*this->pDevices);
-
 }

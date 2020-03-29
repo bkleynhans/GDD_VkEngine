@@ -15,12 +15,12 @@ void WindowManager::createWindow()
     this->pWindow = glfwCreateWindow(WIDTH, HEIGHT, "Vulkan", nullptr, nullptr);
 }
 
-int WindowManager::getWidth()
+uint32_t WindowManager::getWidth()
 {
     return this->WIDTH;
 }
 
-int WindowManager::getHeight()
+uint32_t WindowManager::getHeight()
 {
     return this->HEIGHT;
 }

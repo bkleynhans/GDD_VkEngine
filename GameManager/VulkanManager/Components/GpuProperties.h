@@ -4,6 +4,7 @@
 #include <map>
 #include <optional>
 
+#include "WindowManager/WindowManager.h"
 #include "VulkanManager/ComponentsBase.h"
 #include "VulkanManager/Components/QueueFamilyIndices.h"
 #include "VulkanManager/Components/LogicalDevice.h"
@@ -20,11 +21,16 @@ class GpuProperties :
     public ComponentsBase
 {
 public:
-    GpuProperties(VkInstance* pInstance, VulkanLayerProperties* pVulkanLayerProperties, VkSurfaceKHR* pSurface);    
+    GpuProperties(
+        VkInstance* pInstance, 
+        VulkanLayerProperties* pVulkanLayerProperties, 
+        VkSurfaceKHR* pSurface, 
+        WindowManager* pWindowManager
+    );
     ~GpuProperties();
 
     QueueFamilyIndices* pIndices = nullptr;
-    SwapChain* pSwapChains = nullptr;
+    SwapChain* pSwapChain = nullptr;
 
     void pickPhysicalDevice(VkInstance* pInstance, VkSurfaceKHR* pSurface);
 

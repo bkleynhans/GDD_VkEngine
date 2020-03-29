@@ -11,7 +11,12 @@ VulkanManager::VulkanManager(WindowManager* pWindowManager)
     this->setupDebugMessenger();
     this->createSurface(pWindowManager);
 
-    this->pGpuProperties = new GpuProperties(&this->instance, this->pVulkanLayerProperties, &this->surface);    
+    this->pGpuProperties = new GpuProperties(
+        &this->instance,
+        this->pVulkanLayerProperties,
+        &this->surface,
+        pWindowManager
+    );    
 }
 
 // createInstance Description

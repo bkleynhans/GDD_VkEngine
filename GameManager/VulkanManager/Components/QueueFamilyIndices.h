@@ -19,7 +19,8 @@ class QueueFamilyIndices :
     public ComponentsBase
 {
 public:
-    QueueFamilyIndices(VkPhysicalDevice* pPhysicalDevice, VkSurfaceKHR* pSurface);
+    QueueFamilyIndices();
+    QueueFamilyIndices(VkPhysicalDevice* pDevice, VkSurfaceKHR* pSurface);
     ~QueueFamilyIndices();
 
     bool isComplete();

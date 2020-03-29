@@ -21,7 +21,8 @@
 class LogicalDevice :
     public ComponentsBase
 {
-public:     
+public:
+    LogicalDevice();
     LogicalDevice(
         VkPhysicalDevice physicalDevice,
         VkDevice* pDevice,
@@ -32,7 +33,7 @@ public:
     ~LogicalDevice();
 
     void specifyQueuesToCreate(QueueFamilyIndices* pIndices);
-    void createLogicalDevice(VulkanLayerProperties* pVulkanLayerProperties, SwapChain* pSwapChains);
+    void createLogicalDevice(VulkanLayerProperties* pVulkanLayerProperties, SwapChain* pSwapChain);
 
     std::vector<VkDeviceQueueCreateInfo> queueCreateInfos;
     std::set<uint32_t> uniqueQueueFamilies;

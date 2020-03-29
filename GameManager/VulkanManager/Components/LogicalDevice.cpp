@@ -1,13 +1,16 @@
 #include "LogicalDevice.h"
 
+LogicalDevice::LogicalDevice() {}
+
 LogicalDevice::LogicalDevice(
-    VkPhysicalDevice physicalDevice, VkDevice* pDevice,
+    VkPhysicalDevice physicalDevice,
+    VkDevice* pDevice,
     VulkanLayerProperties* pVulkanLayerProperties,
     QueueFamilyIndices* pIndices,
-    SwapChain* pSwapChains)
+    SwapChain* pSwapChain)
 {    
     this->specifyQueuesToCreate(pIndices);
-    this->createLogicalDevice(pVulkanLayerProperties, pSwapChains);
+    this->createLogicalDevice(pVulkanLayerProperties, pSwapChain);
     
     if (vkCreateDevice(physicalDevice, &this->createInfo, nullptr, pDevice) != VK_SUCCESS)    
     {
@@ -59,7 +62,7 @@ void LogicalDevice::specifyQueuesToCreate(QueueFamilyIndices* pIndices)
 /* Vulkan Tutorial - Alexander Overvoorde - October 2019 - page 68
     Start filling in the main VkDeviceCreateInfo structure.
 */
-void LogicalDevice::createLogicalDevice(VulkanLayerProperties* pVulkanLayerProperties, SwapChain* pSwapChains)
+void LogicalDevice::createLogicalDevice(VulkanLayerProperties* pVulkanLayerProperties, SwapChain* pSwapChain)
 {
     this->createInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
     this->createInfo.pNext = NULL;
@@ -70,8 +73,8 @@ void LogicalDevice::createLogicalDevice(VulkanLayerProperties* pVulkanLayerPrope
     this->createInfo.pEnabledFeatures = &this->deviceFeatures;
 
     // Enable the required device extensions
-    this->createInfo.enabledExtensionCount = static_cast<uint32_t>(pSwapChains->deviceExtensions.size());
-    this->createInfo.ppEnabledExtensionNames = pSwapChains->deviceExtensions.data();
+    this->createInfo.enabledExtensionCount = static_cast<uint32_t>(pSwapChain->deviceExtensions.size());
+    this->createInfo.ppEnabledExtensionNames = pSwapChain->deviceExtensions.data();
 
     // Enable the required validation layers
     if (enableValidationLayers)
