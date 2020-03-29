@@ -11,6 +11,7 @@ VulkanManager::VulkanManager(WindowManager* pWindowManager)
     this->setupDebugMessenger();
     this->createSurface(pWindowManager);
 
+    // Interrogate the graphics card and define graphics card parameters
     this->pGpuProperties = new GpuProperties(
         &this->instance,
         this->pVulkanLayerProperties,
@@ -19,6 +20,8 @@ VulkanManager::VulkanManager(WindowManager* pWindowManager)
     );
 
     this->createImageViews();
+
+    this->pGraphicsPipeline = new GraphicsPipeline();
 }
 
 // createInstance Description
@@ -178,6 +181,8 @@ VKAPI_ATTR VkBool32 VKAPI_CALL VulkanManager::debugCallback(
 
 VulkanManager::~VulkanManager()
 {
+    delete this->pGraphicsPipeline;
+
     // We explicitely created the image views, so we need to destroy them
     for (auto imageView : *this->pSwapChainImageViews)
     {

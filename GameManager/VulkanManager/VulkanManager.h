@@ -15,6 +15,7 @@
 #include "VulkanManager/Components/VulkanExtensionProperties.h"
 #include "VulkanManager/Components/VulkanLayerProperties.h"
 #include "VulkanManager/Components/GpuProperties.h"
+#include "VulkanManager/Components/GraphicsPipeline.h"
 
 // Vulkan Manager Description
 /* Vulkan Tutorial - Alexander Overvoorde - October 2019 - page 45
@@ -47,6 +48,7 @@ private:
     VulkanExtensionProperties* pVulkanExtensionProperties = nullptr;
     VulkanLayerProperties* pVulkanLayerProperties = nullptr;
     GpuProperties* pGpuProperties = nullptr;
+    GraphicsPipeline* pGraphicsPipeline = nullptr;
 
     VkInstance instance;
     VkSurfaceKHR surface;
