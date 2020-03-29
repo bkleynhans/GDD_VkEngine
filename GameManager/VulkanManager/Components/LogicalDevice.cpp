@@ -4,7 +4,6 @@ LogicalDevice::LogicalDevice() {}
 
 LogicalDevice::LogicalDevice(
     VkPhysicalDevice physicalDevice,
-    VkDevice* pDevice,
     VulkanLayerProperties* pVulkanLayerProperties,
     QueueFamilyIndices* pIndices,
     SwapChain* pSwapChain)

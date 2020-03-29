@@ -161,7 +161,7 @@ void VulkanManager::createImageViews()
         createInfo.subresourceRange.baseArrayLayer = 0;
         createInfo.subresourceRange.layerCount = 1;
 
-        if (vkCreateImageView(*this->pGpuProperties->getPDevice(), &createInfo, nullptr, &(*this->pSwapChainImageViews)[i]) != VK_SUCCESS)
+        if (vkCreateImageView(this->pGpuProperties->getDevice(), &createInfo, nullptr, &(*this->pSwapChainImageViews)[i]) != VK_SUCCESS)
         {
             throw std::runtime_error("failed to create image views!");
         }
@@ -186,7 +186,7 @@ VulkanManager::~VulkanManager()
     // We explicitely created the image views, so we need to destroy them
     for (auto imageView : *this->pSwapChainImageViews)
     {
-        vkDestroyImageView(*this->pGpuProperties->getPDevice(), imageView, nullptr);
+        vkDestroyImageView(this->pGpuProperties->getDevice(), imageView, nullptr);
     }
 
     if (enableValidationLayers)

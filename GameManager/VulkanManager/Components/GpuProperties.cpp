@@ -4,26 +4,22 @@ GpuProperties::GpuProperties(
     VkInstance* pInstance, VulkanLayerProperties* pVulkanLayerProperties, 
     VkSurfaceKHR* pSurface, WindowManager* pWindowManager)
 {   
-    this->pDevice = new VkDevice();
+    pDevice = new VkDevice();
+
+
     this->pSwapChain = new SwapChain();
 
     this->pickPhysicalDevice(pInstance, pSurface);
 
     this->pLogicalDevice = new LogicalDevice(
         this->physicalDevice,
-        this->pDevice,
         pVulkanLayerProperties,
         this->pIndices,
         this->pSwapChain            // This is a reference to a predefined list in the SwapChain class
     );
 
     this->pSwapChain = new SwapChain(&this->physicalDevice, pSurface);
-    this->pSwapChain->createSwapChain(pWindowManager, pSurface, this->pIndices, pDevice);
-}
-
-VkDevice* GpuProperties::getPDevice()
-{
-    return this->pDevice;
+    this->pSwapChain->createSwapChain(pWindowManager, pSurface, this->pIndices);
 }
 
 // Basic Support
@@ -130,7 +126,7 @@ void GpuProperties::pickPhysicalDevice(VkInstance* pInstance, VkSurfaceKHR* pSur
     // Check if the best candidate is suitable at all
     if (this->pCandidates->rbegin()->first > 0)
     {
-        this->physicalDevice = this->pCandidates->rbegin()->second;        
+        this->physicalDevice = this->pCandidates->rbegin()->second;  
 
         if (!deviceIsSuitable(this->physicalDevice, pSurface))
         {            
@@ -146,14 +142,14 @@ void GpuProperties::pickPhysicalDevice(VkInstance* pInstance, VkSurfaceKHR* pSur
 }
 
 // Determines whether the supplied graphics card supports the features we need
-int GpuProperties::rateDeviceSuitability(VkPhysicalDevice device)
+int GpuProperties::rateDeviceSuitability(VkPhysicalDevice physicalDevice)
 {
     // Device Properties
     /* Vulkan Tutorial - Alexander Overvoorde - October 2019 - page 61
         Basic device properties like the name, type and supported Vulkan version can
         be queried using vkGetPhysicalDeviceProperties.
     */
-    vkGetPhysicalDeviceProperties(device, &this->deviceProperties);
+    vkGetPhysicalDeviceProperties(physicalDevice, &this->deviceProperties);
 
     // Device Features
     /* Vulkan Tutorial - Alexander Overvoorde - October 2019 - page 62
@@ -161,7 +157,7 @@ int GpuProperties::rateDeviceSuitability(VkPhysicalDevice device)
         multi viewport rendering (useful for VR) can be queried using
         vkGetPhysicalDeviceFeatures.
     */
-    vkGetPhysicalDeviceFeatures(device, &this->deviceFeatures);
+    vkGetPhysicalDeviceFeatures(physicalDevice, &this->deviceFeatures);
 
     int score = 0;
 
@@ -190,10 +186,10 @@ int GpuProperties::rateDeviceSuitability(VkPhysicalDevice device)
 }
 
 // Look for queues that support the types of commands we require support for.
-bool GpuProperties::deviceIsSuitable(VkPhysicalDevice device, VkSurfaceKHR* pSurface)
+bool GpuProperties::deviceIsSuitable(VkPhysicalDevice physicalDevice, VkSurfaceKHR* pSurface)
 {
-    QueueFamilyIndices indices = QueueFamilyIndices(&device, pSurface);
-    SwapChain swapChains = SwapChain(&device, pSurface);
+    QueueFamilyIndices indices = QueueFamilyIndices(&physicalDevice, pSurface);
+    SwapChain swapChains = SwapChain(&physicalDevice, pSurface);
     
     return indices.isComplete() && swapChains.extensionsSupported() && swapChains.swapChainAdequate();
 }

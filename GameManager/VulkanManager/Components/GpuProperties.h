@@ -29,7 +29,7 @@ public:
     );
     ~GpuProperties();
 
-    VkDevice* getPDevice();
+    //VkDevice* getPDevice();
 
     QueueFamilyIndices* pIndices = nullptr;
     SwapChain* pSwapChain = nullptr;
@@ -44,7 +44,6 @@ private:
     std::vector<VkPhysicalDevice>* pDevices = nullptr;
     std::multimap<int, VkPhysicalDevice>* pCandidates = nullptr;
 
-    VkDevice* pDevice = nullptr;
     VkPhysicalDeviceProperties deviceProperties;
     VkPhysicalDeviceFeatures deviceFeatures;
 

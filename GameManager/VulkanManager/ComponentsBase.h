@@ -16,6 +16,9 @@ public:
     ComponentsBase();
     ~ComponentsBase();
 
+    VkDevice getDevice();
+    //VkPhysicalDevice getPhysicalDevice();
+
     uint32_t count = 0;
         
 // STRUCT for Validation Layers
@@ -31,8 +34,9 @@ public:
     static const bool enableValidationLayers = true;
 #endif
 
-private:
-    
+protected:
+    static VkDevice* pDevice;
+    //static VkPhysicalDevice* pPhysicalDevice;
 };
 
 #endif // _COMPONENTSBASE_H_

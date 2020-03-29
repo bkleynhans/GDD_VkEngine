@@ -213,7 +213,7 @@ void SwapChain::chooseSwapExtent(WindowManager* pWindowManager)
 
 // Create the swap chain
 void SwapChain::createSwapChain(
-    WindowManager* pWindowManager, VkSurfaceKHR* pSurface, QueueFamilyIndices* pIndices, VkDevice* pDevice)
+    WindowManager* pWindowManager, VkSurfaceKHR* pSurface, QueueFamilyIndices* pIndices)
 {
     this->chooseSwapSurfaceFormat();
     this->chooseSwapPresentMode();
@@ -319,7 +319,7 @@ void SwapChain::createSwapChain(
     createInfo.clipped = VK_TRUE;
 
     createInfo.oldSwapchain = VK_NULL_HANDLE;
-
+    
     if (vkCreateSwapchainKHR(*pDevice, &createInfo, nullptr, &this->swapChain) != VK_SUCCESS)
     {
         throw std::runtime_error("failed to create swap chain!");
