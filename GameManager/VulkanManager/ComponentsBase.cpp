@@ -5,6 +5,7 @@ VkSurfaceKHR* ComponentsBase::pSurface = nullptr;
 VkRenderPass* ComponentsBase::pRenderPass = nullptr;
 VkPipelineLayout* ComponentsBase::pPipelineLayout = nullptr;
 VkPipeline* ComponentsBase::pGraphicsPipeline = nullptr;
+VkCommandPool* ComponentsBase::pCommandPool = nullptr;
 
 VkDevice* ComponentsBase::pDevice = nullptr;
 VkPhysicalDevice* ComponentsBase::pPhysicalDevice = VK_NULL_HANDLE;

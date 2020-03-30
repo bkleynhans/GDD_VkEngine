@@ -26,6 +26,10 @@ VulkanManager::VulkanManager(WindowManager* pWindowManager)
     this->pRenderPass = new RenderPass(this->pGpuProperties);
     this->pGraphicsPipeline = new GraphicsPipeline(this->pGpuProperties);
     this->pFramebuffers = new Framebuffers(this->pGpuProperties, this->pSwapChainImageViews);
+
+    this->createCommandPool();
+
+    this->pCommandBuffers = new CommandBuffers(this->pGpuProperties, this->pFramebuffers);
 }
 
 // createInstance Description
@@ -172,6 +176,20 @@ void VulkanManager::createImageViews()
     }
 }
 
+void VulkanManager::createCommandPool()
+{
+    VkCommandPoolCreateInfo poolInfo = {};
+    poolInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
+    poolInfo.queueFamilyIndex = this->pGpuProperties->pIndices->graphicsFamily.value();
+
+    this->pComponentsBase->pCommandPool = new VkCommandPool();
+
+    if (vkCreateCommandPool(this->pComponentsBase->getDevice(), &poolInfo, nullptr, this->pComponentsBase->pCommandPool) != VK_SUCCESS)
+    {
+        throw std::runtime_error("failed to create command pool!");
+    }
+}
+
 VKAPI_ATTR VkBool32 VKAPI_CALL VulkanManager::debugCallback(
     VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
     VkDebugUtilsMessageTypeFlagsEXT messageType,
@@ -185,6 +203,7 @@ VKAPI_ATTR VkBool32 VKAPI_CALL VulkanManager::debugCallback(
 
 VulkanManager::~VulkanManager()
 {
+    vkDestroyCommandPool(this->pComponentsBase->getDevice(), *this->pComponentsBase->pCommandPool, nullptr);
 
     for (auto framebuffer : *this->pFramebuffers->pSwapChainFramebuffers)
     {
@@ -194,11 +213,11 @@ VulkanManager::~VulkanManager()
     vkDestroyPipeline(this->pComponentsBase->getDevice(), *this->pComponentsBase->pGraphicsPipeline, nullptr);
     vkDestroyPipelineLayout(this->pComponentsBase->getDevice(), *this->pComponentsBase->pPipelineLayout, nullptr);
     vkDestroyRenderPass(this->pComponentsBase->getDevice(), *this->pComponentsBase->pRenderPass, nullptr);
-
-    delete this->pGraphicsPipeline;
+        
+    delete this->pFramebuffers;
+    delete this->pGraphicsPipeline;    
     delete this->pRenderPass;
 
-    // We explicitely created the image views, so we need to destroy them
     for (auto imageView : *this->pSwapChainImageViews)
     {
         vkDestroyImageView(this->pGpuProperties->getDevice(), imageView, nullptr);

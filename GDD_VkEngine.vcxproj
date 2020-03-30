@@ -148,6 +148,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="GameManager\GameManager.cpp" />
+    <ClCompile Include="GameManager\VulkanManager\Components\CommandBuffers.cpp" />
     <ClCompile Include="GameManager\VulkanManager\Components\Framebuffers.cpp" />
     <ClCompile Include="GameManager\VulkanManager\Components\GlfwExtensionProperties.cpp" />
     <ClCompile Include="GameManager\VulkanManager\Components\GpuProperties.cpp" />
@@ -165,6 +166,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameManager\GameManager.h" />
+    <ClInclude Include="GameManager\VulkanManager\Components\CommandBuffers.h" />
     <ClInclude Include="GameManager\VulkanManager\Components\Framebuffers.h" />
     <ClInclude Include="GameManager\VulkanManager\Components\GlfwExtensionProperties.h" />
     <ClInclude Include="GameManager\VulkanManager\Components\GpuProperties.h" />

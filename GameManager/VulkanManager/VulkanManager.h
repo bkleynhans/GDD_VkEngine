@@ -19,6 +19,7 @@
 #include "VulkanManager/Components/RenderPass.h"
 #include "VulkanManager/Components/GraphicsPipeline.h"
 #include "VulkanManager/Components/Framebuffers.h"
+#include "VulkanManager/Components/CommandBuffers.h"
 
 // Vulkan Manager Description
 /* Vulkan Tutorial - Alexander Overvoorde - October 2019 - page 45
@@ -38,6 +39,7 @@ public:
     void setupDebugMessenger();
     void createSurface(WindowManager* pWindowManager);
     void createImageViews();
+    void createCommandPool();
 
     static VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(
         VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
@@ -55,7 +57,8 @@ private:
     RenderPass* pRenderPass = nullptr;
     GraphicsPipeline* pGraphicsPipeline = nullptr;
     Framebuffers* pFramebuffers = nullptr;
-
+    CommandBuffers* pCommandBuffers = nullptr;
+        
     VkDebugUtilsMessengerEXT debugMessenger;
 
     std::vector<VkImageView>* pSwapChainImageViews = nullptr;
