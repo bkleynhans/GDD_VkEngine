@@ -159,6 +159,9 @@
     <ClCompile Include="GameManager\VulkanManager\Components\RenderPass.cpp">
       <Filter>Source Files\GameManager\VulkanManager\Components</Filter>
     </ClCompile>
+    <ClCompile Include="GameManager\VulkanManager\Components\Framebuffers.cpp">
+      <Filter>Source Files\GameManager\VulkanManager\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameManager\GameManager.h">
@@ -201,6 +204,9 @@
       <Filter>Header Files\GameManager\VulkanManager\Components</Filter>
     </ClInclude>
     <ClInclude Include="GameManager\VulkanManager\Components\RenderPass.h">
+      <Filter>Header Files\GameManager\VulkanManager\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="GameManager\VulkanManager\Components\Framebuffers.h">
       <Filter>Header Files\GameManager\VulkanManager\Components</Filter>
     </ClInclude>
   </ItemGroup>

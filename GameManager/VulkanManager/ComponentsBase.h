@@ -23,6 +23,7 @@ public:
     static VkSurfaceKHR* pSurface;
     static VkRenderPass* pRenderPass;
     static VkPipelineLayout* pPipelineLayout;
+    static VkPipeline* pGraphicsPipeline;
 
     uint32_t count = 0;
         

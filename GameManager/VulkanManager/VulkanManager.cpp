@@ -25,6 +25,7 @@ VulkanManager::VulkanManager(WindowManager* pWindowManager)
 
     this->pRenderPass = new RenderPass(this->pGpuProperties);
     this->pGraphicsPipeline = new GraphicsPipeline(this->pGpuProperties);
+    this->pFramebuffers = new Framebuffers(this->pGpuProperties, this->pSwapChainImageViews);
 }
 
 // createInstance Description
@@ -184,6 +185,13 @@ VKAPI_ATTR VkBool32 VKAPI_CALL VulkanManager::debugCallback(
 
 VulkanManager::~VulkanManager()
 {
+
+    for (auto framebuffer : *this->pFramebuffers->pSwapChainFramebuffers)
+    {
+        vkDestroyFramebuffer(this->pComponentsBase->getDevice(), framebuffer, nullptr);
+    }
+
+    vkDestroyPipeline(this->pComponentsBase->getDevice(), *this->pComponentsBase->pGraphicsPipeline, nullptr);
     vkDestroyPipelineLayout(this->pComponentsBase->getDevice(), *this->pComponentsBase->pPipelineLayout, nullptr);
     vkDestroyRenderPass(this->pComponentsBase->getDevice(), *this->pComponentsBase->pRenderPass, nullptr);
 

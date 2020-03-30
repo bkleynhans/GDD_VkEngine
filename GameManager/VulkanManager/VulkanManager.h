@@ -18,6 +18,7 @@
 #include "VulkanManager/Components/GpuProperties.h"
 #include "VulkanManager/Components/RenderPass.h"
 #include "VulkanManager/Components/GraphicsPipeline.h"
+#include "VulkanManager/Components/Framebuffers.h"
 
 // Vulkan Manager Description
 /* Vulkan Tutorial - Alexander Overvoorde - October 2019 - page 45
@@ -53,6 +54,7 @@ private:
     GpuProperties* pGpuProperties = nullptr;
     RenderPass* pRenderPass = nullptr;
     GraphicsPipeline* pGraphicsPipeline = nullptr;
+    Framebuffers* pFramebuffers = nullptr;
 
     VkDebugUtilsMessengerEXT debugMessenger;
 
