@@ -2,6 +2,7 @@
 
 VkInstance* ComponentsBase::pInstance = nullptr;
 VkSurfaceKHR* ComponentsBase::pSurface = nullptr;
+VkRenderPass* ComponentsBase::pRenderPass = nullptr;
 VkPipelineLayout* ComponentsBase::pPipelineLayout = nullptr;
 
 VkDevice* ComponentsBase::pDevice = nullptr;

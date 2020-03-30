@@ -21,6 +21,7 @@ public:
 
     static VkInstance* pInstance;
     static VkSurfaceKHR* pSurface;
+    static VkRenderPass* pRenderPass;
     static VkPipelineLayout* pPipelineLayout;
 
     uint32_t count = 0;

@@ -16,6 +16,7 @@
 #include "VulkanManager/Components/VulkanExtensionProperties.h"
 #include "VulkanManager/Components/VulkanLayerProperties.h"
 #include "VulkanManager/Components/GpuProperties.h"
+#include "VulkanManager/Components/RenderPass.h"
 #include "VulkanManager/Components/GraphicsPipeline.h"
 
 // Vulkan Manager Description
@@ -50,6 +51,7 @@ private:
     VulkanExtensionProperties* pVulkanExtensionProperties = nullptr;
     VulkanLayerProperties* pVulkanLayerProperties = nullptr;
     GpuProperties* pGpuProperties = nullptr;
+    RenderPass* pRenderPass = nullptr;
     GraphicsPipeline* pGraphicsPipeline = nullptr;
 
     VkDebugUtilsMessengerEXT debugMessenger;
