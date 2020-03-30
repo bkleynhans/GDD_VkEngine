@@ -2,9 +2,9 @@
 
 QueueFamilyIndices::QueueFamilyIndices() {}
 
-QueueFamilyIndices::QueueFamilyIndices(VkSurfaceKHR* pSurface)
+QueueFamilyIndices::QueueFamilyIndices(VkPhysicalDevice* pPhysicalDevice, VkSurfaceKHR* pSurface)
 {
-    this->findQueueFamilies(pSurface);
+    this->findQueueFamilies(pPhysicalDevice, pSurface);
 }
 
 bool QueueFamilyIndices::isComplete()
@@ -12,7 +12,7 @@ bool QueueFamilyIndices::isComplete()
     return this->graphicsFamily.has_value() && presentFamily.has_value();
 }
 
-void QueueFamilyIndices::findQueueFamilies(VkSurfaceKHR* pSurface)
+void QueueFamilyIndices::findQueueFamilies(VkPhysicalDevice* pPhysicalDevice, VkSurfaceKHR* pSurface)
 {
     // Query the number of queue families supported by the device
     vkGetPhysicalDeviceQueueFamilyProperties(*pPhysicalDevice, &this->count, nullptr);

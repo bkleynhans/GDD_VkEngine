@@ -1,7 +1,7 @@
 #include "GpuProperties.h"
 
 GpuProperties::GpuProperties(
-    /*VkInstance* pInstance, */VulkanLayerProperties* pVulkanLayerProperties, 
+    VulkanLayerProperties* pVulkanLayerProperties, 
     VkSurfaceKHR* pSurface, WindowManager* pWindowManager)
 {   
     pDevice = new VkDevice();
@@ -9,8 +9,9 @@ GpuProperties::GpuProperties(
 
     this->pSwapChain = new SwapChain();
 
-    /*this->pickPhysicalDevice(pInstance, pSurface);*/
     this->pickPhysicalDevice(pSurface);
+
+    this->pIndices = new QueueFamilyIndices(pPhysicalDevice, pSurface);
 
     this->pLogicalDevice = new LogicalDevice(
         pVulkanLayerProperties,
@@ -18,7 +19,7 @@ GpuProperties::GpuProperties(
         this->pSwapChain            // This is a reference to a predefined list in the SwapChain class
     );
 
-    this->pSwapChain = new SwapChain(pSurface);
+    this->pSwapChain = new SwapChain(pPhysicalDevice, pSurface);
     this->pSwapChain->createSwapChain(pWindowManager, pSurface, this->pIndices);
 }
 
@@ -99,7 +100,6 @@ GpuProperties::GpuProperties(
     could favor a dedicated graphics card by giving it a higher score, but fall back
     to an integrated GPU if that’s the only available one.
 */
-//void GpuProperties::pickPhysicalDevice(VkInstance* pInstance, VkSurfaceKHR* pSurface)
 void GpuProperties::pickPhysicalDevice(VkSurfaceKHR* pSurface)
 {
     // Query the number of graphics cards with Vulkan support in the computer
@@ -116,6 +116,7 @@ void GpuProperties::pickPhysicalDevice(VkSurfaceKHR* pSurface)
     vkEnumeratePhysicalDevices(*pInstance, &this->count, this->pDevices->data());
 
     pCandidates = new std::multimap<int, VkPhysicalDevice>();
+    pCandidate = new VkPhysicalDevice;
 
     // Use an ordered map to automatically sort candidates by increasing score
     for (const auto& device : *this->pDevices)
@@ -127,14 +128,14 @@ void GpuProperties::pickPhysicalDevice(VkSurfaceKHR* pSurface)
     // Check if the best candidate is suitable at all
     if (this->pCandidates->rbegin()->first > 0)
     {
-        *pPhysicalDevice = this->pCandidates->rbegin()->second;
+        *pCandidate = this->pCandidates->rbegin()->second;
 
-        if (!deviceIsSuitable(pSurface))
+        if (!deviceIsSuitable(pCandidate, pSurface))
         {            
             throw std::runtime_error("failed to find a suitable GPU!");
         }
 
-        this->pIndices = new QueueFamilyIndices(pSurface);
+        pPhysicalDevice = pCandidate;
     }
     else
     {
@@ -189,10 +190,11 @@ int GpuProperties::rateDeviceSuitability(VkPhysicalDevice candidate)
 // Look for queues that support the types of commands we require support for.
 // Even though we have a static physical device, they static variable is for completed
 // decisions.  In this case we're still evaluating the devices
-bool GpuProperties::deviceIsSuitable(VkSurfaceKHR* pSurface)
+//bool GpuProperties::deviceIsSuitable(VkSurfaceKHR* pSurface)
+bool GpuProperties::deviceIsSuitable(VkPhysicalDevice* pCandidate, VkSurfaceKHR* pSurface)
 {
-    QueueFamilyIndices indices = QueueFamilyIndices(pSurface);
-    SwapChain swapChains = SwapChain(pSurface);
+    QueueFamilyIndices indices = QueueFamilyIndices(pCandidate, pSurface);
+    SwapChain swapChains = SwapChain(pCandidate, pSurface);
     
     return indices.isComplete() && swapChains.extensionsSupported() && swapChains.swapChainAdequate();
 }
@@ -208,6 +210,8 @@ GpuProperties::~GpuProperties()
     vkDestroyDevice(*pDevice, nullptr);    
     delete this->pSwapChain;
     delete this->pIndices;
+
+    delete this->pCandidate;
     this->pCandidates->clear();
     std::vector<VkPhysicalDevice>().swap(*this->pDevices);
 }

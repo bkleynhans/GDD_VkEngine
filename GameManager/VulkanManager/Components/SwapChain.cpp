@@ -2,9 +2,9 @@
 
 SwapChain::SwapChain() {}
 
-SwapChain::SwapChain(VkSurfaceKHR* pSurface)
+SwapChain::SwapChain(VkPhysicalDevice* pPhysicalDevice, VkSurfaceKHR* pSurface)
 {
-    this->checkDeviceExtensionSupport(pSurface);
+    this->checkDeviceExtensionSupport(pPhysicalDevice, pSurface);
 }
 
 bool SwapChain::extensionsSupported()
@@ -33,7 +33,7 @@ std::vector<VkImage>* SwapChain::getSwapChainImages()
 }
 
 // Test for required extensions
-void SwapChain::checkDeviceExtensionSupport(VkSurfaceKHR* pSurface)
+void SwapChain::checkDeviceExtensionSupport(VkPhysicalDevice* pPhysicalDevice, VkSurfaceKHR* pSurface)
 {
     // Query the number of extensions available to device
     vkEnumerateDeviceExtensionProperties(*pPhysicalDevice, nullptr, &this->count, nullptr);
@@ -59,12 +59,12 @@ void SwapChain::checkDeviceExtensionSupport(VkSurfaceKHR* pSurface)
 
     if (this->extensionsSupported())
     {
-        this->querySwapChainSupport(pSurface);
+        this->querySwapChainSupport(pPhysicalDevice, pSurface);
     }
 }
 
 // Populate swap chain support (this object)
-void SwapChain::querySwapChainSupport(VkSurfaceKHR* pSurface)
+void SwapChain::querySwapChainSupport(VkPhysicalDevice* pPhysicalDevice, VkSurfaceKHR* pSurface)
 {
     // Query basic surface capabilities
     vkGetPhysicalDeviceSurfaceCapabilitiesKHR(*pPhysicalDevice, *pSurface, &this->capabilities);

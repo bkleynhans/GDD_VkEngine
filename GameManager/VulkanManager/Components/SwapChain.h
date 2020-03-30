@@ -51,13 +51,13 @@ class SwapChain :
 {
 public:
     SwapChain();
-    SwapChain(VkSurfaceKHR* pSurface);
+    SwapChain(VkPhysicalDevice* pPhysicalDevice, VkSurfaceKHR* pSurface);
     ~SwapChain();
 
     bool extensionsSupported();
     bool swapChainAdequate();
-    void checkDeviceExtensionSupport(VkSurfaceKHR* pSurface);
-    void querySwapChainSupport(VkSurfaceKHR* pSurface);
+    void checkDeviceExtensionSupport(VkPhysicalDevice* pPhysicalDevice, VkSurfaceKHR* pSurface);
+    void querySwapChainSupport(VkPhysicalDevice* pPhysicalDevice, VkSurfaceKHR* pSurface);
     void createSwapChain(WindowManager* pWindowManager, VkSurfaceKHR* pSurface, QueueFamilyIndices* pIndices);
     
     void chooseSwapSurfaceFormat();

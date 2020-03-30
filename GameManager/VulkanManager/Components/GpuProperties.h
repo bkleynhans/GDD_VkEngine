@@ -22,19 +22,15 @@ class GpuProperties :
 {
 public:
     GpuProperties(
-        //VkInstance* pInstance, 
         VulkanLayerProperties* pVulkanLayerProperties, 
         VkSurfaceKHR* pSurface, 
         WindowManager* pWindowManager
     );
     ~GpuProperties();
 
-    //VkDevice* getPDevice();
-
     QueueFamilyIndices* pIndices = nullptr;
     SwapChain* pSwapChain = nullptr;
 
-    /*void pickPhysicalDevice(VkInstance* pInstance, VkSurfaceKHR* pSurface);*/
     void pickPhysicalDevice(VkSurfaceKHR* pSurface);
 
 private:
@@ -43,12 +39,12 @@ private:
     std::vector<VkPhysicalDevice>* pDevices = nullptr;
     std::multimap<int, VkPhysicalDevice>* pCandidates = nullptr;
 
+    VkPhysicalDevice* pCandidate;
     VkPhysicalDeviceProperties deviceProperties;
     VkPhysicalDeviceFeatures deviceFeatures;
 
     int rateDeviceSuitability(VkPhysicalDevice candidate);
-    /*bool deviceIsSuitable(VkPhysicalDevice device, VkSurfaceKHR* pSurface);*/
-    bool deviceIsSuitable(VkSurfaceKHR* pSurface);
+    bool deviceIsSuitable(VkPhysicalDevice* pCandidate, VkSurfaceKHR* pSurface);
 };
 
 #endif // _GPUPROPERTIES_H_
