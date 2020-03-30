@@ -52,7 +52,6 @@ private:
     GpuProperties* pGpuProperties = nullptr;
     GraphicsPipeline* pGraphicsPipeline = nullptr;
 
-    /*VkInstance instance;*/
     VkSurfaceKHR surface;
 
     VkDebugUtilsMessengerEXT debugMessenger;

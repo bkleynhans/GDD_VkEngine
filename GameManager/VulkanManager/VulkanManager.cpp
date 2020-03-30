@@ -16,7 +16,6 @@ VulkanManager::VulkanManager(WindowManager* pWindowManager)
 
     // Interrogate the graphics card and define graphics card parameters
     this->pGpuProperties = new GpuProperties(
-        //&this->instance,        
         this->pVulkanLayerProperties,
         &this->surface,
         pWindowManager
