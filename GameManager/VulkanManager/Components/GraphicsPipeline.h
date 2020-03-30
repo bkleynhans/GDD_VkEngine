@@ -4,6 +4,7 @@
 #include <fstream>
 
 #include "VulkanManager/ComponentsBase.h"
+#include "VulkanManager/Components/GpuProperties.h"
 
 // Details about the graphics pipeline
 /* Vulkan Tutorial - Alexander Overvoorde - October 2019 - page 93 - 96
@@ -82,10 +83,10 @@ class GraphicsPipeline :
     public ComponentsBase
 {
 public:
-    GraphicsPipeline();
+    GraphicsPipeline(GpuProperties* pGpuProperties);
     ~GraphicsPipeline();
 
-    void createGraphicsPipeline();
+    void createGraphicsPipeline(GpuProperties* pGpuProperties);
 
     VkShaderModule createShaderModule(const std::vector<char>& code);
 
@@ -93,7 +94,6 @@ public:
     
 
 private:
-    
 
 };
     

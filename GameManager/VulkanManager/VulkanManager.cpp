@@ -23,7 +23,7 @@ VulkanManager::VulkanManager(WindowManager* pWindowManager)
 
     this->createImageViews();
 
-    this->pGraphicsPipeline = new GraphicsPipeline();
+    this->pGraphicsPipeline = new GraphicsPipeline(this->pGpuProperties);
 }
 
 // createInstance Description
@@ -183,6 +183,8 @@ VKAPI_ATTR VkBool32 VKAPI_CALL VulkanManager::debugCallback(
 
 VulkanManager::~VulkanManager()
 {
+    vkDestroyPipelineLayout(this->pComponentsBase->getDevice(), *this->pComponentsBase->pPipelineLayout, nullptr);
+
     delete this->pGraphicsPipeline;
 
     // We explicitely created the image views, so we need to destroy them

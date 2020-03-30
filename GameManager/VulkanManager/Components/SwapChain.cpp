@@ -27,6 +27,21 @@ VkFormat SwapChain::getSwapChainImageFormat()
     return this->swapChainImageFormat;
 }
 
+VkSurfaceFormatKHR SwapChain::getSurfaceFormat()
+{
+    return this->surfaceFormat;
+}
+
+VkPresentModeKHR SwapChain::getChosenPresentMode()
+{
+    return this->chosenPresentMode;
+}
+
+VkExtent2D SwapChain::getSwapChainExtent()
+{
+    return this->swapChainExtent;
+}
+
 std::vector<VkImage>* SwapChain::getSwapChainImages()
 {
     return this->pSwapChainImages;

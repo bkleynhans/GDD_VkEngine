@@ -1,6 +1,9 @@
 #ifndef _SWAPCHAINSUPPORT_H_
 #define _SWAPCHAINSUPPORT_H_
 
+#define GLFW_INCLUDE_VULKAN
+#include <GLFW/glfw3.h>
+
 #include <algorithm>
 #include <optional>
 #include <set>
@@ -68,6 +71,9 @@ public:
 
     VkSwapchainKHR getSwapChain();
     VkFormat getSwapChainImageFormat();
+    VkSurfaceFormatKHR getSurfaceFormat();
+    VkPresentModeKHR getChosenPresentMode();
+    VkExtent2D getSwapChainExtent();
 
     std::vector<VkImage>* getSwapChainImages();
 
@@ -77,7 +83,7 @@ public:
     
 private:
     VkSwapchainKHR swapChain;
-    VkFormat swapChainImageFormat;    
+    VkFormat swapChainImageFormat;
 
     VkSurfaceCapabilitiesKHR capabilities;
     VkExtent2D actualExtent;
