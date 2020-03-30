@@ -52,8 +52,6 @@ private:
     GpuProperties* pGpuProperties = nullptr;
     GraphicsPipeline* pGraphicsPipeline = nullptr;
 
-    VkSurfaceKHR surface;
-
     VkDebugUtilsMessengerEXT debugMessenger;
 
     std::vector<VkImageView>* pSwapChainImageViews = nullptr;

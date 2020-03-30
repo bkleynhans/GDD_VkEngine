@@ -9,6 +9,7 @@ VulkanManager::VulkanManager(WindowManager* pWindowManager)
     this->pVulkanLayerProperties = new VulkanLayerProperties();
 
     this->pComponentsBase->pInstance = new VkInstance;
+    this->pComponentsBase->pSurface = new VkSurfaceKHR;
 
     this->createInstance();
     this->setupDebugMessenger();
@@ -17,7 +18,6 @@ VulkanManager::VulkanManager(WindowManager* pWindowManager)
     // Interrogate the graphics card and define graphics card parameters
     this->pGpuProperties = new GpuProperties(
         this->pVulkanLayerProperties,
-        &this->surface,
         pWindowManager
     );
 
@@ -133,7 +133,7 @@ void VulkanManager::setupDebugMessenger()
 
 void VulkanManager::createSurface(WindowManager* pWindowManager)
 {
-    if (glfwCreateWindowSurface(*this->pComponentsBase->pInstance, pWindowManager->pWindow, nullptr, &this->surface) != VK_SUCCESS)
+    if (glfwCreateWindowSurface(*this->pComponentsBase->pInstance, pWindowManager->pWindow, nullptr, this->pComponentsBase->pSurface) != VK_SUCCESS)
     {
         throw std::runtime_error("failed to create window surface!");
     }
@@ -198,7 +198,7 @@ VulkanManager::~VulkanManager()
 
     delete this->pGpuProperties;
 
-    vkDestroySurfaceKHR(*this->pComponentsBase->pInstance, this->surface, nullptr);
+    vkDestroySurfaceKHR(*this->pComponentsBase->pInstance, *this->pComponentsBase->pSurface, nullptr);
     vkDestroyInstance(*this->pComponentsBase->pInstance, nullptr);
 
     delete this->pVulkanLayerProperties;

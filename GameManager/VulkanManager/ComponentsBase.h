@@ -20,6 +20,7 @@ public:
     VkPhysicalDevice getPhysicalDevice();
 
     static VkInstance* pInstance;
+    static VkSurfaceKHR* pSurface;
 
     uint32_t count = 0;
         

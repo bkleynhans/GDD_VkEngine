@@ -23,7 +23,6 @@ class GpuProperties :
 public:
     GpuProperties(
         VulkanLayerProperties* pVulkanLayerProperties, 
-        VkSurfaceKHR* pSurface, 
         WindowManager* pWindowManager
     );
     ~GpuProperties();
@@ -44,7 +43,7 @@ private:
     VkPhysicalDeviceFeatures deviceFeatures;
 
     int rateDeviceSuitability(VkPhysicalDevice candidate);
-    bool deviceIsSuitable(VkPhysicalDevice* pCandidate, VkSurfaceKHR* pSurface);
+    bool deviceIsSuitable(VkPhysicalDevice* pCandidate);
 };
 
 #endif // _GPUPROPERTIES_H_

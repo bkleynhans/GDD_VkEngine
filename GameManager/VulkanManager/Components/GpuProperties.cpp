@@ -1,8 +1,7 @@
 #include "GpuProperties.h"
 
 GpuProperties::GpuProperties(
-    VulkanLayerProperties* pVulkanLayerProperties, 
-    VkSurfaceKHR* pSurface, WindowManager* pWindowManager)
+    VulkanLayerProperties* pVulkanLayerProperties, WindowManager* pWindowManager)
 {   
     pDevice = new VkDevice();
     pPhysicalDevice = new VkPhysicalDevice();
@@ -11,7 +10,7 @@ GpuProperties::GpuProperties(
 
     this->pickPhysicalDevice(pSurface);
 
-    this->pIndices = new QueueFamilyIndices(pPhysicalDevice, pSurface);
+    this->pIndices = new QueueFamilyIndices(pPhysicalDevice);
 
     this->pLogicalDevice = new LogicalDevice(
         pVulkanLayerProperties,
@@ -19,8 +18,8 @@ GpuProperties::GpuProperties(
         this->pSwapChain            // This is a reference to a predefined list in the SwapChain class
     );
 
-    this->pSwapChain = new SwapChain(pPhysicalDevice, pSurface);
-    this->pSwapChain->createSwapChain(pWindowManager, pSurface, this->pIndices);
+    this->pSwapChain = new SwapChain(pPhysicalDevice);
+    this->pSwapChain->createSwapChain(pWindowManager, this->pIndices);
 }
 
 // Basic Support
@@ -130,7 +129,7 @@ void GpuProperties::pickPhysicalDevice(VkSurfaceKHR* pSurface)
     {
         *pCandidate = this->pCandidates->rbegin()->second;
 
-        if (!deviceIsSuitable(pCandidate, pSurface))
+        if (!deviceIsSuitable(pCandidate))
         {            
             throw std::runtime_error("failed to find a suitable GPU!");
         }
@@ -190,11 +189,10 @@ int GpuProperties::rateDeviceSuitability(VkPhysicalDevice candidate)
 // Look for queues that support the types of commands we require support for.
 // Even though we have a static physical device, they static variable is for completed
 // decisions.  In this case we're still evaluating the devices
-//bool GpuProperties::deviceIsSuitable(VkSurfaceKHR* pSurface)
-bool GpuProperties::deviceIsSuitable(VkPhysicalDevice* pCandidate, VkSurfaceKHR* pSurface)
+bool GpuProperties::deviceIsSuitable(VkPhysicalDevice* pCandidate)
 {
-    QueueFamilyIndices indices = QueueFamilyIndices(pCandidate, pSurface);
-    SwapChain swapChains = SwapChain(pCandidate, pSurface);
+    QueueFamilyIndices indices = QueueFamilyIndices(pCandidate);
+    SwapChain swapChains = SwapChain(pCandidate);
     
     return indices.isComplete() && swapChains.extensionsSupported() && swapChains.swapChainAdequate();
 }
