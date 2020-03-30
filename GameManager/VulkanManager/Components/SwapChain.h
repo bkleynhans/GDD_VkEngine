@@ -14,7 +14,7 @@
 #include "VulkanManager/Components/QueueFamilyIndices.h"
 
 
-// Swap Chains description
+// Swap Chains Description
 /* Vulkan Tutorial - Alexander Overvoorde - October 2019 - page 77
     1) Not all graphics cards are capable of presenting images directly to a screen for
             various reasons, for example because they are designed for servers and don’t

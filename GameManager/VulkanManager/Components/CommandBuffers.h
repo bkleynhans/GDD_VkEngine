@@ -8,6 +8,13 @@
 #include "VulkanManager/Components/Framebuffers.h"
 #include "VulkanManager/Components/GpuProperties.h"
 
+// Command Buffer Description
+/* Vulkan Tutorial - Alexander Overvoorde - October 2019 - page 130
+    We can now start allocating command buffers and recording drawing commands
+    in them. Because one of the drawing commands involves binding the right
+    VkFramebuffer, we’ll actually have to record a command buffer for every image
+    in the swap chain once again.
+*/
 class CommandBuffers :
     public ComponentsBase
 {
