@@ -22,7 +22,7 @@ class GpuProperties :
 {
 public:
     GpuProperties(
-        VkInstance* pInstance, 
+        //VkInstance* pInstance, 
         VulkanLayerProperties* pVulkanLayerProperties, 
         VkSurfaceKHR* pSurface, 
         WindowManager* pWindowManager
@@ -34,7 +34,8 @@ public:
     QueueFamilyIndices* pIndices = nullptr;
     SwapChain* pSwapChain = nullptr;
 
-    void pickPhysicalDevice(VkInstance* pInstance, VkSurfaceKHR* pSurface);
+    /*void pickPhysicalDevice(VkInstance* pInstance, VkSurfaceKHR* pSurface);*/
+    void pickPhysicalDevice(VkSurfaceKHR* pSurface);
 
 private:
     LogicalDevice* pLogicalDevice = nullptr;

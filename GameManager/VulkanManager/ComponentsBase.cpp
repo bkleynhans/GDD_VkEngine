@@ -1,5 +1,7 @@
 #include "ComponentsBase.h"
 
+VkInstance* ComponentsBase::pInstance = nullptr;
+
 VkDevice* ComponentsBase::pDevice = nullptr;
 VkPhysicalDevice* ComponentsBase::pPhysicalDevice = VK_NULL_HANDLE;
 

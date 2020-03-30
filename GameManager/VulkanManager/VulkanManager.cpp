@@ -3,9 +3,12 @@
 
 VulkanManager::VulkanManager(WindowManager* pWindowManager)
 {   
+    this->pComponentsBase = new ComponentsBase();
     this->pGlfwExtensionProperties = new GlfwExtensionProperties();
     this->pVulkanExtensionProperties = new VulkanExtensionProperties();
     this->pVulkanLayerProperties = new VulkanLayerProperties();
+
+    this->pComponentsBase->pInstance = new VkInstance;
 
     this->createInstance();
     this->setupDebugMessenger();
@@ -13,7 +16,7 @@ VulkanManager::VulkanManager(WindowManager* pWindowManager)
 
     // Interrogate the graphics card and define graphics card parameters
     this->pGpuProperties = new GpuProperties(
-        &this->instance,
+        //&this->instance,        
         this->pVulkanLayerProperties,
         &this->surface,
         pWindowManager
@@ -88,14 +91,14 @@ void VulkanManager::createInstance()
         createInfo.pNext = nullptr;
     }
 
+    // Handle the result of the process and throw an error if required
     /* Vulkan Tutorial - Alexander Overvoorde - October 2019 - page 46
         Nearly all Vulkan functions return a value of type VkResult that is either
         VK_SUCCESS or an error code.  To check if the instance was created
         successfully, we can either store the result in the 'result' variable (001), or
         we can just use a check for the success value instead (002).
-    */
-    // Handle the result of the process and throw an error if required
-    if (vkCreateInstance(&createInfo, nullptr, &this->instance) != VK_SUCCESS)
+    */    
+    if (vkCreateInstance(&createInfo, nullptr, this->pComponentsBase->pInstance) != VK_SUCCESS)
     {
         throw std::runtime_error("failed to create instance");
     }
@@ -123,7 +126,7 @@ void VulkanManager::setupDebugMessenger()
     VkDebugUtilsMessengerCreateInfoEXT createInfo;
     this->populateDebugMessengerCreateInfo(createInfo);
 
-    if (CreateDebugUtilsMessengerEXT(this->instance, &createInfo, nullptr, &this->debugMessenger) != VK_SUCCESS)
+    if (CreateDebugUtilsMessengerEXT(*this->pComponentsBase->pInstance, &createInfo, nullptr, &this->debugMessenger) != VK_SUCCESS)
     {
         throw std::runtime_error("failed to set up debug messenger!");
     }
@@ -131,7 +134,7 @@ void VulkanManager::setupDebugMessenger()
 
 void VulkanManager::createSurface(WindowManager* pWindowManager)
 {
-    if (glfwCreateWindowSurface(this->instance, pWindowManager->pWindow, nullptr, &this->surface) != VK_SUCCESS)
+    if (glfwCreateWindowSurface(*this->pComponentsBase->pInstance, pWindowManager->pWindow, nullptr, &this->surface) != VK_SUCCESS)
     {
         throw std::runtime_error("failed to create window surface!");
     }
@@ -191,15 +194,16 @@ VulkanManager::~VulkanManager()
 
     if (enableValidationLayers)
     {
-        DestroyDebugUtilsMessengerEXT(this->instance, this->debugMessenger, nullptr);
+        DestroyDebugUtilsMessengerEXT(*this->pComponentsBase->pInstance, this->debugMessenger, nullptr);
     }
 
     delete this->pGpuProperties;
 
-    vkDestroySurfaceKHR(this->instance, this->surface, nullptr);
-    vkDestroyInstance(this->instance, nullptr);
+    vkDestroySurfaceKHR(*this->pComponentsBase->pInstance, this->surface, nullptr);
+    vkDestroyInstance(*this->pComponentsBase->pInstance, nullptr);
 
     delete this->pVulkanLayerProperties;
     delete this->pVulkanExtensionProperties;
     delete this->pGlfwExtensionProperties;    
+    delete this->pComponentsBase;
 }

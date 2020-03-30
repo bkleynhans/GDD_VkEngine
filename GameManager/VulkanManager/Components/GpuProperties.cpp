@@ -1,7 +1,7 @@
 #include "GpuProperties.h"
 
 GpuProperties::GpuProperties(
-    VkInstance* pInstance, VulkanLayerProperties* pVulkanLayerProperties, 
+    /*VkInstance* pInstance, */VulkanLayerProperties* pVulkanLayerProperties, 
     VkSurfaceKHR* pSurface, WindowManager* pWindowManager)
 {   
     pDevice = new VkDevice();
@@ -9,7 +9,8 @@ GpuProperties::GpuProperties(
 
     this->pSwapChain = new SwapChain();
 
-    this->pickPhysicalDevice(pInstance, pSurface);
+    /*this->pickPhysicalDevice(pInstance, pSurface);*/
+    this->pickPhysicalDevice(pSurface);
 
     this->pLogicalDevice = new LogicalDevice(
         pVulkanLayerProperties,
@@ -98,7 +99,8 @@ GpuProperties::GpuProperties(
     could favor a dedicated graphics card by giving it a higher score, but fall back
     to an integrated GPU if that’s the only available one.
 */
-void GpuProperties::pickPhysicalDevice(VkInstance* pInstance, VkSurfaceKHR* pSurface)
+//void GpuProperties::pickPhysicalDevice(VkInstance* pInstance, VkSurfaceKHR* pSurface)
+void GpuProperties::pickPhysicalDevice(VkSurfaceKHR* pSurface)
 {
     // Query the number of graphics cards with Vulkan support in the computer
     vkEnumeratePhysicalDevices(*pInstance, &this->count, nullptr);

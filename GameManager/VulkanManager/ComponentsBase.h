@@ -19,6 +19,8 @@ public:
     VkDevice getDevice();
     VkPhysicalDevice getPhysicalDevice();
 
+    static VkInstance* pInstance;
+
     uint32_t count = 0;
         
 // STRUCT for Validation Layers
@@ -36,7 +38,7 @@ public:
 
 protected:
     static VkDevice* pDevice;
-    static VkPhysicalDevice* pPhysicalDevice;
+    static VkPhysicalDevice* pPhysicalDevice;    
 };
 
 #endif // _COMPONENTSBASE_H_

@@ -11,6 +11,7 @@
 #include <string>
 
 #include "WindowManager/WindowManager.h"
+#include "VulkanManager/ComponentsBase.h"
 #include "VulkanManager/Components/GlfwExtensionProperties.h"
 #include "VulkanManager/Components/VulkanExtensionProperties.h"
 #include "VulkanManager/Components/VulkanLayerProperties.h"
@@ -44,13 +45,14 @@ public:
     );
 
 private:
+    ComponentsBase* pComponentsBase = nullptr;
     GlfwExtensionProperties* pGlfwExtensionProperties = nullptr;
     VulkanExtensionProperties* pVulkanExtensionProperties = nullptr;
     VulkanLayerProperties* pVulkanLayerProperties = nullptr;
     GpuProperties* pGpuProperties = nullptr;
     GraphicsPipeline* pGraphicsPipeline = nullptr;
 
-    VkInstance instance;
+    /*VkInstance instance;*/
     VkSurfaceKHR surface;
 
     VkDebugUtilsMessengerEXT debugMessenger;
