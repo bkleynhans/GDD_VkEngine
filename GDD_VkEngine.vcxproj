@@ -99,14 +99,14 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\VulkanSDK\1.2.131.2\Include;$(ProjectDir)include\glm;$(ProjectDir)include\glfw-3.3.2.bin.WIN64\include;$(ProjectDir)GameManager;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\VulkanSDK\1.2.131.2\Include;$(ProjectDir)include\glm;$(ProjectDir)include\glfw-3.3.2.bin.WIN64\include;$(ProjectDir)GameManager;$(ProjectDir)include\NVIDIA_Nsight_Aftermath_SDK_2020.1.0.20070;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\VulkanSDK\1.2.131.2\Lib;$(ProjectDir)lib\glfw-3.3.2.bin.WIN64\lib-vc2019;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\VulkanSDK\1.2.131.2\Lib;$(ProjectDir)lib\glfw-3.3.2.bin.WIN64\lib-vc2019;$(ProjectDir)lib\NVIDIA_Nsight_Aftermath_SDK_2020.1.0.20070\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>vulkan-1.lib;VkLayer_utils.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -156,7 +156,7 @@
     <ClCompile Include="GameManager\VulkanManager\Components\LogicalDevice.cpp" />
     <ClCompile Include="GameManager\VulkanManager\Components\QueueFamilyIndices.cpp" />
     <ClCompile Include="GameManager\VulkanManager\Components\RenderPass.cpp" />
-    <ClCompile Include="GameManager\VulkanManager\Components\SwapChain.cpp" />
+    <ClCompile Include="GameManager\VulkanManager\Components\Swapchain.cpp" />
     <ClCompile Include="GameManager\VulkanManager\Components\VulkanExtensionProperties.cpp" />
     <ClCompile Include="GameManager\VulkanManager\Components\VulkanLayerProperties.cpp" />
     <ClCompile Include="GameManager\VulkanManager\VulkanManager.cpp" />
@@ -174,7 +174,7 @@
     <ClInclude Include="GameManager\VulkanManager\Components\LogicalDevice.h" />
     <ClInclude Include="GameManager\VulkanManager\Components\QueueFamilyIndices.h" />
     <ClInclude Include="GameManager\VulkanManager\Components\RenderPass.h" />
-    <ClInclude Include="GameManager\VulkanManager\Components\SwapChain.h" />
+    <ClInclude Include="GameManager\VulkanManager\Components\Swapchain.h" />
     <ClInclude Include="GameManager\VulkanManager\Components\VulkanExtensionProperties.h" />
     <ClInclude Include="GameManager\VulkanManager\Components\VulkanLayerProperties.h" />
     <ClInclude Include="GameManager\VulkanManager\DebugTools.cpp" />

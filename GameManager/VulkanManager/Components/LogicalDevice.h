@@ -6,7 +6,7 @@
 #include "VulkanLayerProperties.h"
 #include "VulkanManager/ComponentsBase.h"
 #include "VulkanManager/Components/QueueFamilyIndices.h"
-#include "VulkanManager/Components/SwapChain.h"
+#include "VulkanManager/Components/Swapchain.h"
 
 // Creating a logical device
 /* Vulkan Tutorial - Alexander Overvoorde - October 2019 - page 68
@@ -26,20 +26,20 @@ public:
     LogicalDevice(
         VulkanLayerProperties* pVulkanLayerProperties,
         QueueFamilyIndices* pIndices,
-        SwapChain* pSwapChains
+        Swapchain* pSwapChains
     );
     ~LogicalDevice();
 
     void specifyQueuesToCreate(QueueFamilyIndices* pIndices);
-    void createLogicalDevice(VulkanLayerProperties* pVulkanLayerProperties, SwapChain* pSwapChain);
+    void createLogicalDevice(VulkanLayerProperties* pVulkanLayerProperties, Swapchain* pSwapchain);
 
     std::vector<VkDeviceQueueCreateInfo> queueCreateInfos;
     std::set<uint32_t> uniqueQueueFamilies;
 
     VkPhysicalDeviceFeatures deviceFeatures = {};
 
-    VkQueue graphicsQueue;
-    VkQueue presentQueue;
+    /*VkQueue graphicsQueue;
+    VkQueue presentQueue;*/
 
 private:
     VkDeviceCreateInfo createInfo = {};

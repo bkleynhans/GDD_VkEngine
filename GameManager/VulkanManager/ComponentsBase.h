@@ -17,10 +17,17 @@ public:
     ~ComponentsBase();
 
     VkDevice getDevice();
+    VkInstance getInstance();
+    VkSwapchainKHR getSwapchain();
     VkPhysicalDevice getPhysicalDevice();
+    VkQueue getGraphicsQueue();
+    VkQueue getPresentQueue();
 
     static VkInstance* pInstance;
     static VkSurfaceKHR* pSurface;
+    static VkQueue* pGraphicsQueue;
+    static VkQueue* pPresentQueue;
+    static VkSwapchainKHR* pSwapchain;
     static VkRenderPass* pRenderPass;
     static VkPipelineLayout* pPipelineLayout;
     static VkPipeline* pGraphicsPipeline;

@@ -6,7 +6,7 @@ GpuProperties::GpuProperties(
     pDevice = new VkDevice();
     pPhysicalDevice = new VkPhysicalDevice();
 
-    this->pSwapChain = new SwapChain();
+    this->pSwapchain = new Swapchain();
 
     this->pickPhysicalDevice(pSurface);
 
@@ -15,11 +15,11 @@ GpuProperties::GpuProperties(
     this->pLogicalDevice = new LogicalDevice(
         pVulkanLayerProperties,
         this->pIndices,
-        this->pSwapChain            // This is a reference to a predefined list in the SwapChain class
+        this->pSwapchain            // This is a reference to a predefined list in the Swapchain class
     );
 
-    this->pSwapChain = new SwapChain(pPhysicalDevice);
-    this->pSwapChain->createSwapChain(pWindowManager, this->pIndices);
+    this->pSwapchain = new Swapchain(pPhysicalDevice);
+    this->pSwapchain->createSwapChain(pWindowManager, this->pIndices);
 }
 
 // Basic Support
@@ -192,7 +192,7 @@ int GpuProperties::rateDeviceSuitability(VkPhysicalDevice candidate)
 bool GpuProperties::deviceIsSuitable(VkPhysicalDevice* pCandidate)
 {
     QueueFamilyIndices indices = QueueFamilyIndices(pCandidate);
-    SwapChain swapChains = SwapChain(pCandidate);
+    Swapchain swapChains = Swapchain(pCandidate);
     
     return indices.isComplete() && swapChains.extensionsSupported() && swapChains.swapChainAdequate();
 }
@@ -201,12 +201,13 @@ GpuProperties::~GpuProperties()
 {
     // We created with the 'new' keyword so we need to clear memory
     // Delete swapchain and conditional components
-    this->pSwapChain->deleteSwapChainImages();
-    vkDestroySwapchainKHR(*pDevice, this->pSwapChain->getSwapChain(), nullptr);
+    this->pSwapchain->deleteSwapChainImages();
+    /*vkDestroySwapchainKHR(*pDevice, this->pSwapchain->getSwapchain(), nullptr);*/
+    vkDestroySwapchainKHR(*pDevice, this->pSwapchain->getSwapchain(), nullptr);
 
     // Delete remaining items
     vkDestroyDevice(*pDevice, nullptr);    
-    delete this->pSwapChain;
+    delete this->pSwapchain;
     delete this->pIndices;
 
     delete this->pCandidate;

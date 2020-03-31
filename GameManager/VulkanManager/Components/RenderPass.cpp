@@ -18,7 +18,7 @@ void RenderPass::createRenderPass(GpuProperties* pGpuProperties)
         of the images from the swap chain.
     */
     VkAttachmentDescription colorAttachment = {};
-    colorAttachment.format = pGpuProperties->pSwapChain->getSwapChainImageFormat();
+    colorAttachment.format = pGpuProperties->pSwapchain->getSwapChainImageFormat();
     colorAttachment.samples = VK_SAMPLE_COUNT_1_BIT;
     colorAttachment.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
     colorAttachment.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
@@ -46,6 +46,15 @@ void RenderPass::createRenderPass(GpuProperties* pGpuProperties)
     subpass.colorAttachmentCount = 1;
     subpass.pColorAttachments = &colorAttachmentRef;
 // END SUBPASSES AND ATTACHMENT REFERENCES
+// SUBPASS DEPENDENCIES
+    VkSubpassDependency dependency = {};
+    dependency.srcSubpass = VK_SUBPASS_EXTERNAL;
+    dependency.dstSubpass = 0;
+    dependency.srcStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
+    dependency.srcAccessMask = 0;
+    dependency.dstStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
+    dependency.dstAccessMask = VK_ACCESS_COLOR_ATTACHMENT_READ_BIT | VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
+// END SUBPASS DEPENDENCIES
 // RENDER PASS
     /* Vulkan Tutorial - Alexander Overvoorde - October 2019 - page 120
         Now that the attachment and a basic subpass referencing it have been described,
@@ -58,6 +67,8 @@ void RenderPass::createRenderPass(GpuProperties* pGpuProperties)
     renderPassInfo.pAttachments = &colorAttachment;
     renderPassInfo.subpassCount = 1;
     renderPassInfo.pSubpasses = &subpass;
+    renderPassInfo.dependencyCount = 1;
+    renderPassInfo.pDependencies = &dependency;
 // END RENDER PASS
 
     pRenderPass = new VkRenderPass;

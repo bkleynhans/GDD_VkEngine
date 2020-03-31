@@ -40,8 +40,8 @@ void Framebuffers::createFramebuffers(GpuProperties* pGpuProperties, std::vector
         framebufferInfo.renderPass = *pRenderPass;
         framebufferInfo.attachmentCount = 1;
         framebufferInfo.pAttachments = attachments;
-        framebufferInfo.width = pGpuProperties->pSwapChain->getSwapChainExtent().width;
-        framebufferInfo.height = pGpuProperties->pSwapChain->getSwapChainExtent().height;
+        framebufferInfo.width = pGpuProperties->pSwapchain->getSwapChainExtent().width;
+        framebufferInfo.height = pGpuProperties->pSwapchain->getSwapChainExtent().height;
         framebufferInfo.layers = 1;
 
         if (vkCreateFramebuffer(*pDevice, &framebufferInfo, nullptr, &(*this->pSwapChainFramebuffers)[i]) != VK_SUCCESS)

@@ -5,6 +5,19 @@
 #include <functional>
 #include <cstdlib>
 
+// Enables the Nsight Aftermath code instrumentation for GPU crash dump creation.
+#define USE_NSIGHT_AFTERMATH 1
+
+#if defined(USE_NSIGHT_AFTERMATH)
+#include "DebugManager/NsightAftermathHelpers.h"
+#include "DebugManager/NsightAftermathGpuCrashTracker.h"
+#include "DebugManager/NsightAftermathShaderDatabase.h"
+
+// Temporary definitions for the NV_device_diagnostics_config extension.
+// Remove when the Vulkan SDK has picked up the latest Vulkan headers.
+#include "DebugManager/nv_device_diagnostics_config_ext.h"
+#endif
+
 #include "GameManager/GameManager.h"
 
 #pragma region CREDITS

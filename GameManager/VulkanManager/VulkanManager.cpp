@@ -30,6 +30,8 @@ VulkanManager::VulkanManager(WindowManager* pWindowManager)
     this->createCommandPool();
 
     this->pCommandBuffers = new CommandBuffers(this->pGpuProperties, this->pFramebuffers);
+
+    this->createSyncObjects();
 }
 
 // createInstance Description
@@ -147,7 +149,7 @@ void VulkanManager::createSurface(WindowManager* pWindowManager)
 
 void VulkanManager::createImageViews()
 {
-    int sizeOfSwapChainImages = this->pGpuProperties->pSwapChain->getSwapChainImages()->size();
+    int sizeOfSwapChainImages = this->pGpuProperties->pSwapchain->getSwapChainImages()->size();
 
     this->pSwapChainImageViews = new std::vector<VkImageView>(sizeOfSwapChainImages);
 
@@ -156,9 +158,9 @@ void VulkanManager::createImageViews()
         VkImageViewCreateInfo createInfo = {};
 
         createInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
-        createInfo.image = (*this->pGpuProperties->pSwapChain->getSwapChainImages())[i];
+        createInfo.image = (*this->pGpuProperties->pSwapchain->getSwapChainImages())[i];
         createInfo.viewType = VK_IMAGE_VIEW_TYPE_2D;
-        createInfo.format = this->pGpuProperties->pSwapChain->getSwapChainImageFormat();
+        createInfo.format = this->pGpuProperties->pSwapchain->getSwapChainImageFormat();
         createInfo.components.r = VK_COMPONENT_SWIZZLE_IDENTITY;
         createInfo.components.g = VK_COMPONENT_SWIZZLE_IDENTITY;
         createInfo.components.b = VK_COMPONENT_SWIZZLE_IDENTITY;
@@ -184,10 +186,66 @@ void VulkanManager::createCommandPool()
 
     this->pComponentsBase->pCommandPool = new VkCommandPool();
 
-    if (vkCreateCommandPool(this->pComponentsBase->getDevice(), &poolInfo, nullptr, this->pComponentsBase->pCommandPool) != VK_SUCCESS)
+    if (vkCreateCommandPool(this->getDevice(), &poolInfo, nullptr, this->pComponentsBase->pCommandPool) != VK_SUCCESS)
     {
         throw std::runtime_error("failed to create command pool!");
     }
+}
+
+void VulkanManager::createSyncObjects()
+{
+    this->pImageAvailableSemaphores = new std::vector<VkSemaphore>(this->MAX_FRAMES_IN_FLIGHT);
+    this->pRenderFinishedSemaphores = new std::vector<VkSemaphore>(this->MAX_FRAMES_IN_FLIGHT);
+    this->pInFlightFences = new std::vector<VkFence>(this->MAX_FRAMES_IN_FLIGHT);
+    this->pImagesInFlight = new std::vector<VkFence>(this->MAX_FRAMES_IN_FLIGHT, VK_NULL_HANDLE);
+
+    VkSemaphoreCreateInfo semaphoreInfo = {};
+    semaphoreInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
+
+    VkFenceCreateInfo fenceInfo = {};
+    fenceInfo.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
+    fenceInfo.flags = VK_FENCE_CREATE_SIGNALED_BIT;
+
+    for (size_t i = 0; i < MAX_FRAMES_IN_FLIGHT; i++)
+    {
+        if (vkCreateSemaphore(this->getDevice(), &semaphoreInfo, nullptr, &(*this->pImageAvailableSemaphores)[i]) != VK_SUCCESS ||
+            vkCreateSemaphore(this->getDevice(), &semaphoreInfo, nullptr, &(*this->pRenderFinishedSemaphores)[i]) != VK_SUCCESS ||
+            vkCreateFence(this->getDevice(), &fenceInfo, nullptr, &(*this->pInFlightFences)[i]) != VK_SUCCESS)
+        {
+            throw std::runtime_error("failed to create synchronization objects for a frame!");
+        }
+    }
+
+}
+
+VkDevice VulkanManager::getDevice()
+{
+    return this->pComponentsBase->getDevice();
+}
+
+VkInstance VulkanManager::getInstance()
+{
+    return this->pComponentsBase->getInstance();
+}
+
+VkSwapchainKHR VulkanManager::getSwapchain()
+{
+    return this->pCommandBuffers->getSwapchain();
+}
+
+VkQueue VulkanManager::getGraphicsQueue()
+{
+    return this->pComponentsBase->getGraphicsQueue();
+}
+
+VkQueue VulkanManager::getPresentQueue()
+{
+    return this->pComponentsBase->getPresentQueue();
+}
+
+std::vector<VkCommandBuffer> VulkanManager::getCommandBuffers()
+{
+    return *this->pCommandBuffers->pBuffers;
 }
 
 VKAPI_ATTR VkBool32 VKAPI_CALL VulkanManager::debugCallback(
@@ -203,16 +261,23 @@ VKAPI_ATTR VkBool32 VKAPI_CALL VulkanManager::debugCallback(
 
 VulkanManager::~VulkanManager()
 {
-    vkDestroyCommandPool(this->pComponentsBase->getDevice(), *this->pComponentsBase->pCommandPool, nullptr);
+    for (size_t i = 0; i < MAX_FRAMES_IN_FLIGHT; i++)
+    {
+        vkDestroySemaphore(this->getDevice(), (*this->pRenderFinishedSemaphores)[i], nullptr);
+        vkDestroySemaphore(this->getDevice(), (*this->pImageAvailableSemaphores)[i], nullptr);
+        vkDestroyFence(this->getDevice(), (*this->pInFlightFences)[i], nullptr);
+    }
+
+    vkDestroyCommandPool(this->getDevice(), *this->pComponentsBase->pCommandPool, nullptr);
 
     for (auto framebuffer : *this->pFramebuffers->pSwapChainFramebuffers)
     {
-        vkDestroyFramebuffer(this->pComponentsBase->getDevice(), framebuffer, nullptr);
+        vkDestroyFramebuffer(this->getDevice(), framebuffer, nullptr);
     }
 
-    vkDestroyPipeline(this->pComponentsBase->getDevice(), *this->pComponentsBase->pGraphicsPipeline, nullptr);
-    vkDestroyPipelineLayout(this->pComponentsBase->getDevice(), *this->pComponentsBase->pPipelineLayout, nullptr);
-    vkDestroyRenderPass(this->pComponentsBase->getDevice(), *this->pComponentsBase->pRenderPass, nullptr);
+    vkDestroyPipeline(this->getDevice(), *this->pComponentsBase->pGraphicsPipeline, nullptr);
+    vkDestroyPipelineLayout(this->getDevice(), *this->pComponentsBase->pPipelineLayout, nullptr);
+    vkDestroyRenderPass(this->getDevice(), *this->pComponentsBase->pRenderPass, nullptr);
         
     delete this->pFramebuffers;
     delete this->pGraphicsPipeline;    

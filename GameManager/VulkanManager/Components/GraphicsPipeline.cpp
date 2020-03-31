@@ -107,14 +107,14 @@ void GraphicsPipeline::createGraphicsPipeline(GpuProperties* pGpuProperties)
     VkViewport viewport = {};
     viewport.x = 0.0f;
     viewport.y = 0.0f;
-    viewport.width = (float)pGpuProperties->pSwapChain->getSwapChainExtent().width;
-    viewport.height = (float)pGpuProperties->pSwapChain->getSwapChainExtent().height;
+    viewport.width = (float)pGpuProperties->pSwapchain->getSwapChainExtent().width;
+    viewport.height = (float)pGpuProperties->pSwapchain->getSwapChainExtent().height;
     viewport.minDepth = 0.0f;
     viewport.maxDepth = 1.0f;
 
     VkRect2D scissor = {};
     scissor.offset = { 0, 0 };
-    scissor.extent = pGpuProperties->pSwapChain->getSwapChainExtent();
+    scissor.extent = pGpuProperties->pSwapchain->getSwapChainExtent();
 
     VkPipelineViewportStateCreateInfo viewportState = {};
     viewportState.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;

@@ -29,25 +29,7 @@ private:
     void mainLoop();
     void cleanup();
 
-    /*void initWindow()
-    {
-
-    }
-
-    void initVulkan()
-    {
-
-    }
-
-    void mainLoop()
-    {
-        
-    }
-
-    void cleanup()
-    {
-
-    }*/
+    void drawFrame();
 };
 
 #endif // _GAMEMANAGER_H_

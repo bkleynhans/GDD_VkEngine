@@ -1,54 +1,54 @@
-#include "SwapChain.h"
+#include "Swapchain.h"
 
-SwapChain::SwapChain() {}
+Swapchain::Swapchain() {}
 
-SwapChain::SwapChain(VkPhysicalDevice* pPhysicalDevice)
+Swapchain::Swapchain(VkPhysicalDevice* pPhysicalDevice)
 {
     this->checkDeviceExtensionSupport(pPhysicalDevice);
 }
 
-bool SwapChain::extensionsSupported()
+bool Swapchain::extensionsSupported()
 {
     return this->requiredExtensionsSupported;
 }
 
-bool SwapChain::swapChainAdequate()
+bool Swapchain::swapChainAdequate()
 {
     return this->swapChainIsAdequate;
 }
 
-VkSwapchainKHR SwapChain::getSwapChain()
+VkSwapchainKHR Swapchain::getSwapchain()
 {
-    return this->swapChain;
+    return *pSwapchain;
 }
 
-VkFormat SwapChain::getSwapChainImageFormat()
+VkFormat Swapchain::getSwapChainImageFormat()
 {
     return this->swapChainImageFormat;
 }
 
-VkSurfaceFormatKHR SwapChain::getSurfaceFormat()
+VkSurfaceFormatKHR Swapchain::getSurfaceFormat()
 {
     return this->surfaceFormat;
 }
 
-VkPresentModeKHR SwapChain::getChosenPresentMode()
+VkPresentModeKHR Swapchain::getChosenPresentMode()
 {
     return this->chosenPresentMode;
 }
 
-VkExtent2D SwapChain::getSwapChainExtent()
+VkExtent2D Swapchain::getSwapChainExtent()
 {
     return this->swapChainExtent;
 }
 
-std::vector<VkImage>* SwapChain::getSwapChainImages()
+std::vector<VkImage>* Swapchain::getSwapChainImages()
 {
     return this->pSwapChainImages;
 }
 
 // Test for required extensions
-void SwapChain::checkDeviceExtensionSupport(VkPhysicalDevice* pPhysicalDevice)
+void Swapchain::checkDeviceExtensionSupport(VkPhysicalDevice* pPhysicalDevice)
 {
     // Query the number of extensions available to device
     vkEnumerateDeviceExtensionProperties(*pPhysicalDevice, nullptr, &this->count, nullptr);
@@ -79,7 +79,7 @@ void SwapChain::checkDeviceExtensionSupport(VkPhysicalDevice* pPhysicalDevice)
 }
 
 // Populate swap chain support (this object)
-void SwapChain::querySwapChainSupport(VkPhysicalDevice* pPhysicalDevice)
+void Swapchain::querySwapChainSupport(VkPhysicalDevice* pPhysicalDevice)
 {
     // Query basic surface capabilities
     vkGetPhysicalDeviceSurfaceCapabilitiesKHR(*pPhysicalDevice, *pSurface, &this->capabilities);
@@ -119,7 +119,7 @@ void SwapChain::querySwapChainSupport(VkPhysicalDevice* pPhysicalDevice)
 
 // Run through the surface formats we found, and see if the required combination is available
 /* Vulkan Tutorial - Alexander Overvoorde - October 2019 - page 82 */
-void SwapChain::chooseSwapSurfaceFormat()
+void Swapchain::chooseSwapSurfaceFormat()
 {
     for (const auto& availableFormat : *this->pSurfaceFormats)
     {
@@ -165,7 +165,7 @@ void SwapChain::chooseSwapSurfaceFormat()
     Only the VK_PRESENT_MODE_FIFO_KHR mode is guaranteed to be available, so
     we’ll again have to write a function that looks for the best mode that is available:
 */
-void SwapChain::chooseSwapPresentMode()
+void Swapchain::chooseSwapPresentMode()
 {
     for (const auto& availablePresentMode : *this->pPresentModes)
     {
@@ -188,7 +188,7 @@ void SwapChain::chooseSwapPresentMode()
     the width and height in the currentExtent member.
 */
 
-void SwapChain::chooseSwapExtent(WindowManager* pWindowManager)
+void Swapchain::chooseSwapExtent(WindowManager* pWindowManager)
 {
     if (this->capabilities.currentExtent.width != UINT32_MAX)
     {
@@ -227,7 +227,7 @@ void SwapChain::chooseSwapExtent(WindowManager* pWindowManager)
 }
 
 // Create the swap chain
-void SwapChain::createSwapChain(WindowManager* pWindowManager, QueueFamilyIndices* pIndices)
+void Swapchain::createSwapChain(WindowManager* pWindowManager, QueueFamilyIndices* pIndices)
 {
     this->chooseSwapSurfaceFormat();
     this->chooseSwapPresentMode();
@@ -334,26 +334,33 @@ void SwapChain::createSwapChain(WindowManager* pWindowManager, QueueFamilyIndice
 
     createInfo.oldSwapchain = VK_NULL_HANDLE;
     
-    if (vkCreateSwapchainKHR(*pDevice, &createInfo, nullptr, &this->swapChain) != VK_SUCCESS)
+    pSwapchain = new VkSwapchainKHR();
+
+    /*if (vkCreateSwapchainKHR(*pDevice, &createInfo, nullptr, &this->swapChain) != VK_SUCCESS)*/
+    if (vkCreateSwapchainKHR(*pDevice, &createInfo, nullptr, pSwapchain) != VK_SUCCESS)
     {
         throw std::runtime_error("failed to create swap chain!");
     }
 
-    vkGetSwapchainImagesKHR(*pDevice, this->swapChain, &this->imageCount, nullptr);
+    /*vkGetSwapchainImagesKHR(*pDevice, this->swapChain, &this->imageCount, nullptr);*/
+    vkGetSwapchainImagesKHR(*pDevice, *pSwapchain, &this->imageCount, nullptr);
     this->pSwapChainImages = new std::vector<VkImage>(this->imageCount);
-    vkGetSwapchainImagesKHR(*pDevice, this->swapChain, &this->imageCount, this->pSwapChainImages->data());
+    vkGetSwapchainImagesKHR(*pDevice, *pSwapchain, &this->imageCount, this->pSwapChainImages->data());
+    /*vkGetSwapchainImagesKHR(*pDevice, this->swapChain, &this->imageCount, this->pSwapChainImages->data());*/
 
     this->swapChainImageFormat = this->surfaceFormat.format;
 }
 
-void SwapChain::deleteSwapChainImages()
+void Swapchain::deleteSwapChainImages()
 {
     std::vector<VkImage>().swap(*this->pSwapChainImages);
 }
 
-SwapChain::~SwapChain()
+Swapchain::~Swapchain()
 {
     // We created with the 'new' keyword so we need to clear memory
+    delete pSwapchain;
+
     std::vector<VkSurfaceFormatKHR>().swap(*this->pSurfaceFormats);
     std::vector<VkPresentModeKHR>().swap(*this->pPresentModes);
     std::set<std::string>().swap(*this->pRequiredExtensions);

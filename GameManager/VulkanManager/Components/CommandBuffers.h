@@ -25,7 +25,7 @@ public:
 
     void createCommandBuffers(GpuProperties* pGpuProperties, Framebuffers* pFramebuffers);
 
-    std::vector<VkCommandBuffer>*pCommandBuffers;
+    std::vector<VkCommandBuffer>* pBuffers;
 };
 
 #endif // _COMMANDBUFFERS_H_

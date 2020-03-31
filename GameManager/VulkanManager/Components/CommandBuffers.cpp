@@ -12,7 +12,7 @@ CommandBuffers::CommandBuffers(GpuProperties* pGpuProperties, Framebuffers* pFra
 
 void CommandBuffers::createCommandBuffers(GpuProperties* pGpuProperties, Framebuffers* pFramebuffers)
 {    
-    this->pCommandBuffers = new std::vector<VkCommandBuffer>(pFramebuffers->pSwapChainFramebuffers->size());
+    this->pBuffers = new std::vector<VkCommandBuffer>(pFramebuffers->pSwapChainFramebuffers->size());
 
 // ALLOCATE COMMAND BUFFER
     /* Vulkan Tutorial - Alexander Overvoorde - October 2019 - page 130
@@ -32,9 +32,9 @@ void CommandBuffers::createCommandBuffers(GpuProperties* pGpuProperties, Framebu
     allocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
     allocInfo.commandPool = *pCommandPool;
     allocInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
-    allocInfo.commandBufferCount = (uint32_t)this->pCommandBuffers->size();
+    allocInfo.commandBufferCount = (uint32_t)this->pBuffers->size();
 
-    if (vkAllocateCommandBuffers(*pDevice, &allocInfo, this->pCommandBuffers->data()) != VK_SUCCESS)
+    if (vkAllocateCommandBuffers(*pDevice, &allocInfo, this->pBuffers->data()) != VK_SUCCESS)
     {
         throw std::runtime_error("failed to allocate command buffers!");
     }
@@ -45,12 +45,12 @@ void CommandBuffers::createCommandBuffers(GpuProperties* pGpuProperties, Framebu
         a small VkCommandBufferBeginInfo structure as argument that specifies some
         details about the usage of this specific command buffer.
     */
-    for (size_t i = 0; i < this->pCommandBuffers->size(); i++)
+    for (size_t i = 0; i < this->pBuffers->size(); i++)
     {
         VkCommandBufferBeginInfo beginInfo = {};
         beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
 
-        if (vkBeginCommandBuffer((*this->pCommandBuffers)[i], &beginInfo) != VK_SUCCESS)
+        if (vkBeginCommandBuffer((*this->pBuffers)[i], &beginInfo) != VK_SUCCESS)
         {
             throw std::runtime_error("failed to begin recording command buffer!");
         }
@@ -66,13 +66,13 @@ void CommandBuffers::createCommandBuffers(GpuProperties* pGpuProperties, Framebu
         renderPassInfo.renderPass = *pRenderPass;
         renderPassInfo.framebuffer = (*pFramebuffers->pSwapChainFramebuffers)[i];
         renderPassInfo.renderArea.offset = { 0, 0 };
-        renderPassInfo.renderArea.extent = pGpuProperties->pSwapChain->getSwapChainExtent();
+        renderPassInfo.renderArea.extent = pGpuProperties->pSwapchain->getSwapChainExtent();
 
         VkClearValue clearColor = { 0.0f, 0.0f, 0.0f, 1.0f };
         renderPassInfo.clearValueCount = 1;
         renderPassInfo.pClearValues = &clearColor;
 
-        vkCmdBeginRenderPass((*this->pCommandBuffers)[i], &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
+        vkCmdBeginRenderPass((*this->pBuffers)[i], &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
 // END RENDER PASS
 // START BASIC DRAWING COMMANDS
     /* Vulkan Tutorial - Alexander Overvoorde - October 2019 - page 133
@@ -82,14 +82,14 @@ void CommandBuffers::createCommandBuffers(GpuProperties* pGpuProperties, Framebu
         pipeline. We’ve now told Vulkan which operations to execute in the graphics
         pipeline and which attachment to use in the fragment shader.
     */
-        vkCmdBindPipeline((*this->pCommandBuffers)[i], VK_PIPELINE_BIND_POINT_GRAPHICS, *pGraphicsPipeline);
+        vkCmdBindPipeline((*this->pBuffers)[i], VK_PIPELINE_BIND_POINT_GRAPHICS, *pGraphicsPipeline);
 
-        vkCmdDraw((*this->pCommandBuffers)[i], 3, 1, 0, 0);
+        vkCmdDraw((*this->pBuffers)[i], 3, 1, 0, 0);
 // END BASIC DRAWING COMMANDS
 // END THE RENDER PASS
-        vkCmdEndRenderPass((*this->pCommandBuffers)[i]);
+        vkCmdEndRenderPass((*this->pBuffers)[i]);
 
-        if (vkEndCommandBuffer((*this->pCommandBuffers)[i]) != VK_SUCCESS)
+        if (vkEndCommandBuffer((*this->pBuffers)[i]) != VK_SUCCESS)
         {
             throw std::runtime_error("failed to record command buffer!");
         }

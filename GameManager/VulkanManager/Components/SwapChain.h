@@ -49,13 +49,13 @@
             it’s available and otherwise we’ll create some logic to find the next best thing.
 */
 
-class SwapChain :
+class Swapchain :
     public ComponentsBase
 {
 public:
-    SwapChain();
-    SwapChain(VkPhysicalDevice* pPhysicalDevice);
-    ~SwapChain();
+    Swapchain();
+    Swapchain(VkPhysicalDevice* pPhysicalDevice);
+    ~Swapchain();
 
     bool extensionsSupported();
     bool swapChainAdequate();
@@ -69,7 +69,7 @@ public:
 
     void deleteSwapChainImages();
 
-    VkSwapchainKHR getSwapChain();
+    VkSwapchainKHR getSwapchain();
     VkFormat getSwapChainImageFormat();
     VkSurfaceFormatKHR getSurfaceFormat();
     VkPresentModeKHR getChosenPresentMode();
@@ -82,7 +82,7 @@ public:
     };
     
 private:
-    VkSwapchainKHR swapChain;
+    /*VkSwapchainKHR swapChain;*/
     VkFormat swapChainImageFormat;
 
     VkSurfaceCapabilitiesKHR capabilities;

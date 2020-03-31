@@ -8,7 +8,7 @@
 #include "VulkanManager/ComponentsBase.h"
 #include "VulkanManager/Components/QueueFamilyIndices.h"
 #include "VulkanManager/Components/LogicalDevice.h"
-#include "VulkanManager/Components/SwapChain.h"
+#include "VulkanManager/Components/Swapchain.h"
 
 // GpuProperties Description
 /* Vulkan Tutorial - Alexander Overvoorde - October 2019 - page 60
@@ -28,7 +28,7 @@ public:
     ~GpuProperties();
 
     QueueFamilyIndices* pIndices = nullptr;
-    SwapChain* pSwapChain = nullptr;
+    Swapchain* pSwapchain = nullptr;
 
     void pickPhysicalDevice(VkSurfaceKHR* pSurface);
 
