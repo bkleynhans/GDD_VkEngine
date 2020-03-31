@@ -197,7 +197,7 @@ void VulkanManager::createSyncObjects()
     this->pImageAvailableSemaphores = new std::vector<VkSemaphore>(this->MAX_FRAMES_IN_FLIGHT);
     this->pRenderFinishedSemaphores = new std::vector<VkSemaphore>(this->MAX_FRAMES_IN_FLIGHT);
     this->pInFlightFences = new std::vector<VkFence>(this->MAX_FRAMES_IN_FLIGHT);
-    this->pImagesInFlight = new std::vector<VkFence>(this->MAX_FRAMES_IN_FLIGHT, VK_NULL_HANDLE);
+    this->pImagesInFlight = new std::vector<VkFence>(this->pGpuProperties->pSwapchain->getSwapChainImages()->size(), VK_NULL_HANDLE);    
 
     VkSemaphoreCreateInfo semaphoreInfo = {};
     semaphoreInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
@@ -243,9 +243,9 @@ VkQueue VulkanManager::getPresentQueue()
     return this->pComponentsBase->getPresentQueue();
 }
 
-std::vector<VkCommandBuffer> VulkanManager::getCommandBuffers()
-{
-    return *this->pCommandBuffers->pBuffers;
+const VkCommandBuffer* VulkanManager::getPCommandBuffers(int index)
+{   
+    return &(*this->pCommandBuffers->pBuffers)[index];
 }
 
 VKAPI_ATTR VkBool32 VKAPI_CALL VulkanManager::debugCallback(

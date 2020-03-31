@@ -48,7 +48,7 @@ public:
     VkQueue getGraphicsQueue();
     VkQueue getPresentQueue();
 
-    std::vector<VkCommandBuffer> getCommandBuffers();
+    const VkCommandBuffer* getPCommandBuffers(int index);
     /*std::vector<VkImageView> getSwapChainImageViews();
     std::vector<VkSemaphore> getImageAvailableSemaphores();
     std::vector<VkSemaphore> getRenderFinishedSemaphores();

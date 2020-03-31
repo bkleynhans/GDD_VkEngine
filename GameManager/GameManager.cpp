@@ -74,7 +74,7 @@ void GameManager::drawFrame()
     submitInfo.pWaitDstStageMask = waitStages;
 
     submitInfo.commandBufferCount = 1;
-    submitInfo.pCommandBuffers = &this->pVulkanManager->getCommandBuffers()[imageIndex];
+    submitInfo.pCommandBuffers = this->pVulkanManager->getPCommandBuffers(imageIndex);
 
     VkSemaphore signalSemaphores[] = { (*this->pVulkanManager->pRenderFinishedSemaphores)[this->pVulkanManager->currentFrame] };
     submitInfo.signalSemaphoreCount = 1;

@@ -50,7 +50,7 @@ public:
 
 protected:
     static VkDevice* pDevice;
-    static VkPhysicalDevice* pPhysicalDevice;    
+    static VkPhysicalDevice* pPhysicalDevice;
 };
 
 #endif // _COMPONENTSBASE_H_
