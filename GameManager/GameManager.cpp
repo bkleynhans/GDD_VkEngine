@@ -37,7 +37,7 @@ void GameManager::drawFrame()
     vkWaitForFences(
         this->pVulkanManager->getDevice(),
         1,
-        &(*this->pVulkanManager->pInFlightFences)[this->pVulkanManager->currentFrame],
+        this->pVulkanManager->getPInFlightFences(this->pVulkanManager->currentFrame),
         VK_TRUE,
         UINT64_MAX
     );
@@ -47,27 +47,28 @@ void GameManager::drawFrame()
         this->pVulkanManager->getDevice(),
         this->pVulkanManager->getSwapchain(),
         UINT64_MAX,
-        (*this->pVulkanManager->pImageAvailableSemaphores)[this->pVulkanManager->currentFrame],
+        *this->pVulkanManager->getPImageAvailableSemaphores(this->pVulkanManager->currentFrame),
         VK_NULL_HANDLE,
         &imageIndex
     );
 
-    if ((*this->pVulkanManager->pImagesInFlight)[imageIndex] != VK_NULL_HANDLE)
+    if (*this->pVulkanManager->getPImagesInFlight(imageIndex) != VK_NULL_HANDLE)
     {
         vkWaitForFences(
             this->pVulkanManager->getDevice(),
-            1, 
-            &(*this->pVulkanManager->pImagesInFlight)[imageIndex],
+            1,
+            this->pVulkanManager->getPImagesInFlight(imageIndex),
             VK_TRUE,
             UINT64_MAX
         );
     }
-    (*this->pVulkanManager->pImagesInFlight)[imageIndex] = (*this->pVulkanManager->pInFlightFences)[this->pVulkanManager->currentFrame];
+    
+    this->pVulkanManager->setPImagesInFlight(imageIndex, this->pVulkanManager->getPInFlightFences(this->pVulkanManager->currentFrame));
 
     VkSubmitInfo submitInfo = {};
     submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
 
-    VkSemaphore waitSemaphores[] = { (*this->pVulkanManager->pImageAvailableSemaphores)[this->pVulkanManager->currentFrame] };
+    VkSemaphore waitSemaphores[] = { *this->pVulkanManager->getPImageAvailableSemaphores(this->pVulkanManager->currentFrame) };
     VkPipelineStageFlags waitStages[] = { VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT };
     submitInfo.waitSemaphoreCount = 1;
     submitInfo.pWaitSemaphores = waitSemaphores;
@@ -76,21 +77,21 @@ void GameManager::drawFrame()
     submitInfo.commandBufferCount = 1;
     submitInfo.pCommandBuffers = this->pVulkanManager->getPCommandBuffers(imageIndex);
 
-    VkSemaphore signalSemaphores[] = { (*this->pVulkanManager->pRenderFinishedSemaphores)[this->pVulkanManager->currentFrame] };
+    VkSemaphore signalSemaphores[] = { *this->pVulkanManager->getPRenderFinishedSemaphores(this->pVulkanManager->currentFrame) };
     submitInfo.signalSemaphoreCount = 1;
     submitInfo.pSignalSemaphores = signalSemaphores;
 
     vkResetFences(
         this->pVulkanManager->getDevice(),
         1,
-        &(*this->pVulkanManager->pInFlightFences)[this->pVulkanManager->currentFrame]
+        this->pVulkanManager->getPInFlightFences(this->pVulkanManager->currentFrame)
     );
     
     if (vkQueueSubmit(
         this->pVulkanManager->getGraphicsQueue(),
         1,
         &submitInfo,
-        (*this->pVulkanManager->pInFlightFences)[this->pVulkanManager->currentFrame]) != VK_SUCCESS)
+        *this->pVulkanManager->getPInFlightFences(this->pVulkanManager->currentFrame)) != VK_SUCCESS)
     {
         throw std::runtime_error("failed to submit draw command buffer!");
     }

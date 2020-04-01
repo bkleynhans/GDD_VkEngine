@@ -99,5 +99,5 @@ void CommandBuffers::createCommandBuffers(GpuProperties* pGpuProperties, Framebu
 
 CommandBuffers::~CommandBuffers()
 {
-
+    
 }

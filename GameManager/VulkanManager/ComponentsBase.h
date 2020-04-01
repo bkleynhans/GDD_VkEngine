@@ -33,6 +33,7 @@ public:
     static VkPipeline* pGraphicsPipeline;
     static VkCommandPool* pCommandPool;
     
+    
     uint32_t count = 0;
         
 // STRUCT for Validation Layers

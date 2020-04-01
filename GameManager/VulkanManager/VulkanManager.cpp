@@ -149,7 +149,7 @@ void VulkanManager::createSurface(WindowManager* pWindowManager)
 
 void VulkanManager::createImageViews()
 {
-    int sizeOfSwapChainImages = this->pGpuProperties->pSwapchain->getSwapChainImages()->size();
+    size_t sizeOfSwapChainImages = this->pGpuProperties->pSwapchain->getSwapChainImages()->size();
 
     this->pSwapChainImageViews = new std::vector<VkImageView>(sizeOfSwapChainImages);
 
@@ -248,6 +248,31 @@ const VkCommandBuffer* VulkanManager::getPCommandBuffers(int index)
     return &(*this->pCommandBuffers->pBuffers)[index];
 }
 
+const VkSemaphore* VulkanManager::getPImageAvailableSemaphores(size_t index)
+{
+    return &(*this->pImageAvailableSemaphores)[index];
+}
+
+const VkSemaphore* VulkanManager::getPRenderFinishedSemaphores(size_t index)
+{
+    return &(*this->pRenderFinishedSemaphores)[index];
+}
+
+const VkFence* VulkanManager::getPInFlightFences(size_t index)
+{
+    return &(*this->pInFlightFences)[index];
+}
+
+const VkFence* VulkanManager::getPImagesInFlight(size_t index)
+{
+    return &(*this->pImagesInFlight)[index];
+}
+
+void VulkanManager::setPImagesInFlight(size_t index, const VkFence* valuePointer)
+{
+    (*this->pImagesInFlight)[index] = *valuePointer;
+}
+
 VKAPI_ATTR VkBool32 VKAPI_CALL VulkanManager::debugCallback(
     VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
     VkDebugUtilsMessageTypeFlagsEXT messageType,
@@ -263,6 +288,16 @@ VulkanManager::~VulkanManager()
 {
     for (size_t i = 0; i < MAX_FRAMES_IN_FLIGHT; i++)
     {
+        // Wait for fences to complete before destroying them
+        /*
+            This following line is not from the Vulkan Tutorial, but from the 7-Keeping-your-GPU-fed.pdf
+             by the Khronos group.  The tutorial worked fine, except for the following error that kept
+             showing up at the sempahore destruction phase.
+        
+             Cannot call vkDestroySemaphore on VkSemaphore 0x40fd720000000017[] that is currently in use by a command buffer.
+        */
+        vkWaitForFences(this->getDevice(), 1, &(*this->pInFlightFences)[i], true, UINT64_MAX);
+
         vkDestroySemaphore(this->getDevice(), (*this->pRenderFinishedSemaphores)[i], nullptr);
         vkDestroySemaphore(this->getDevice(), (*this->pImageAvailableSemaphores)[i], nullptr);
         vkDestroyFence(this->getDevice(), (*this->pInFlightFences)[i], nullptr);

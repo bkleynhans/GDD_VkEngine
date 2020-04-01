@@ -49,14 +49,14 @@ public:
     VkQueue getPresentQueue();
 
     const VkCommandBuffer* getPCommandBuffers(int index);
-    /*std::vector<VkImageView> getSwapChainImageViews();
-    std::vector<VkSemaphore> getImageAvailableSemaphores();
-    std::vector<VkSemaphore> getRenderFinishedSemaphores();
-    std::vector<VkFence> getInFlightFences();
-    std::vector<VkFence> getImagesInFlight();
-    size_t getCurrentFrame();*/
+    /*std::vector<VkImageView> getSwapChainImageViews();*/
+    const VkSemaphore* getPImageAvailableSemaphores(size_t index);
+    const VkSemaphore* getPRenderFinishedSemaphores(size_t index);
+    const VkFence* getPInFlightFences(size_t index);
+    const VkFence* getPImagesInFlight(size_t index);
+    /*size_t getCurrentFrame();*/
 
-    /*void setCurrentFrame(size_t newVal);*/
+    void setPImagesInFlight(size_t index, const VkFence* valuePointer);
 
     const int MAX_FRAMES_IN_FLIGHT = 2;
 
@@ -68,12 +68,13 @@ public:
     );
 
     std::vector<VkImageView>* pSwapChainImageViews = nullptr;
-    std::vector<VkSemaphore>* pImageAvailableSemaphores = nullptr;
-    std::vector<VkSemaphore>* pRenderFinishedSemaphores = nullptr;
-    std::vector<VkFence>* pInFlightFences = nullptr;
-    std::vector<VkFence>* pImagesInFlight = nullptr;
+    /*std::vector<VkSemaphore>* pImageAvailableSemaphores = nullptr;*/
+    /*std::vector<VkSemaphore>* pRenderFinishedSemaphores = nullptr;*/
+    //std::vector<VkFence>* pInFlightFences = nullptr;
+    //std::vector<VkFence>* pImagesInFlight = nullptr;
     size_t currentFrame = 0;
 
+private:
     ComponentsBase* pComponentsBase = nullptr;
     GlfwExtensionProperties* pGlfwExtensionProperties = nullptr;
     VulkanExtensionProperties* pVulkanExtensionProperties = nullptr;
@@ -83,26 +84,15 @@ public:
     GraphicsPipeline* pGraphicsPipeline = nullptr;
     Framebuffers* pFramebuffers = nullptr;
     CommandBuffers* pCommandBuffers = nullptr;
-
-private:
-    /*ComponentsBase* pComponentsBase = nullptr;
-    GlfwExtensionProperties* pGlfwExtensionProperties = nullptr;
-    VulkanExtensionProperties* pVulkanExtensionProperties = nullptr;
-    VulkanLayerProperties* pVulkanLayerProperties = nullptr;
-    GpuProperties* pGpuProperties = nullptr;
-    RenderPass* pRenderPass = nullptr;
-    GraphicsPipeline* pGraphicsPipeline = nullptr;
-    Framebuffers* pFramebuffers = nullptr;
-    CommandBuffers* pCommandBuffers = nullptr;*/
         
     VkDebugUtilsMessengerEXT debugMessenger;
 
-    /*std::vector<VkImageView>* pSwapChainImageViews = nullptr;
+    /*std::vector<VkImageView>* pSwapChainImageViews = nullptr;*/
     std::vector<VkSemaphore>* pImageAvailableSemaphores = nullptr;
     std::vector<VkSemaphore>* pRenderFinishedSemaphores = nullptr;
     std::vector<VkFence>* pInFlightFences = nullptr;
     std::vector<VkFence>* pImagesInFlight = nullptr;
-    size_t currentFrame = 0;*/
+    //size_t currentFrame = 0;
 
 // STRUCT for Validation Layers
 /* Vulkan Tutorial - Alexander Overvoorde - October 2019 - page 50
