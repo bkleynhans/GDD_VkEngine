@@ -49,7 +49,7 @@ public:
     VkQueue getPresentQueue();
 
     const VkCommandBuffer* getPCommandBuffers(int index);
-    /*std::vector<VkImageView> getSwapChainImageViews();*/
+    const VkImageView* getPSwapChainImageViews(size_t index);
     const VkSemaphore* getPImageAvailableSemaphores(size_t index);
     const VkSemaphore* getPRenderFinishedSemaphores(size_t index);
     const VkFence* getPInFlightFences(size_t index);
@@ -67,11 +67,6 @@ public:
         void* pUserData
     );
 
-    std::vector<VkImageView>* pSwapChainImageViews = nullptr;
-    /*std::vector<VkSemaphore>* pImageAvailableSemaphores = nullptr;*/
-    /*std::vector<VkSemaphore>* pRenderFinishedSemaphores = nullptr;*/
-    //std::vector<VkFence>* pInFlightFences = nullptr;
-    //std::vector<VkFence>* pImagesInFlight = nullptr;
     size_t currentFrame = 0;
 
 private:
@@ -87,7 +82,7 @@ private:
         
     VkDebugUtilsMessengerEXT debugMessenger;
 
-    /*std::vector<VkImageView>* pSwapChainImageViews = nullptr;*/
+    std::vector<VkImageView>* pSwapChainImageViews = nullptr;
     std::vector<VkSemaphore>* pImageAvailableSemaphores = nullptr;
     std::vector<VkSemaphore>* pRenderFinishedSemaphores = nullptr;
     std::vector<VkFence>* pInFlightFences = nullptr;

@@ -248,6 +248,11 @@ const VkCommandBuffer* VulkanManager::getPCommandBuffers(int index)
     return &(*this->pCommandBuffers->pBuffers)[index];
 }
 
+const VkImageView* VulkanManager::getPSwapChainImageViews(size_t index)
+{
+    return &(*this->pSwapChainImageViews)[index];
+}
+
 const VkSemaphore* VulkanManager::getPImageAvailableSemaphores(size_t index)
 {
     return &(*this->pImageAvailableSemaphores)[index];
