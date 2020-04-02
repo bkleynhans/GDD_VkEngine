@@ -39,11 +39,11 @@ public:
     void createInstance();
     void populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo);
     void setupDebugMessenger();
-    void createSurface(WindowManager* pWindowManager);
+    void createSurface();
     void createImageViews();
     void createCommandPool();
     void createSyncObjects();
-    void recreateSwapChain(WindowManager* pWindowManager);
+    void recreateSwapChain();
     void cleanSwapChain();
 
     VkDevice getDevice();

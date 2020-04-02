@@ -188,7 +188,7 @@ void Swapchain::chooseSwapPresentMode()
     the width and height in the currentExtent member.
 */
 
-void Swapchain::chooseSwapExtent(WindowManager* pWindowManager)
+void Swapchain::chooseSwapExtent()
 {
     if (this->capabilities.currentExtent.width != UINT32_MAX)
     {
@@ -196,7 +196,6 @@ void Swapchain::chooseSwapExtent(WindowManager* pWindowManager)
     }
     else
     {
-        /*VkExtent2D actualExtent = { pWindowManager->getWidth(), pWindowManager->getHeight() };*/
         int width;
         int height;
         
@@ -236,11 +235,11 @@ void Swapchain::chooseSwapExtent(WindowManager* pWindowManager)
 }
 
 // Create the swap chain
-void Swapchain::createSwapChain(WindowManager* pWindowManager, QueueFamilyIndices* pIndices)
+void Swapchain::createSwapChain(QueueFamilyIndices* pIndices)
 {
     this->chooseSwapSurfaceFormat();
     this->chooseSwapPresentMode();
-    this->chooseSwapExtent(pWindowManager);
+    this->chooseSwapExtent();
 
     // Specify the minimum number of images required for the swap chain
     /* Vulkan Tutorial - Alexander Overvoorde - October 2019 - page 85

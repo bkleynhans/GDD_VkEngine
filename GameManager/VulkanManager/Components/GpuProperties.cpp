@@ -1,7 +1,7 @@
 #include "GpuProperties.h"
 
 GpuProperties::GpuProperties(
-    VulkanLayerProperties* pVulkanLayerProperties, WindowManager* pWindowManager)
+    VulkanLayerProperties* pVulkanLayerProperties)
 {   
     pDevice = new VkDevice();
     pPhysicalDevice = new VkPhysicalDevice();
@@ -19,7 +19,7 @@ GpuProperties::GpuProperties(
     );
 
     this->pSwapchain = new Swapchain(pPhysicalDevice);
-    this->pSwapchain->createSwapChain(pWindowManager, this->pIndices);
+    this->pSwapchain->createSwapChain(this->pIndices);
 }
 
 // Basic Support
@@ -207,7 +207,6 @@ GpuProperties::~GpuProperties()
     // We created with the 'new' keyword so we need to clear memory
     // Delete swapchain and conditional components
     this->pSwapchain->deleteSwapChainImages();
-    /*vkDestroySwapchainKHR(*pDevice, this->pSwapchain->getSwapchain(), nullptr);*/
 
     // Delete remaining items
     vkDestroyDevice(*pDevice, nullptr);    

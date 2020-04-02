@@ -61,11 +61,11 @@ public:
     bool swapChainAdequate();
     void checkDeviceExtensionSupport(VkPhysicalDevice* pPhysicalDevice);
     void querySwapChainSupport(VkPhysicalDevice* pPhysicalDevice);
-    void createSwapChain(WindowManager* pWindowManager, QueueFamilyIndices* pIndices);
+    void createSwapChain(QueueFamilyIndices* pIndices);
     
     void chooseSwapSurfaceFormat();
     void chooseSwapPresentMode();
-    void chooseSwapExtent(WindowManager* pWindowManager);
+    void chooseSwapExtent();
 
     void deleteSwapChainImages();
 

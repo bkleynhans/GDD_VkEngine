@@ -1,5 +1,7 @@
 #include "ComponentsBase.h"
 
+WindowManager* ComponentsBase::pWindowManager = nullptr;
+
 VkInstance* ComponentsBase::pInstance = nullptr;
 VkSurfaceKHR* ComponentsBase::pSurface = nullptr;
 VkQueue* ComponentsBase::pGraphicsQueue = nullptr;

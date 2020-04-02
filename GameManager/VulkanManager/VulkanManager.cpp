@@ -4,6 +4,8 @@
 VulkanManager::VulkanManager(WindowManager* pWindowManager)
 {   
     this->pComponentsBase = new ComponentsBase();
+    this->pComponentsBase->pWindowManager = pWindowManager;
+
     this->pGlfwExtensionProperties = new GlfwExtensionProperties();
     this->pVulkanExtensionProperties = new VulkanExtensionProperties();
     this->pVulkanLayerProperties = new VulkanLayerProperties();
@@ -13,12 +15,11 @@ VulkanManager::VulkanManager(WindowManager* pWindowManager)
 
     this->createInstance();
     this->setupDebugMessenger();
-    this->createSurface(pWindowManager);
+    this->createSurface();
 
     // Interrogate the graphics card and define graphics card parameters
     this->pGpuProperties = new GpuProperties(
-        this->pVulkanLayerProperties,
-        pWindowManager
+        this->pVulkanLayerProperties
     );
 
     this->createImageViews();
@@ -139,9 +140,9 @@ void VulkanManager::setupDebugMessenger()
     }
 }
 
-void VulkanManager::createSurface(WindowManager* pWindowManager)
+void VulkanManager::createSurface()
 {
-    if (glfwCreateWindowSurface(*this->pComponentsBase->pInstance, pWindowManager->pWindow, nullptr, this->pComponentsBase->pSurface) != VK_SUCCESS)
+    if (glfwCreateWindowSurface(*this->pComponentsBase->pInstance, pComponentsBase->pWindowManager->pWindow, nullptr, this->pComponentsBase->pSurface) != VK_SUCCESS)
     {
         throw std::runtime_error("failed to create window surface!");
     }
@@ -289,16 +290,16 @@ VKAPI_ATTR VkBool32 VKAPI_CALL VulkanManager::debugCallback(
     return VK_FALSE;
 }
 
-void VulkanManager::recreateSwapChain(WindowManager* pWindowManager)
+void VulkanManager::recreateSwapChain()
 {
     int width = 0;
     int height = 0;
 
-    glfwGetFramebufferSize(pWindowManager->pWindow, &width, &height);
+    glfwGetFramebufferSize(this->pComponentsBase->pWindowManager->pWindow, &width, &height);
 
     while (width == 0 || height == 0)
     {
-        glfwGetFramebufferSize(pWindowManager->pWindow, &width, &height);
+        glfwGetFramebufferSize(this->pComponentsBase->pWindowManager->pWindow, &width, &height);
         glfwWaitEvents();
     }
 
@@ -307,7 +308,7 @@ void VulkanManager::recreateSwapChain(WindowManager* pWindowManager)
     this->cleanSwapChain();
 
     this->pGpuProperties->pSwapchain->checkDeviceExtensionSupport(this->pComponentsBase->pPhysicalDevice);
-    this->pGpuProperties->pSwapchain->createSwapChain(pWindowManager, this->pGpuProperties->pIndices);
+    this->pGpuProperties->pSwapchain->createSwapChain(this->pGpuProperties->pIndices);
     
     this->createImageViews();
     

@@ -22,8 +22,7 @@ class GpuProperties :
 {
 public:
     GpuProperties(
-        VulkanLayerProperties* pVulkanLayerProperties, 
-        WindowManager* pWindowManager
+        VulkanLayerProperties* pVulkanLayerProperties
     );
     ~GpuProperties();
 

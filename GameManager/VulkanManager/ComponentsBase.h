@@ -10,6 +10,8 @@
 #include <cstdlib>
 #include <string>
 
+#include "WindowManager/WindowManager.h"
+
 class ComponentsBase
 {
 public:
@@ -22,6 +24,8 @@ public:
     VkPhysicalDevice getPhysicalDevice();
     VkQueue getGraphicsQueue();
     VkQueue getPresentQueue();
+
+    static WindowManager* pWindowManager;
 
     static VkDevice* pDevice;
     static VkPhysicalDevice* pPhysicalDevice;

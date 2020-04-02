@@ -62,7 +62,7 @@ void GameManager::drawFrame()
 
     if (result == VK_ERROR_OUT_OF_DATE_KHR)
     {
-        this->pVulkanManager->recreateSwapChain(this->pWindowManager);
+        this->pVulkanManager->recreateSwapChain();
         return;
     }
     else if (result != VK_SUCCESS && result != VK_SUBOPTIMAL_KHR)
@@ -131,7 +131,7 @@ void GameManager::drawFrame()
     if (result == VK_ERROR_OUT_OF_DATE_KHR || result == VK_SUBOPTIMAL_KHR || framebufferResized)
     {
         framebufferResized = false;
-        this->pVulkanManager->recreateSwapChain(this->pWindowManager);
+        this->pVulkanManager->recreateSwapChain();
     }
     else if (result != VK_SUCCESS)
     {
