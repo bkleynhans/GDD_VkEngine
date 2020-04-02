@@ -15,14 +15,18 @@
 class GameManager
 {
 public:
-
-    GameManager();
-    void run();
+    GameManager();    
     ~GameManager();
+
+    void run();
+
+    static void framebufferResizeCallback(GLFWwindow* pWindow, int width, int height);
 
 private:
     WindowManager* pWindowManager = nullptr;
     VulkanManager* pVulkanManager = nullptr;
+
+    static bool framebufferResized;
     
     void initWindow();
     void initVulkan();

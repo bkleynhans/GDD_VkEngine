@@ -1,5 +1,7 @@
 #include "GameManager.h"
 
+bool GameManager::framebufferResized = false;
+
 GameManager::GameManager()
 {
 
@@ -15,7 +17,7 @@ void GameManager::run()
 
 void GameManager::initWindow()
 {
-    this->pWindowManager = new WindowManager();
+    this->pWindowManager = new WindowManager(this->framebufferResizeCallback);
 }
 
 void GameManager::initVulkan()
@@ -32,6 +34,12 @@ void GameManager::mainLoop()
     }
 }
 
+void GameManager::framebufferResizeCallback(GLFWwindow* pWindow, int width, int height)
+{
+    auto app = reinterpret_cast<GameManager*>(glfwGetWindowUserPointer(pWindow));
+    app->framebufferResized = true;
+}
+
 void GameManager::drawFrame()
 {
     vkWaitForFences(
@@ -43,14 +51,24 @@ void GameManager::drawFrame()
     );
 
     uint32_t imageIndex;
-    vkAcquireNextImageKHR(
-        this->pVulkanManager->getDevice(),
-        this->pVulkanManager->getSwapchain(),
-        UINT64_MAX,
-        *this->pVulkanManager->getPImageAvailableSemaphores(this->pVulkanManager->currentFrame),
-        VK_NULL_HANDLE,
-        &imageIndex
-    );
+    VkResult result = vkAcquireNextImageKHR(
+                            this->pVulkanManager->getDevice(),
+                            this->pVulkanManager->getSwapchain(),
+                            UINT64_MAX,
+                            *this->pVulkanManager->getPImageAvailableSemaphores(this->pVulkanManager->currentFrame),
+                            VK_NULL_HANDLE,
+                            &imageIndex
+                        );
+
+    if (result == VK_ERROR_OUT_OF_DATE_KHR)
+    {
+        this->pVulkanManager->recreateSwapChain(this->pWindowManager);
+        return;
+    }
+    else if (result != VK_SUCCESS && result != VK_SUBOPTIMAL_KHR)
+    {
+        throw std::runtime_error("failed to acquire swap chaim image!");
+    }
 
     if (*this->pVulkanManager->getPImagesInFlight(imageIndex) != VK_NULL_HANDLE)
     {
@@ -108,7 +126,17 @@ void GameManager::drawFrame()
 
     presentInfo.pImageIndices = &imageIndex;
 
-    vkQueuePresentKHR(this->pVulkanManager->getPresentQueue(), &presentInfo);
+    result = vkQueuePresentKHR(this->pVulkanManager->getPresentQueue(), &presentInfo);
+
+    if (result == VK_ERROR_OUT_OF_DATE_KHR || result == VK_SUBOPTIMAL_KHR || framebufferResized)
+    {
+        framebufferResized = false;
+        this->pVulkanManager->recreateSwapChain(this->pWindowManager);
+    }
+    else if (result != VK_SUCCESS)
+    {
+        throw std::runtime_error("failed to present swap chain image!");
+    }
 
     this->pVulkanManager->currentFrame = (this->pVulkanManager->currentFrame + 1) % this->pVulkanManager->MAX_FRAMES_IN_FLIGHT;
 }

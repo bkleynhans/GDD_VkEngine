@@ -197,13 +197,17 @@ bool GpuProperties::deviceIsSuitable(VkPhysicalDevice* pCandidate)
     return indices.isComplete() && swapChains.extensionsSupported() && swapChains.swapChainAdequate();
 }
 
+void GpuProperties::cleanupSwapChain()
+{
+
+}
+
 GpuProperties::~GpuProperties()
 {
     // We created with the 'new' keyword so we need to clear memory
     // Delete swapchain and conditional components
     this->pSwapchain->deleteSwapChainImages();
     /*vkDestroySwapchainKHR(*pDevice, this->pSwapchain->getSwapchain(), nullptr);*/
-    vkDestroySwapchainKHR(*pDevice, this->pSwapchain->getSwapchain(), nullptr);
 
     // Delete remaining items
     vkDestroyDevice(*pDevice, nullptr);    

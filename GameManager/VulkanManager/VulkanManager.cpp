@@ -289,8 +289,78 @@ VKAPI_ATTR VkBool32 VKAPI_CALL VulkanManager::debugCallback(
     return VK_FALSE;
 }
 
+void VulkanManager::recreateSwapChain(WindowManager* pWindowManager)
+{
+    int width = 0;
+    int height = 0;
+
+    glfwGetFramebufferSize(pWindowManager->pWindow, &width, &height);
+
+    while (width == 0 || height == 0)
+    {
+        glfwGetFramebufferSize(pWindowManager->pWindow, &width, &height);
+        glfwWaitEvents();
+    }
+
+    vkDeviceWaitIdle(this->getDevice());
+
+    this->cleanSwapChain();
+
+    this->pGpuProperties->pSwapchain->checkDeviceExtensionSupport(this->pComponentsBase->pPhysicalDevice);
+    this->pGpuProperties->pSwapchain->createSwapChain(pWindowManager, this->pGpuProperties->pIndices);
+    
+    this->createImageViews();
+    
+    this->pRenderPass->createRenderPass(this->pGpuProperties);
+    this->pGraphicsPipeline->createGraphicsPipeline(this->pGpuProperties);
+    this->pFramebuffers->createFramebuffers(this->pGpuProperties, this->pSwapChainImageViews);
+
+    this->pCommandBuffers = new CommandBuffers(this->pGpuProperties, this->pFramebuffers);
+}
+
+void VulkanManager::cleanSwapChain()
+{
+    for (size_t i = 0; i < MAX_FRAMES_IN_FLIGHT; i++)
+    {
+        // Wait for fences to complete before destroying them
+        /*
+            This following line is not from the Vulkan Tutorial, but from the 7-Keeping-your-GPU-fed.pdf
+             by the Khronos group.  The tutorial worked fine, except for the following error that kept
+             showing up at the sempahore destruction phase.
+
+             Cannot call vkDestroySemaphore on VkSemaphore 0x40fd720000000017[] that is currently in use by a command buffer.
+        */
+        vkWaitForFences(this->getDevice(), 1, &(*this->pInFlightFences)[i], true, UINT64_MAX);
+    }
+
+    for (auto framebuffer : *this->pFramebuffers->pSwapChainFramebuffers)
+    {
+        vkDestroyFramebuffer(this->getDevice(), framebuffer, nullptr);
+    }
+
+    vkFreeCommandBuffers(
+        this->getDevice(),
+        *this->pComponentsBase->pCommandPool,
+        static_cast<uint32_t>(this->pCommandBuffers->pBuffers->size()),
+        this->pCommandBuffers->pBuffers->data()
+    );
+
+    vkDestroyPipeline(this->getDevice(), *this->pComponentsBase->pGraphicsPipeline, nullptr);
+    vkDestroyPipelineLayout(this->getDevice(), *this->pComponentsBase->pPipelineLayout, nullptr);
+    vkDestroyRenderPass(this->getDevice(), *this->pComponentsBase->pRenderPass, nullptr);
+
+    for (auto imageView : *this->pSwapChainImageViews)
+    {
+        vkDestroyImageView(this->pGpuProperties->getDevice(), imageView, nullptr);
+    }
+
+    vkDestroySwapchainKHR(this->getDevice(), *this->pComponentsBase->pSwapchain, nullptr);
+}
+
 VulkanManager::~VulkanManager()
 {
+    this->cleanSwapChain();
+
     for (size_t i = 0; i < MAX_FRAMES_IN_FLIGHT; i++)
     {
         // Wait for fences to complete before destroying them
@@ -309,24 +379,10 @@ VulkanManager::~VulkanManager()
     }
 
     vkDestroyCommandPool(this->getDevice(), *this->pComponentsBase->pCommandPool, nullptr);
-
-    for (auto framebuffer : *this->pFramebuffers->pSwapChainFramebuffers)
-    {
-        vkDestroyFramebuffer(this->getDevice(), framebuffer, nullptr);
-    }
-
-    vkDestroyPipeline(this->getDevice(), *this->pComponentsBase->pGraphicsPipeline, nullptr);
-    vkDestroyPipelineLayout(this->getDevice(), *this->pComponentsBase->pPipelineLayout, nullptr);
-    vkDestroyRenderPass(this->getDevice(), *this->pComponentsBase->pRenderPass, nullptr);
-        
+            
     delete this->pFramebuffers;
-    delete this->pGraphicsPipeline;    
+    delete this->pGraphicsPipeline;
     delete this->pRenderPass;
-
-    for (auto imageView : *this->pSwapChainImageViews)
-    {
-        vkDestroyImageView(this->pGpuProperties->getDevice(), imageView, nullptr);
-    }
 
     if (enableValidationLayers)
     {

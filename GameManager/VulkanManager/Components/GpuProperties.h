@@ -31,6 +31,7 @@ public:
     Swapchain* pSwapchain = nullptr;
 
     void pickPhysicalDevice(VkSurfaceKHR* pSurface);
+    void cleanupSwapChain();
 
 private:
     LogicalDevice* pLogicalDevice = nullptr;

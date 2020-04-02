@@ -15,7 +15,7 @@ VkPhysicalDevice* ComponentsBase::pPhysicalDevice = VK_NULL_HANDLE;
 
 ComponentsBase::ComponentsBase()
 {
-    
+
 }
 
 VkDevice ComponentsBase::getDevice()

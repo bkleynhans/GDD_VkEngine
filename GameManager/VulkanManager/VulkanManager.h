@@ -9,6 +9,8 @@
 #include <functional>
 #include <cstdlib>
 #include <string>
+#include <algorithm>
+#include <vector>
 
 #include "WindowManager/WindowManager.h"
 #include "VulkanManager/ComponentsBase.h"
@@ -41,6 +43,8 @@ public:
     void createImageViews();
     void createCommandPool();
     void createSyncObjects();
+    void recreateSwapChain(WindowManager* pWindowManager);
+    void cleanSwapChain();
 
     VkDevice getDevice();
     VkInstance getInstance();
@@ -54,8 +58,7 @@ public:
     const VkSemaphore* getPRenderFinishedSemaphores(size_t index);
     const VkFence* getPInFlightFences(size_t index);
     const VkFence* getPImagesInFlight(size_t index);
-    /*size_t getCurrentFrame();*/
-
+    
     void setPImagesInFlight(size_t index, const VkFence* valuePointer);
 
     const int MAX_FRAMES_IN_FLIGHT = 2;
@@ -87,7 +90,6 @@ private:
     std::vector<VkSemaphore>* pRenderFinishedSemaphores = nullptr;
     std::vector<VkFence>* pInFlightFences = nullptr;
     std::vector<VkFence>* pImagesInFlight = nullptr;
-    //size_t currentFrame = 0;
 
 // STRUCT for Validation Layers
 /* Vulkan Tutorial - Alexander Overvoorde - October 2019 - page 50

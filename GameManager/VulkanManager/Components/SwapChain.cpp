@@ -196,7 +196,16 @@ void Swapchain::chooseSwapExtent(WindowManager* pWindowManager)
     }
     else
     {
-        VkExtent2D actualExtent = { pWindowManager->getWidth(), pWindowManager->getHeight() };
+        /*VkExtent2D actualExtent = { pWindowManager->getWidth(), pWindowManager->getHeight() };*/
+        int width;
+        int height;
+        
+        glfwGetFramebufferSize(pWindowManager->pWindow, &width, &height);
+
+        VkExtent2D actualExtent = {
+            static_cast<uint32_t>(width),
+            static_cast<uint32_t>(height)
+        };
 
         // Clamp width and height
         /* Vulkan Tutorial - Alexander Overvoorde - October 2019 - page 84
@@ -332,21 +341,18 @@ void Swapchain::createSwapChain(WindowManager* pWindowManager, QueueFamilyIndice
     createInfo.presentMode = this->chosenPresentMode;
     createInfo.clipped = VK_TRUE;
 
-    createInfo.oldSwapchain = VK_NULL_HANDLE;
+    /*createInfo.oldSwapchain = VK_NULL_HANDLE;*/
     
     pSwapchain = new VkSwapchainKHR();
 
-    /*if (vkCreateSwapchainKHR(*pDevice, &createInfo, nullptr, &this->swapChain) != VK_SUCCESS)*/
     if (vkCreateSwapchainKHR(*pDevice, &createInfo, nullptr, pSwapchain) != VK_SUCCESS)
     {
         throw std::runtime_error("failed to create swap chain!");
     }
 
-    /*vkGetSwapchainImagesKHR(*pDevice, this->swapChain, &this->imageCount, nullptr);*/
     vkGetSwapchainImagesKHR(*pDevice, *pSwapchain, &this->imageCount, nullptr);
     this->pSwapChainImages = new std::vector<VkImage>(this->imageCount);
     vkGetSwapchainImagesKHR(*pDevice, *pSwapchain, &this->imageCount, this->pSwapChainImages->data());
-    /*vkGetSwapchainImagesKHR(*pDevice, this->swapChain, &this->imageCount, this->pSwapChainImages->data());*/
 
     this->swapChainImageFormat = this->surfaceFormat.format;
 }

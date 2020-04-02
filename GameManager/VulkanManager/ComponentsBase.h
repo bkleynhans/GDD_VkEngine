@@ -23,6 +23,8 @@ public:
     VkQueue getGraphicsQueue();
     VkQueue getPresentQueue();
 
+    static VkDevice* pDevice;
+    static VkPhysicalDevice* pPhysicalDevice;
     static VkInstance* pInstance;
     static VkSurfaceKHR* pSurface;
     static VkQueue* pGraphicsQueue;
@@ -32,8 +34,8 @@ public:
     static VkPipelineLayout* pPipelineLayout;
     static VkPipeline* pGraphicsPipeline;
     static VkCommandPool* pCommandPool;
-    
-    uint32_t count = 0;
+
+    uint32_t count = 0;    
         
 // STRUCT for Validation Layers
 /* Vulkan Tutorial - Alexander Overvoorde - October 2019 - page 50
@@ -47,10 +49,7 @@ public:
 #else
     static const bool enableValidationLayers = true;
 #endif
-
-protected:
-    static VkDevice* pDevice;
-    static VkPhysicalDevice* pPhysicalDevice;
+    
 };
 
 #endif // _COMPONENTSBASE_H_

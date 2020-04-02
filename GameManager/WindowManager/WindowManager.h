@@ -17,10 +17,10 @@
 class WindowManager
 {
 public:
-    WindowManager();    
+    WindowManager(void (*framebufferResizeCallback)(GLFWwindow*, int, int));
     ~WindowManager();
 
-    void createWindow();
+    void createWindow(void (*framebufferResizeCallback)(GLFWwindow*, int, int));
     uint32_t getWidth();
     uint32_t getHeight();    
 

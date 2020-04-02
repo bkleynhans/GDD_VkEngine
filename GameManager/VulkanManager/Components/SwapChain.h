@@ -82,7 +82,6 @@ public:
     };
     
 private:
-    /*VkSwapchainKHR swapChain;*/
     VkFormat swapChainImageFormat;
 
     VkSurfaceCapabilitiesKHR capabilities;

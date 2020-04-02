@@ -1,18 +1,20 @@
 #include "WindowManager.h"
 
-WindowManager::WindowManager()
+WindowManager::WindowManager(void (*framebufferResizeCallback)(GLFWwindow*, int, int))
 {
-    this->createWindow();
+    this->createWindow(framebufferResizeCallback);
 }
 
-void WindowManager::createWindow()
+void WindowManager::createWindow(void (*framebufferResizeCallback)(GLFWwindow*, int, int))
 {
     glfwInit();
 
     glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-    glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
 
     this->pWindow = glfwCreateWindow(WIDTH, HEIGHT, "Vulkan", nullptr, nullptr);
+
+    glfwSetWindowUserPointer(this->pWindow, this);
+    glfwSetFramebufferSizeCallback(this->pWindow, *framebufferResizeCallback);
 }
 
 uint32_t WindowManager::getWidth()
