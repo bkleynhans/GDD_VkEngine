@@ -84,7 +84,7 @@ private:
     GraphicsPipeline* pGraphicsPipeline = nullptr;
     Framebuffers* pFramebuffers = nullptr;
     VertexBuffer* pVertexBuffer = nullptr;
-    CommandBuffers* pCommandBuffers = nullptr;
+    CommandBuffers* pCommandBuffers = nullptr;    
         
     VkDebugUtilsMessengerEXT debugMessenger;
 

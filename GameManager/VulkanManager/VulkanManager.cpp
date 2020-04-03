@@ -31,7 +31,8 @@ VulkanManager::VulkanManager(WindowManager* pWindowManager, EntityManager* pEnti
 
     this->createCommandPool();
 
-    this->pVertexBuffer = new VertexBuffer();    
+    this->pVertexBuffer = new VertexBuffer();
+    this->pVertexBuffer->createIndexBuffer();
 
     this->pCommandBuffers = new CommandBuffers(this->pGpuProperties, this->pFramebuffers);
 
@@ -365,9 +366,12 @@ VulkanManager::~VulkanManager()
 {
     this->cleanSwapChain();
 
+    vkDestroyBuffer(this->pComponentsBase->getDevice(), *this->pComponentsBase->pIndexBuffer, nullptr);
+    vkFreeMemory(this->pComponentsBase->getDevice(), *this->pComponentsBase->pIndexBufferMemory, nullptr);
+
     vkDestroyBuffer(this->pComponentsBase->getDevice(), *this->pComponentsBase->pVBuffer, nullptr);
     vkFreeMemory(this->pComponentsBase->getDevice(), *this->pComponentsBase->pVBufferMemory, nullptr);
-
+        
     delete this->pVertexBuffer;
 
     for (size_t i = 0; i < MAX_FRAMES_IN_FLIGHT; i++)

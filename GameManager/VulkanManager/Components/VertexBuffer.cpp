@@ -4,6 +4,8 @@ VertexBuffer::VertexBuffer()
 {
     pVBuffer = new VkBuffer();
     pVBufferMemory = new VkDeviceMemory();
+    pIndexBuffer = new VkBuffer();
+    pIndexBufferMemory = new VkDeviceMemory();
 
     this->createVertexBuffer();
 }
@@ -24,6 +26,27 @@ void VertexBuffer::createVertexBuffer()
     createBuffer(bufferSize, VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, *pVBuffer, *pVBufferMemory);
 
     copyBuffer(stagingBuffer, *pVBuffer, bufferSize);
+
+    vkDestroyBuffer(*pDevice, stagingBuffer, nullptr);
+    vkFreeMemory(*pDevice, stagingBufferMemory, nullptr);
+}
+
+void VertexBuffer::createIndexBuffer()
+{
+    VkDeviceSize bufferSize = sizeof(pBodyManager->getPSquare()->getPIndices()[0]) * pBodyManager->getPSquare()->getPIndices()->size();
+
+    VkBuffer stagingBuffer;
+    VkDeviceMemory stagingBufferMemory;
+    createBuffer(bufferSize, VK_BUFFER_USAGE_TRANSFER_SRC_BIT, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, stagingBuffer, stagingBufferMemory);
+
+    void* data;
+    vkMapMemory(*pDevice, stagingBufferMemory, 0, bufferSize, 0, &data);
+        memcpy(data, pBodyManager->getPSquare()->getPIndices()->data(), (size_t)bufferSize);
+    vkUnmapMemory(*pDevice, stagingBufferMemory);
+
+    createBuffer(bufferSize, VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_INDEX_BUFFER_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, *pIndexBuffer, *pIndexBufferMemory);
+
+    copyBuffer(stagingBuffer, *pIndexBuffer, bufferSize);
 
     vkDestroyBuffer(*pDevice, stagingBuffer, nullptr);
     vkFreeMemory(*pDevice, stagingBufferMemory, nullptr);
@@ -76,9 +99,9 @@ void VertexBuffer::copyBuffer(VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSi
 
     vkBeginCommandBuffer(commandBuffer, &beginInfo);
 
-        VkBufferCopy copyRegion = {};
-        copyRegion.size = size;
-        vkCmdCopyBuffer(commandBuffer, srcBuffer, dstBuffer, 1, &copyRegion);
+    VkBufferCopy copyRegion = {};
+    copyRegion.size = size;
+    vkCmdCopyBuffer(commandBuffer, srcBuffer, dstBuffer, 1, &copyRegion);
 
     vkEndCommandBuffer(commandBuffer);
 

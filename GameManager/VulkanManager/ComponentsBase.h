@@ -45,6 +45,8 @@ public:
     static VkBuffer* pVBuffer;
     static VkDeviceMemory* pVBufferMemory;
     static VkCommandPool* pCommandPool;
+    static VkBuffer* pIndexBuffer;
+    static VkDeviceMemory* pIndexBufferMemory;
 
     uint32_t count = 0;    
         

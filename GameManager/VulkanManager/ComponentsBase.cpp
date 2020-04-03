@@ -15,6 +15,8 @@ VkPipeline* ComponentsBase::pGraphicsPipeline = nullptr;
 VkBuffer* ComponentsBase::pVBuffer = nullptr;
 VkDeviceMemory* ComponentsBase::pVBufferMemory = nullptr;
 VkCommandPool* ComponentsBase::pCommandPool = nullptr;
+VkBuffer* ComponentsBase::pIndexBuffer = nullptr;
+VkDeviceMemory* ComponentsBase::pIndexBufferMemory = nullptr;
 
 VkDevice* ComponentsBase::pDevice = nullptr;
 VkPhysicalDevice* ComponentsBase::pPhysicalDevice = VK_NULL_HANDLE;
