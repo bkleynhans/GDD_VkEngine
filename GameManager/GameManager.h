@@ -11,6 +11,7 @@
 
 #include "WindowManager/WindowManager.h"
 #include "VulkanManager/VulkanManager.h"
+#include "EntityManager/EntityManager.h"
 
 class GameManager
 {
@@ -25,6 +26,7 @@ public:
 private:
     WindowManager* pWindowManager = nullptr;
     VulkanManager* pVulkanManager = nullptr;
+    EntityManager* pEntityManager = nullptr;
 
     static bool framebufferResized;
     

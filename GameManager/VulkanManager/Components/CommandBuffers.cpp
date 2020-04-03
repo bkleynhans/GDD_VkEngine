@@ -84,7 +84,13 @@ void CommandBuffers::createCommandBuffers(GpuProperties* pGpuProperties, Framebu
     */
         vkCmdBindPipeline((*this->pBuffers)[i], VK_PIPELINE_BIND_POINT_GRAPHICS, *pGraphicsPipeline);
 
-        vkCmdDraw((*this->pBuffers)[i], 3, 1, 0, 0);
+        VkBuffer vertexBuffers[] = { *pVBuffer };
+        VkDeviceSize offsets[] = { 0 };
+        vkCmdBindVertexBuffers((*this->pBuffers)[i], 0, 1, vertexBuffers, offsets);
+
+        vkCmdDraw((*this->pBuffers)[i], static_cast<uint32_t>(pBodyManager->getPSquare()->getPVertices()->size()), 1, 0, 0);
+        /*vkCmdDraw((*this->pBuffers)[i], 3, 1, 0, 0);*/
+
 // END BASIC DRAWING COMMANDS
 // END THE RENDER PASS
         vkCmdEndRenderPass((*this->pBuffers)[i]);

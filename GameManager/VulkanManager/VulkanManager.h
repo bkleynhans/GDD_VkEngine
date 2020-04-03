@@ -13,6 +13,7 @@
 #include <vector>
 
 #include "WindowManager/WindowManager.h"
+#include "EntityManager/EntityManager.h"
 #include "VulkanManager/ComponentsBase.h"
 #include "VulkanManager/Components/GlfwExtensionProperties.h"
 #include "VulkanManager/Components/VulkanExtensionProperties.h"
@@ -21,6 +22,7 @@
 #include "VulkanManager/Components/RenderPass.h"
 #include "VulkanManager/Components/GraphicsPipeline.h"
 #include "VulkanManager/Components/Framebuffers.h"
+#include "VulkanManager/Components/VertexBuffer.h"
 #include "VulkanManager/Components/CommandBuffers.h"
 
 // Vulkan Manager Description
@@ -33,7 +35,7 @@
 class VulkanManager
 {
 public:
-    VulkanManager(WindowManager* pWindowManager);
+    VulkanManager(WindowManager* pWindowManager, EntityManager* pEntityManager);
     ~VulkanManager();
 
     void createInstance();
@@ -81,6 +83,7 @@ private:
     RenderPass* pRenderPass = nullptr;
     GraphicsPipeline* pGraphicsPipeline = nullptr;
     Framebuffers* pFramebuffers = nullptr;
+    VertexBuffer* pVertexBuffer = nullptr;
     CommandBuffers* pCommandBuffers = nullptr;
         
     VkDebugUtilsMessengerEXT debugMessenger;

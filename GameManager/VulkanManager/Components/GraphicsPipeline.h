@@ -8,6 +8,7 @@
 
 #include "VulkanManager/ComponentsBase.h"
 #include "VulkanManager/Components/GpuProperties.h"
+#include "EntityManager/BodyManager/Vertex.h"
 
 // Details about the graphics pipeline
 /* Vulkan Tutorial - Alexander Overvoorde - October 2019 - page 93 - 96

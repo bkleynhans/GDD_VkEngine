@@ -1,10 +1,11 @@
 #include "VulkanManager/DebugTools.cpp"
 #include "VulkanManager.h"
 
-VulkanManager::VulkanManager(WindowManager* pWindowManager)
+VulkanManager::VulkanManager(WindowManager* pWindowManager, EntityManager* pEntityManager)
 {   
     this->pComponentsBase = new ComponentsBase();
-    this->pComponentsBase->pWindowManager = pWindowManager;
+    this->pComponentsBase->setPWindowManager(pWindowManager);
+    this->pComponentsBase->setPEntityManager(pEntityManager);
 
     this->pGlfwExtensionProperties = new GlfwExtensionProperties();
     this->pVulkanExtensionProperties = new VulkanExtensionProperties();
@@ -27,6 +28,7 @@ VulkanManager::VulkanManager(WindowManager* pWindowManager)
     this->pRenderPass = new RenderPass(this->pGpuProperties);
     this->pGraphicsPipeline = new GraphicsPipeline(this->pGpuProperties);
     this->pFramebuffers = new Framebuffers(this->pGpuProperties, this->pSwapChainImageViews);
+    this->pVertexBuffer = new VertexBuffer();
 
     this->createCommandPool();
 
@@ -142,7 +144,7 @@ void VulkanManager::setupDebugMessenger()
 
 void VulkanManager::createSurface()
 {
-    if (glfwCreateWindowSurface(*this->pComponentsBase->pInstance, pComponentsBase->pWindowManager->pWindow, nullptr, this->pComponentsBase->pSurface) != VK_SUCCESS)
+    if (glfwCreateWindowSurface(*this->pComponentsBase->pInstance, pComponentsBase->getPWindow(), nullptr, this->pComponentsBase->pSurface) != VK_SUCCESS)
     {
         throw std::runtime_error("failed to create window surface!");
     }
@@ -295,11 +297,11 @@ void VulkanManager::recreateSwapChain()
     int width = 0;
     int height = 0;
 
-    glfwGetFramebufferSize(this->pComponentsBase->pWindowManager->pWindow, &width, &height);
+    glfwGetFramebufferSize(this->pComponentsBase->getPWindow(), &width, &height);
 
     while (width == 0 || height == 0)
     {
-        glfwGetFramebufferSize(this->pComponentsBase->pWindowManager->pWindow, &width, &height);
+        glfwGetFramebufferSize(this->pComponentsBase->getPWindow(), &width, &height);
         glfwWaitEvents();
     }
 
@@ -361,6 +363,11 @@ void VulkanManager::cleanSwapChain()
 VulkanManager::~VulkanManager()
 {
     this->cleanSwapChain();
+
+    vkDestroyBuffer(this->pComponentsBase->getDevice(), *this->pComponentsBase->pVBuffer, nullptr);
+    vkFreeMemory(this->pComponentsBase->getDevice(), *this->pComponentsBase->pVBufferMemory, nullptr);
+
+    delete this->pVertexBuffer;
 
     for (size_t i = 0; i < MAX_FRAMES_IN_FLIGHT; i++)
     {

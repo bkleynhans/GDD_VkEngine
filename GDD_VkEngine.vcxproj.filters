@@ -49,9 +49,6 @@
     <Filter Include="Header Files\GameManager\EntityManager\CollisionManager">
       <UniqueIdentifier>{1b19d9ad-a9ab-44d0-b73f-81268ba1402e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\GameManager\EntityManager\BodyManager\RigidBodyManager">
-      <UniqueIdentifier>{488e0240-7559-4330-8567-b7d852fecc68}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\GameManager\EntityManager\BodyManager\DeformableBodyManager">
       <UniqueIdentifier>{63de53d8-fe69-4007-b8eb-7f6412584d10}</UniqueIdentifier>
     </Filter>
@@ -88,9 +85,6 @@
     <Filter Include="Source Files\GameManager\EntityManager\BodyManager\MagneticBodyManager">
       <UniqueIdentifier>{c5400890-93d3-4b15-9d5d-1df648b4cbf0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\GameManager\EntityManager\BodyManager\RigidBodyManager">
-      <UniqueIdentifier>{1ceca4de-b405-4f36-a60f-1e56a12be6ea}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\GameManager\EntityManager\CollisionManager">
       <UniqueIdentifier>{f63ecd48-5fc5-4135-afed-5323ec118297}</UniqueIdentifier>
     </Filter>
@@ -114,6 +108,12 @@
     </Filter>
     <Filter Include="Header Files\GameManager\ShaderManager\shaders_bin">
       <UniqueIdentifier>{a4718ceb-89a4-4074-925d-26ac05580d67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GameManager\EntityManager\BodyManager\RigidBodies">
+      <UniqueIdentifier>{488e0240-7559-4330-8567-b7d852fecc68}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GameManager\EntityManager\BodyManager\RigidBodies">
+      <UniqueIdentifier>{1ceca4de-b405-4f36-a60f-1e56a12be6ea}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -165,6 +165,27 @@
     <ClCompile Include="GameManager\VulkanManager\Components\CommandBuffers.cpp">
       <Filter>Source Files\GameManager\VulkanManager\Components</Filter>
     </ClCompile>
+    <ClCompile Include="GameManager\EntityManager\EntityManager.cpp">
+      <Filter>Source Files\GameManager\EntityManager</Filter>
+    </ClCompile>
+    <ClCompile Include="GameManager\EntityManager\BodyManager\BodyManager.cpp">
+      <Filter>Source Files\GameManager\EntityManager\BodyManager</Filter>
+    </ClCompile>
+    <ClCompile Include="GameManager\EntityManager\BodyManager\UniformBufferObject.cpp">
+      <Filter>Source Files\GameManager\EntityManager\BodyManager</Filter>
+    </ClCompile>
+    <ClCompile Include="GameManager\EntityManager\BodyManager\Vertex.cpp">
+      <Filter>Source Files\GameManager\EntityManager\BodyManager</Filter>
+    </ClCompile>
+    <ClCompile Include="GameManager\VulkanManager\Components\VertexBuffer.cpp">
+      <Filter>Source Files\GameManager\VulkanManager\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="GameManager\EntityManager\BodyManager\RigidBodyBase\RigidBodyBase.cpp">
+      <Filter>Source Files\GameManager\EntityManager\BodyManager\RigidBodies</Filter>
+    </ClCompile>
+    <ClCompile Include="GameManager\EntityManager\BodyManager\RigidBodyBase\Square.cpp">
+      <Filter>Source Files\GameManager\EntityManager\BodyManager\RigidBodies</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameManager\GameManager.h">
@@ -214,6 +235,27 @@
     </ClInclude>
     <ClInclude Include="GameManager\VulkanManager\Components\CommandBuffers.h">
       <Filter>Header Files\GameManager\VulkanManager\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="GameManager\EntityManager\EntityManager.h">
+      <Filter>Header Files\GameManager\EntityManager</Filter>
+    </ClInclude>
+    <ClInclude Include="GameManager\EntityManager\BodyManager\BodyManager.h">
+      <Filter>Header Files\GameManager\EntityManager\BodyManager</Filter>
+    </ClInclude>
+    <ClInclude Include="GameManager\EntityManager\BodyManager\UniformBufferObject.h">
+      <Filter>Header Files\GameManager\EntityManager\BodyManager</Filter>
+    </ClInclude>
+    <ClInclude Include="GameManager\EntityManager\BodyManager\Vertex.h">
+      <Filter>Header Files\GameManager\EntityManager\BodyManager</Filter>
+    </ClInclude>
+    <ClInclude Include="GameManager\VulkanManager\Components\VertexBuffer.h">
+      <Filter>Header Files\GameManager\VulkanManager\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="GameManager\EntityManager\BodyManager\RigidBodyBase\RigidBodyBase.h">
+      <Filter>Header Files\GameManager\EntityManager\BodyManager\RigidBodies</Filter>
+    </ClInclude>
+    <ClInclude Include="GameManager\EntityManager\BodyManager\RigidBodyBase\Square.h">
+      <Filter>Header Files\GameManager\EntityManager\BodyManager\RigidBodies</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

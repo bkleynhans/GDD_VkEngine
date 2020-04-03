@@ -11,6 +11,8 @@
 #include <string>
 
 #include "WindowManager/WindowManager.h"
+#include "EntityManager/EntityManager.h"
+#include "EntityManager/BodyManager/BodyManager.h"
 
 class ComponentsBase
 {
@@ -25,7 +27,10 @@ public:
     VkQueue getGraphicsQueue();
     VkQueue getPresentQueue();
 
-    static WindowManager* pWindowManager;
+    void setPWindowManager(WindowManager* pWindow);
+    GLFWwindow* getPWindow();
+    
+    void setPEntityManager(EntityManager* pEntity);    
 
     static VkDevice* pDevice;
     static VkPhysicalDevice* pPhysicalDevice;
@@ -37,6 +42,8 @@ public:
     static VkRenderPass* pRenderPass;
     static VkPipelineLayout* pPipelineLayout;
     static VkPipeline* pGraphicsPipeline;
+    static VkBuffer* pVBuffer;
+    static VkDeviceMemory* pVBufferMemory;
     static VkCommandPool* pCommandPool;
 
     uint32_t count = 0;    
@@ -53,7 +60,12 @@ public:
 #else
     static const bool enableValidationLayers = true;
 #endif
-    
+  
+protected:
+    static WindowManager* pWindowManager;
+    static EntityManager* pEntityManager;
+    static BodyManager* pBodyManager;
+
 };
 
 #endif // _COMPONENTSBASE_H_

@@ -18,11 +18,12 @@ void GameManager::run()
 void GameManager::initWindow()
 {
     this->pWindowManager = new WindowManager(this->framebufferResizeCallback);
+    this->pEntityManager = new EntityManager();
 }
 
 void GameManager::initVulkan()
 {
-    this->pVulkanManager = new VulkanManager(this->pWindowManager);
+    this->pVulkanManager = new VulkanManager(this->pWindowManager, this->pEntityManager);
 }
 
 void GameManager::mainLoop()
