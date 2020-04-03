@@ -28,9 +28,10 @@ VulkanManager::VulkanManager(WindowManager* pWindowManager, EntityManager* pEnti
     this->pRenderPass = new RenderPass(this->pGpuProperties);
     this->pGraphicsPipeline = new GraphicsPipeline(this->pGpuProperties);
     this->pFramebuffers = new Framebuffers(this->pGpuProperties, this->pSwapChainImageViews);
-    this->pVertexBuffer = new VertexBuffer();
 
     this->createCommandPool();
+
+    this->pVertexBuffer = new VertexBuffer();    
 
     this->pCommandBuffers = new CommandBuffers(this->pGpuProperties, this->pFramebuffers);
 
@@ -191,7 +192,7 @@ void VulkanManager::createCommandPool()
 
     if (vkCreateCommandPool(this->getDevice(), &poolInfo, nullptr, this->pComponentsBase->pCommandPool) != VK_SUCCESS)
     {
-        throw std::runtime_error("failed to create command pool!");
+        throw std::runtime_error("failed to create graphics command pool!");
     }
 }
 
