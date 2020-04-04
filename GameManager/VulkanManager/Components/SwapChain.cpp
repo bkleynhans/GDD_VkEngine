@@ -1,6 +1,9 @@
 #include "Swapchain.h"
 
-Swapchain::Swapchain() {}
+Swapchain::Swapchain()
+{
+    
+}
 
 Swapchain::Swapchain(VkPhysicalDevice* pPhysicalDevice)
 {
@@ -42,10 +45,10 @@ VkExtent2D Swapchain::getSwapChainExtent()
     return this->swapChainExtent;
 }
 
-std::vector<VkImage>* Swapchain::getSwapChainImages()
-{
-    return this->pSwapChainImages;
-}
+//std::vector<VkImage>* Swapchain::getSwapChainImages()
+//{
+//    return this->pSwapChainImages;
+//}
 
 // Test for required extensions
 void Swapchain::checkDeviceExtensionSupport(VkPhysicalDevice* pPhysicalDevice)
@@ -350,21 +353,24 @@ void Swapchain::createSwapChain(QueueFamilyIndices* pIndices)
     }
 
     vkGetSwapchainImagesKHR(*pDevice, *pSwapchain, &this->imageCount, nullptr);
-    this->pSwapChainImages = new std::vector<VkImage>(this->imageCount);
-    vkGetSwapchainImagesKHR(*pDevice, *pSwapchain, &this->imageCount, this->pSwapChainImages->data());
+    /*this->pSwapChainImages = new std::vector<VkImage>(this->imageCount);*/
+    pSwapChainImages = new std::vector<VkImage>(this->imageCount);
+    /*vkGetSwapchainImagesKHR(*pDevice, *pSwapchain, &this->imageCount, this->pSwapChainImages->data());*/
+    vkGetSwapchainImagesKHR(*pDevice, *pSwapchain, &this->imageCount, pSwapChainImages->data());
 
     this->swapChainImageFormat = this->surfaceFormat.format;
 }
 
 void Swapchain::deleteSwapChainImages()
 {
-    std::vector<VkImage>().swap(*this->pSwapChainImages);
+    /*std::vector<VkImage>().swap(*this->pSwapChainImages);*/
+    std::vector<VkImage>().swap(*pSwapChainImages);
 }
 
 Swapchain::~Swapchain()
 {
     // We created with the 'new' keyword so we need to clear memory
-    delete pSwapchain;
+    delete pSwapchain;    
 
     std::vector<VkSurfaceFormatKHR>().swap(*this->pSurfaceFormats);
     std::vector<VkPresentModeKHR>().swap(*this->pPresentModes);

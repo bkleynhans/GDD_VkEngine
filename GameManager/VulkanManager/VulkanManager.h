@@ -11,6 +11,7 @@
 #include <string>
 #include <algorithm>
 #include <vector>
+#include <chrono>
 
 #include "WindowManager/WindowManager.h"
 #include "EntityManager/EntityManager.h"
@@ -43,9 +44,13 @@ public:
     void setupDebugMessenger();
     void createSurface();
     void createImageViews();
+    void createDescriptorSetLayout();
     void createCommandPool();
     void createSyncObjects();
-    void recreateSwapChain();
+    void updateUniformBuffer(uint32_t currentImage);
+    void createDescriptorPool();
+    void createDescriptorSets();
+    void recreateSwapChain();    
     void cleanSwapChain();
 
     VkDevice getDevice();

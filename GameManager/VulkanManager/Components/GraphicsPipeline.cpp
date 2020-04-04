@@ -143,7 +143,7 @@ void GraphicsPipeline::createGraphicsPipeline(GpuProperties* pGpuProperties)
     rasterizer.polygonMode = VK_POLYGON_MODE_FILL;
     rasterizer.lineWidth = 1.0f;
     rasterizer.cullMode = VK_CULL_MODE_BACK_BIT;
-    rasterizer.frontFace = VK_FRONT_FACE_CLOCKWISE;
+    rasterizer.frontFace = VK_FRONT_FACE_COUNTER_CLOCKWISE;
     rasterizer.depthBiasEnable = VK_FALSE;
     rasterizer.depthBiasConstantFactor = 0.0f;
     rasterizer.depthBiasClamp = 0.0f;
@@ -218,15 +218,11 @@ void GraphicsPipeline::createGraphicsPipeline(GpuProperties* pGpuProperties)
     */
     VkPipelineLayoutCreateInfo pipelineLayoutInfo = {};
     pipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
-    pipelineLayoutInfo.setLayoutCount = 0;
-    pipelineLayoutInfo.pushConstantRangeCount = 0;
-    pipelineLayoutInfo.setLayoutCount = 0;
-    pipelineLayoutInfo.pSetLayouts = nullptr;
-    pipelineLayoutInfo.pushConstantRangeCount = 0;
-    pipelineLayoutInfo.pPushConstantRanges = nullptr;
+    pipelineLayoutInfo.setLayoutCount = 1;
+    pipelineLayoutInfo.pSetLayouts = pDescriptorSetLayout;
 // END PIPELINE LAYOUT
 
-    pPipelineLayout = new VkPipelineLayout;
+    pPipelineLayout = new VkPipelineLayout();
 
     if (vkCreatePipelineLayout(*pDevice, &pipelineLayoutInfo, nullptr, pPipelineLayout) != VK_SUCCESS)
     {
@@ -248,7 +244,7 @@ void GraphicsPipeline::createGraphicsPipeline(GpuProperties* pGpuProperties)
     pipelineInfo.subpass = 0;
     pipelineInfo.basePipelineHandle = VK_NULL_HANDLE;
 
-    pGraphicsPipeline = new VkPipeline;
+    pGraphicsPipeline = new VkPipeline();
 
     if (vkCreateGraphicsPipelines(*pDevice, VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, pGraphicsPipeline) != VK_SUCCESS)
     {

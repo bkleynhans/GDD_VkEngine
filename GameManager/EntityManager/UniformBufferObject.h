@@ -1,5 +1,5 @@
-#ifndef _ENTITYMANAGER_H_
-#define _ENTITYMANAGER_H_
+#ifndef _UNIFORMBUFFEROBJECT_H_
+#define _UNIFORMBUFFEROBJECT_H_
 
 #define GLFW_INCLUDE_VULKAN
 #include <GLFW/glfw3.h>
@@ -18,18 +18,18 @@
 #include <chrono>
 #include <array>
 
-#include "EntityManager/BodyManager/BodyManager.h"
-
-class EntityManager
+class UniformBufferObject
 {
 public:
-    EntityManager();
-    ~EntityManager();
+    UniformBufferObject();
+    ~UniformBufferObject();
 
-    BodyManager* getPBodyManager();
+    alignas(16) glm::mat4* pModel = nullptr;
+    alignas(16) glm::mat4* pView = nullptr;
+    alignas(16) glm::mat4* pProj = nullptr;
 
-private:    
-    BodyManager* pBodyManager = nullptr;
+private:
+    
 };
 
-#endif // _ENTITYMANAGER_H_
+#endif // _UNIFORMBUFFEROBJECT_H_

@@ -71,7 +71,7 @@ void RenderPass::createRenderPass(GpuProperties* pGpuProperties)
     renderPassInfo.pDependencies = &dependency;
 // END RENDER PASS
 
-    pRenderPass = new VkRenderPass;
+    pRenderPass = new VkRenderPass();
 
     if (vkCreateRenderPass(*pDevice, &renderPassInfo, nullptr, pRenderPass) != VK_SUCCESS)
     {

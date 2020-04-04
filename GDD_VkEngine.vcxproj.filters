@@ -171,9 +171,6 @@
     <ClCompile Include="GameManager\EntityManager\BodyManager\BodyManager.cpp">
       <Filter>Source Files\GameManager\EntityManager\BodyManager</Filter>
     </ClCompile>
-    <ClCompile Include="GameManager\EntityManager\BodyManager\UniformBufferObject.cpp">
-      <Filter>Source Files\GameManager\EntityManager\BodyManager</Filter>
-    </ClCompile>
     <ClCompile Include="GameManager\EntityManager\BodyManager\Vertex.cpp">
       <Filter>Source Files\GameManager\EntityManager\BodyManager</Filter>
     </ClCompile>
@@ -185,6 +182,9 @@
     </ClCompile>
     <ClCompile Include="GameManager\EntityManager\BodyManager\RigidBodyBase\Square.cpp">
       <Filter>Source Files\GameManager\EntityManager\BodyManager\RigidBodies</Filter>
+    </ClCompile>
+    <ClCompile Include="GameManager\EntityManager\UniformBufferObject.cpp">
+      <Filter>Source Files\GameManager\EntityManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -242,9 +242,6 @@
     <ClInclude Include="GameManager\EntityManager\BodyManager\BodyManager.h">
       <Filter>Header Files\GameManager\EntityManager\BodyManager</Filter>
     </ClInclude>
-    <ClInclude Include="GameManager\EntityManager\BodyManager\UniformBufferObject.h">
-      <Filter>Header Files\GameManager\EntityManager\BodyManager</Filter>
-    </ClInclude>
     <ClInclude Include="GameManager\EntityManager\BodyManager\Vertex.h">
       <Filter>Header Files\GameManager\EntityManager\BodyManager</Filter>
     </ClInclude>
@@ -256,6 +253,9 @@
     </ClInclude>
     <ClInclude Include="GameManager\EntityManager\BodyManager\RigidBodyBase\Square.h">
       <Filter>Header Files\GameManager\EntityManager\BodyManager\RigidBodies</Filter>
+    </ClInclude>
+    <ClInclude Include="GameManager\EntityManager\UniformBufferObject.h">
+      <Filter>Header Files\GameManager\EntityManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

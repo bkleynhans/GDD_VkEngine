@@ -14,6 +14,13 @@
 #include "EntityManager/EntityManager.h"
 #include "EntityManager/BodyManager/BodyManager.h"
 
+struct UniformBufferObject
+{
+    alignas(16) glm::mat4 model;
+    alignas(16) glm::mat4 view;
+    alignas(16) glm::mat4 proj;
+};
+
 class ComponentsBase
 {
 public:
@@ -27,26 +34,42 @@ public:
     VkQueue getGraphicsQueue();
     VkQueue getPresentQueue();
 
+    std::vector<VkImage>* getSwapChainImages();
+
     void setPWindowManager(WindowManager* pWindow);
     GLFWwindow* getPWindow();
     
     void setPEntityManager(EntityManager* pEntity);    
-
-    static VkDevice* pDevice;
-    static VkPhysicalDevice* pPhysicalDevice;
+    
     static VkInstance* pInstance;
     static VkSurfaceKHR* pSurface;
+
+    static VkPhysicalDevice* pPhysicalDevice;
+    static VkDevice* pDevice;
+
     static VkQueue* pGraphicsQueue;
     static VkQueue* pPresentQueue;
+    
     static VkSwapchainKHR* pSwapchain;
+    
     static VkRenderPass* pRenderPass;
+    static VkDescriptorSetLayout* pDescriptorSetLayout;
     static VkPipelineLayout* pPipelineLayout;
     static VkPipeline* pGraphicsPipeline;
-    static VkBuffer* pVBuffer;
-    static VkDeviceMemory* pVBufferMemory;
+
     static VkCommandPool* pCommandPool;
+
+    static VkBuffer* pVBuffer;
+    static VkDeviceMemory* pVBufferMemory;    
     static VkBuffer* pIndexBuffer;
     static VkDeviceMemory* pIndexBufferMemory;
+
+    static VkDescriptorPool* pDescriptorPool;
+    static std::vector<VkDescriptorSet>* pDescriptorSets;
+
+    static std::vector<VkImage>* pSwapChainImages;
+    static std::vector<VkBuffer>* pUniformBuffers;
+    static std::vector<VkDeviceMemory>* pUniformBuffersMemory;
 
     uint32_t count = 0;    
         

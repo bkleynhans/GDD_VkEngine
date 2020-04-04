@@ -150,9 +150,9 @@
     <ClCompile Include="GameManager\EntityManager\BodyManager\BodyManager.cpp" />
     <ClCompile Include="GameManager\EntityManager\BodyManager\RigidBodyBase\RigidBodyBase.cpp" />
     <ClCompile Include="GameManager\EntityManager\BodyManager\RigidBodyBase\Square.cpp" />
-    <ClCompile Include="GameManager\EntityManager\BodyManager\UniformBufferObject.cpp" />
     <ClCompile Include="GameManager\EntityManager\BodyManager\Vertex.cpp" />
     <ClCompile Include="GameManager\EntityManager\EntityManager.cpp" />
+    <ClCompile Include="GameManager\EntityManager\UniformBufferObject.cpp" />
     <ClCompile Include="GameManager\GameManager.cpp" />
     <ClCompile Include="GameManager\VulkanManager\Components\CommandBuffers.cpp" />
     <ClCompile Include="GameManager\VulkanManager\Components\Framebuffers.cpp" />
@@ -175,9 +175,9 @@
     <ClInclude Include="GameManager\EntityManager\BodyManager\BodyManager.h" />
     <ClInclude Include="GameManager\EntityManager\BodyManager\RigidBodyBase\RigidBodyBase.h" />
     <ClInclude Include="GameManager\EntityManager\BodyManager\RigidBodyBase\Square.h" />
-    <ClInclude Include="GameManager\EntityManager\BodyManager\UniformBufferObject.h" />
     <ClInclude Include="GameManager\EntityManager\BodyManager\Vertex.h" />
     <ClInclude Include="GameManager\EntityManager\EntityManager.h" />
+    <ClInclude Include="GameManager\EntityManager\UniformBufferObject.h" />
     <ClInclude Include="GameManager\GameManager.h" />
     <ClInclude Include="GameManager\VulkanManager\Components\CommandBuffers.h" />
     <ClInclude Include="GameManager\VulkanManager\Components\Framebuffers.h" />

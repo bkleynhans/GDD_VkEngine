@@ -71,6 +71,8 @@ void GameManager::drawFrame()
         throw std::runtime_error("failed to acquire swap chaim image!");
     }
 
+    this->pVulkanManager->updateUniformBuffer(imageIndex);
+
     if (*this->pVulkanManager->getPImagesInFlight(imageIndex) != VK_NULL_HANDLE)
     {
         vkWaitForFences(

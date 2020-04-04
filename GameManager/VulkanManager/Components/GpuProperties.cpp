@@ -115,7 +115,7 @@ void GpuProperties::pickPhysicalDevice(VkSurfaceKHR* pSurface)
     vkEnumeratePhysicalDevices(*pInstance, &this->count, this->pDevices->data());
 
     pCandidates = new std::multimap<int, VkPhysicalDevice>();
-    pCandidate = new VkPhysicalDevice;
+    pCandidate = new VkPhysicalDevice();
 
     // Use an ordered map to automatically sort candidates by increasing score
     for (const auto& device : *this->pDevices)

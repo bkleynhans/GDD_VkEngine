@@ -1,5 +1,5 @@
-#ifndef _ENTITYMANAGER_H_
-#define _ENTITYMANAGER_H_
+#ifndef _RIGIDBODYMANAGER_H_
+#define _RIGIDBODYMANAGER_H_
 
 #define GLFW_INCLUDE_VULKAN
 #include <GLFW/glfw3.h>
@@ -18,18 +18,14 @@
 #include <chrono>
 #include <array>
 
-#include "EntityManager/BodyManager/BodyManager.h"
-
-class EntityManager
+class RigidBodyManager
 {
 public:
-    EntityManager();
-    ~EntityManager();
+    RigidBodyManager();
+    ~RigidBodyManager();
 
-    BodyManager* getPBodyManager();
+private:
 
-private:    
-    BodyManager* pBodyManager = nullptr;
 };
 
-#endif // _ENTITYMANAGER_H_
+#endif // _RIGIDBODYMANAGER_H_

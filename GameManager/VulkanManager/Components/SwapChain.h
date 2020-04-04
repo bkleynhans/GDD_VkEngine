@@ -75,7 +75,7 @@ public:
     VkPresentModeKHR getChosenPresentMode();
     VkExtent2D getSwapChainExtent();
 
-    std::vector<VkImage>* getSwapChainImages();
+    /*std::vector<VkImage>* getSwapChainImages();*/
 
     const std::vector<const char*> deviceExtensions = {
         VK_KHR_SWAPCHAIN_EXTENSION_NAME
@@ -95,7 +95,7 @@ private:
     std::vector<VkExtensionProperties>* pAvailableExtensions = nullptr;
     std::vector<VkSurfaceFormatKHR>* pSurfaceFormats = nullptr;
     std::vector<VkPresentModeKHR>* pPresentModes = nullptr;
-    std::vector<VkImage>* pSwapChainImages = nullptr;
+    /*std::vector<VkImage>* pSwapChainImages = nullptr;*/
 
     bool requiredExtensionsSupported = false;
     bool swapChainIsAdequate = false;

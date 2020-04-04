@@ -11,8 +11,8 @@ VulkanManager::VulkanManager(WindowManager* pWindowManager, EntityManager* pEnti
     this->pVulkanExtensionProperties = new VulkanExtensionProperties();
     this->pVulkanLayerProperties = new VulkanLayerProperties();
 
-    this->pComponentsBase->pInstance = new VkInstance;
-    this->pComponentsBase->pSurface = new VkSurfaceKHR;
+    this->pComponentsBase->pInstance = new VkInstance();
+    this->pComponentsBase->pSurface = new VkSurfaceKHR();
 
     this->createInstance();
     this->setupDebugMessenger();
@@ -26,6 +26,9 @@ VulkanManager::VulkanManager(WindowManager* pWindowManager, EntityManager* pEnti
     this->createImageViews();
 
     this->pRenderPass = new RenderPass(this->pGpuProperties);
+
+    this->createDescriptorSetLayout();
+
     this->pGraphicsPipeline = new GraphicsPipeline(this->pGpuProperties);
     this->pFramebuffers = new Framebuffers(this->pGpuProperties, this->pSwapChainImageViews);
 
@@ -33,6 +36,10 @@ VulkanManager::VulkanManager(WindowManager* pWindowManager, EntityManager* pEnti
 
     this->pVertexBuffer = new VertexBuffer();
     this->pVertexBuffer->createIndexBuffer();
+    this->pVertexBuffer->createUniformBuffers();
+
+    this->createDescriptorPool();
+    this->createDescriptorSets();
 
     this->pCommandBuffers = new CommandBuffers(this->pGpuProperties, this->pFramebuffers);
 
@@ -183,6 +190,28 @@ void VulkanManager::createImageViews()
     }
 }
 
+void VulkanManager::createDescriptorSetLayout()
+{
+    VkDescriptorSetLayoutBinding uboLayoutBinding = {};
+    uboLayoutBinding.binding = 0;
+    uboLayoutBinding.descriptorCount = 1;
+    uboLayoutBinding.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+    uboLayoutBinding.pImmutableSamplers = nullptr;
+    uboLayoutBinding.stageFlags = VK_SHADER_STAGE_VERTEX_BIT;
+
+    VkDescriptorSetLayoutCreateInfo layoutInfo = {};
+    layoutInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO;
+    layoutInfo.bindingCount = 1;
+    layoutInfo.pBindings = &uboLayoutBinding;
+
+    this->pComponentsBase->pDescriptorSetLayout = new VkDescriptorSetLayout();
+
+    if (vkCreateDescriptorSetLayout(this->pComponentsBase->getDevice(), &layoutInfo, nullptr, this->pComponentsBase->pDescriptorSetLayout) != VK_SUCCESS)
+    {
+        throw std::runtime_error("failed to create descriptor set layout!");
+    }
+}
+
 void VulkanManager::createCommandPool()
 {
     VkCommandPoolCreateInfo poolInfo = {};
@@ -294,6 +323,67 @@ VKAPI_ATTR VkBool32 VKAPI_CALL VulkanManager::debugCallback(
     return VK_FALSE;
 }
 
+void VulkanManager::createDescriptorPool()
+{
+    VkDescriptorPoolSize poolSize = {};
+    poolSize.type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+    poolSize.descriptorCount = static_cast<uint32_t>(this->pGpuProperties->getSwapChainImages()->size());
+
+    VkDescriptorPoolCreateInfo poolInfo = {};
+    poolInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
+    poolInfo.poolSizeCount = 1;
+    poolInfo.pPoolSizes = &poolSize;
+    poolInfo.maxSets = static_cast<uint32_t>(this->pGpuProperties->getSwapChainImages()->size());
+
+    pComponentsBase->pDescriptorPool = new VkDescriptorPool();
+
+    if (vkCreateDescriptorPool(this->pComponentsBase->getDevice(), &poolInfo, nullptr, pComponentsBase->pDescriptorPool) != VK_SUCCESS)
+    {
+        throw std::runtime_error("failed to create descriptor pool!");
+    }
+}
+
+void VulkanManager::createDescriptorSets()
+{
+    std::vector<VkDescriptorSetLayout> layouts(this->pGpuProperties->getSwapChainImages()->size(), *this->pComponentsBase->pDescriptorSetLayout);
+    VkDescriptorSetAllocateInfo allocInfo = {};
+    allocInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
+    allocInfo.descriptorPool = *pComponentsBase->pDescriptorPool;
+    allocInfo.descriptorSetCount = static_cast<uint32_t>(this->pGpuProperties->getSwapChainImages()->size());
+    allocInfo.pSetLayouts = layouts.data();
+        
+    pComponentsBase->pDescriptorSets = new std::vector<VkDescriptorSet>(this->pGpuProperties->getSwapChainImages()->size());
+
+    if (vkAllocateDescriptorSets(this->pComponentsBase->getDevice(), &allocInfo, pComponentsBase->pDescriptorSets->data()) != VK_SUCCESS)
+    {
+        throw std::runtime_error("failed to allocate descriptor sets!");
+    }
+
+    for (size_t i = 0; i < this->pGpuProperties->getSwapChainImages()->size(); i++)
+    {
+        VkDescriptorBufferInfo bufferInfo = {};
+        bufferInfo.buffer = (*pComponentsBase->pUniformBuffers)[i];
+        bufferInfo.offset = 0;
+        bufferInfo.range = sizeof(UniformBufferObject);
+
+        VkWriteDescriptorSet descriptorWrite = {};
+        descriptorWrite.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+        descriptorWrite.dstSet = (*pComponentsBase->pDescriptorSets)[i];
+        descriptorWrite.dstBinding = 0;
+        descriptorWrite.dstArrayElement = 0;
+        descriptorWrite.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+        descriptorWrite.descriptorCount = 1;
+        descriptorWrite.pBufferInfo = &bufferInfo;
+
+        vkUpdateDescriptorSets(this->pComponentsBase->getDevice(), 1, &descriptorWrite, 0, nullptr);
+    }
+}
+
+void VulkanManager::updateUniformBuffer(uint32_t currentImage)
+{
+    this->pVertexBuffer->updateUniformBuffer(this->pGpuProperties, currentImage);
+}
+
 void VulkanManager::recreateSwapChain()
 {
     int width = 0;
@@ -319,6 +409,10 @@ void VulkanManager::recreateSwapChain()
     this->pRenderPass->createRenderPass(this->pGpuProperties);
     this->pGraphicsPipeline->createGraphicsPipeline(this->pGpuProperties);
     this->pFramebuffers->createFramebuffers(this->pGpuProperties, this->pSwapChainImageViews);
+
+    this->pVertexBuffer->createUniformBuffers();
+    this->createDescriptorPool();
+    this->createDescriptorSets();
 
     this->pCommandBuffers = new CommandBuffers(this->pGpuProperties, this->pFramebuffers);
 }
@@ -360,11 +454,21 @@ void VulkanManager::cleanSwapChain()
     }
 
     vkDestroySwapchainKHR(this->getDevice(), *this->pComponentsBase->pSwapchain, nullptr);
+
+    for (size_t i = 0; i < this->pGpuProperties->pSwapchain->getSwapChainImages()->size(); i++)
+    {
+        vkDestroyBuffer(this->pComponentsBase->getDevice(), (*this->pComponentsBase->pUniformBuffers)[i], nullptr);
+        vkFreeMemory(this->pComponentsBase->getDevice(), (*this->pComponentsBase->pUniformBuffersMemory)[i], nullptr);
+    }
+
+    vkDestroyDescriptorPool(this->pComponentsBase->getDevice(), *this->pComponentsBase->pDescriptorPool, nullptr);
 }
 
 VulkanManager::~VulkanManager()
 {
     this->cleanSwapChain();
+
+    vkDestroyDescriptorSetLayout(this->pComponentsBase->getDevice(), *this->pComponentsBase->pDescriptorSetLayout, nullptr);
 
     vkDestroyBuffer(this->pComponentsBase->getDevice(), *this->pComponentsBase->pIndexBuffer, nullptr);
     vkFreeMemory(this->pComponentsBase->getDevice(), *this->pComponentsBase->pIndexBufferMemory, nullptr);
