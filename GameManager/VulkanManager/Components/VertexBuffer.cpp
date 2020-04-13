@@ -12,15 +12,15 @@ VertexBuffer::VertexBuffer()
 
 void VertexBuffer::createVertexBuffer()
 {
-    VkDeviceSize bufferSize = sizeof(pBodyManager->getPSquare()->getPVertices()[0]) * pBodyManager->getPSquare()->getPVertices()->size();
+    VkDeviceSize bufferSize = sizeof((*pBodyManager->getPSquare()->getPVertices())[0]) * pBodyManager->getPSquare()->getPVertices()->size();
 
     VkBuffer stagingBuffer;
     VkDeviceMemory stagingBufferMemory;
     createBuffer(bufferSize, VK_BUFFER_USAGE_TRANSFER_SRC_BIT, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, stagingBuffer, stagingBufferMemory);
 
-    void* data;
-    vkMapMemory(*pDevice, stagingBufferMemory, 0, bufferSize, 0, &data);
-        memcpy(data, pBodyManager->getPSquare()->getPVertices()->data(), (size_t)bufferSize);
+    void* pData;
+    vkMapMemory(*pDevice, stagingBufferMemory, 0, bufferSize, 0, &pData);
+        memcpy(pData, pBodyManager->getPSquare()->getPVertices()->data(), (size_t)bufferSize);
     vkUnmapMemory(*pDevice, stagingBufferMemory);
 
     createBuffer(bufferSize, VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, *pVBuffer, *pVBufferMemory);
@@ -33,15 +33,15 @@ void VertexBuffer::createVertexBuffer()
 
 void VertexBuffer::createIndexBuffer()
 {
-    VkDeviceSize bufferSize = sizeof(pBodyManager->getPSquare()->getPIndices()[0]) * pBodyManager->getPSquare()->getPIndices()->size();
+    VkDeviceSize bufferSize = sizeof((*pBodyManager->getPSquare()->getPIndices())[0]) * pBodyManager->getPSquare()->getPIndices()->size();
 
     VkBuffer stagingBuffer;
     VkDeviceMemory stagingBufferMemory;
     createBuffer(bufferSize, VK_BUFFER_USAGE_TRANSFER_SRC_BIT, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, stagingBuffer, stagingBufferMemory);
 
-    void* data;
-    vkMapMemory(*pDevice, stagingBufferMemory, 0, bufferSize, 0, &data);
-        memcpy(data, pBodyManager->getPSquare()->getPIndices()->data(), (size_t)bufferSize);
+    void* pData;
+    vkMapMemory(*pDevice, stagingBufferMemory, 0, bufferSize, 0, &pData);
+        memcpy(pData, pBodyManager->getPSquare()->getPIndices()->data(), (size_t)bufferSize);
     vkUnmapMemory(*pDevice, stagingBufferMemory);
 
     createBuffer(bufferSize, VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_INDEX_BUFFER_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, *pIndexBuffer, *pIndexBufferMemory);
@@ -113,6 +113,8 @@ void VertexBuffer::copyBuffer(VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSi
     vkBeginCommandBuffer(commandBuffer, &beginInfo);
 
     VkBufferCopy copyRegion = {};
+    copyRegion.srcOffset = 0;
+    copyRegion.dstOffset = 0;
     copyRegion.size = size;
     vkCmdCopyBuffer(commandBuffer, srcBuffer, dstBuffer, 1, &copyRegion);
 
@@ -141,6 +143,8 @@ uint32_t VertexBuffer::findMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags
             return i;
         }
     }
+
+    return 0;
 }
 
 void VertexBuffer::updateUniformBuffer(GpuProperties* pGpuProperties, uint32_t currentImage)
@@ -150,20 +154,15 @@ void VertexBuffer::updateUniformBuffer(GpuProperties* pGpuProperties, uint32_t c
     auto currentTime = std::chrono::high_resolution_clock::now();
     float time = std::chrono::duration<float, std::chrono::seconds::period>(currentTime - startTime).count();
 
-    /*UniformBufferObject ubo;
-    ubo.pModel = &glm::rotate(glm::mat4(1.0f), time * glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-    ubo.pView = &glm::lookAt(glm::vec3(2.0f, 2.0f, 2.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-    ubo.pProj = &glm::perspective(glm::radians(45.0f), pGpuProperties->pSwapchain->getSwapChainExtent().width / (float)(pGpuProperties->pSwapchain->getSwapChainExtent().height), 0.1f, 10.0f);
-    (*ubo.pProj)[1][1] *= -1;*/
     UniformBufferObject ubo;
     ubo.model = glm::rotate(glm::mat4(1.0f), time * glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
     ubo.view = glm::lookAt(glm::vec3(2.0f, 2.0f, 2.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f));
     ubo.proj = glm::perspective(glm::radians(45.0f), pGpuProperties->pSwapchain->getSwapChainExtent().width / (float)(pGpuProperties->pSwapchain->getSwapChainExtent().height), 0.1f, 10.0f);
     ubo.proj[1][1] *= -1;
 
-    void* data;
-    vkMapMemory(*pDevice, (*pUniformBuffersMemory)[currentImage], 0, sizeof(ubo), 0, &data);
-    memcpy(data, &ubo, sizeof(ubo));
+    void* pData;
+    vkMapMemory(*pDevice, (*pUniformBuffersMemory)[currentImage], 0, sizeof(ubo), 0, &pData);
+    memcpy(pData, &ubo, sizeof(ubo));
     vkUnmapMemory(*pDevice, (*pUniformBuffersMemory)[currentImage]);
 }
 
