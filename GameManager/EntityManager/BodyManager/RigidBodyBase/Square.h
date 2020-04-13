@@ -38,13 +38,14 @@ private:
         {{-0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}},
         {{0.5f, -0.5f}, {0.0f, 1.0f, 0.0f}},
         {{0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}},
-        {{-0.5f, 0.5f}, {1.0f, 1.0f, 1.0f}}
+        {{-0.5f, 0.5f}, {1.0f, 1.0f, 1.0f}},
+        {{0.0f, 1.0f}, {1.0f, 1.0f, 0.0f}}
     };    
 
     // Indices of the vertices as defined in the vertices variable above
     // this variable
     const std::vector<uint16_t> indices = {
-        0, 1, 2, 2, 3, 0
+        0, 1, 2, 2, 3, 0, 2, 4, 3
     };
 
     const std::vector<Vertex>* pVertices = &vertices;
