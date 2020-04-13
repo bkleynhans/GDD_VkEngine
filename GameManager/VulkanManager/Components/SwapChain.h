@@ -95,7 +95,6 @@ private:
     std::vector<VkExtensionProperties>* pAvailableExtensions = nullptr;
     std::vector<VkSurfaceFormatKHR>* pSurfaceFormats = nullptr;
     std::vector<VkPresentModeKHR>* pPresentModes = nullptr;
-    /*std::vector<VkImage>* pSwapChainImages = nullptr;*/
 
     bool requiredExtensionsSupported = false;
     bool swapChainIsAdequate = false;

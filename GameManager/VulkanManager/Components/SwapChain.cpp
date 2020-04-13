@@ -45,11 +45,6 @@ VkExtent2D Swapchain::getSwapChainExtent()
     return this->swapChainExtent;
 }
 
-//std::vector<VkImage>* Swapchain::getSwapChainImages()
-//{
-//    return this->pSwapChainImages;
-//}
-
 // Test for required extensions
 void Swapchain::checkDeviceExtensionSupport(VkPhysicalDevice* pPhysicalDevice)
 {
@@ -342,9 +337,7 @@ void Swapchain::createSwapChain(QueueFamilyIndices* pIndices)
 
     createInfo.presentMode = this->chosenPresentMode;
     createInfo.clipped = VK_TRUE;
-
-    /*createInfo.oldSwapchain = VK_NULL_HANDLE;*/
-    
+        
     pSwapchain = new VkSwapchainKHR();
 
     if (vkCreateSwapchainKHR(*pDevice, &createInfo, nullptr, pSwapchain) != VK_SUCCESS)
@@ -353,9 +346,7 @@ void Swapchain::createSwapChain(QueueFamilyIndices* pIndices)
     }
 
     vkGetSwapchainImagesKHR(*pDevice, *pSwapchain, &this->imageCount, nullptr);
-    /*this->pSwapChainImages = new std::vector<VkImage>(this->imageCount);*/
     pSwapChainImages = new std::vector<VkImage>(this->imageCount);
-    /*vkGetSwapchainImagesKHR(*pDevice, *pSwapchain, &this->imageCount, this->pSwapChainImages->data());*/
     vkGetSwapchainImagesKHR(*pDevice, *pSwapchain, &this->imageCount, pSwapChainImages->data());
 
     this->swapChainImageFormat = this->surfaceFormat.format;
@@ -363,7 +354,6 @@ void Swapchain::createSwapChain(QueueFamilyIndices* pIndices)
 
 void Swapchain::deleteSwapChainImages()
 {
-    /*std::vector<VkImage>().swap(*this->pSwapChainImages);*/
     std::vector<VkImage>().swap(*pSwapChainImages);
 }
 
