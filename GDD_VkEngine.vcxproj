@@ -148,8 +148,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="GameManager\EntityManager\BodyManager\BodyManager.cpp" />
-    <ClCompile Include="GameManager\EntityManager\BodyManager\RigidBodyBase\RigidBodyBase.cpp" />
-    <ClCompile Include="GameManager\EntityManager\BodyManager\RigidBodyBase\Square.cpp" />
+    <ClCompile Include="GameManager\EntityManager\BodyManager\RigidBodies\RigidBodyBase.cpp" />
+    <ClCompile Include="GameManager\EntityManager\BodyManager\RigidBodies\Square.cpp" />
+    <ClCompile Include="GameManager\EntityManager\BodyManager\RigidBodies\Triangle.cpp" />
     <ClCompile Include="GameManager\EntityManager\BodyManager\Vertex.cpp" />
     <ClCompile Include="GameManager\EntityManager\EntityManager.cpp" />
     <ClCompile Include="GameManager\EntityManager\UniformBufferObject.cpp" />
@@ -173,8 +174,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameManager\EntityManager\BodyManager\BodyManager.h" />
-    <ClInclude Include="GameManager\EntityManager\BodyManager\RigidBodyBase\RigidBodyBase.h" />
-    <ClInclude Include="GameManager\EntityManager\BodyManager\RigidBodyBase\Square.h" />
+    <ClInclude Include="GameManager\EntityManager\BodyManager\RigidBodies\RigidBodyBase.h" />
+    <ClInclude Include="GameManager\EntityManager\BodyManager\RigidBodies\Square.h" />
+    <ClInclude Include="GameManager\EntityManager\BodyManager\RigidBodies\Triangle.h" />
     <ClInclude Include="GameManager\EntityManager\BodyManager\Vertex.h" />
     <ClInclude Include="GameManager\EntityManager\EntityManager.h" />
     <ClInclude Include="GameManager\EntityManager\UniformBufferObject.h" />

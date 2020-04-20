@@ -1,24 +1,12 @@
 #ifndef _ENTITYMANAGER_H_
 #define _ENTITYMANAGER_H_
 
-#define GLFW_INCLUDE_VULKAN
-#include <GLFW/glfw3.h>
-
-#define GLM_FORCE_RADIANS
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-
-#include <iostream>
-#include <stdexcept>
-#include <functional>
-#include <cstdlib>
 #include <string>
-#include <algorithm>
 #include <vector>
-#include <chrono>
-#include <array>
+#include <map>
 
 #include "EntityManager/BodyManager/BodyManager.h"
+#include "EntityManager/BodyManager/Vertex.h"
 
 class EntityManager
 {
@@ -28,8 +16,29 @@ public:
 
     BodyManager* getPBodyManager();
 
-private:    
+    const std::vector<Vertex>* getPVertex(std::string idx);
+    const std::vector<uint16_t>* getPIndex(std::string idx);
+
+    std::map<std::string, const std::vector<Vertex>*>* getPVertices();
+    std::map<std::string, const std::vector<uint16_t>*>* getPIndices();
+
+private:
     BodyManager* pBodyManager = nullptr;
+
+    /*BodyManager* getPBodyManager();*/
+    
+    void buildBodies();
+    void populateVertices(std::string shape, RigidBodyBase* obj);
+    void populateIndices(std::string shape, RigidBodyBase* obj);
+
+    std::pair<std::string, const std::vector<Vertex>*> makeVertexPair(std::string, RigidBodyBase*);
+    std::pair<std::string, const std::vector<uint16_t>*> makeIndexPair(std::string, RigidBodyBase*);
+
+    std::map<std::string, const std::vector<Vertex>*> vertices;
+    std::map<std::string, const std::vector<uint16_t>*> indices;
+    
+    std::map<std::string, const std::vector<Vertex>*>* pVertices = &vertices;
+    std::map<std::string, const std::vector<uint16_t>*>* pIndices = &indices;
 };
 
 #endif // _ENTITYMANAGER_H_

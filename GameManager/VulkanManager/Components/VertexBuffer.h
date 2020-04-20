@@ -12,7 +12,6 @@
 
 #include "VulkanManager/ComponentsBase.h"
 #include "VulkanManager/Components/GpuProperties.h"
-//#include "EntityManager/UniformBufferObject.h"
 
 class VertexBuffer :
     public ComponentsBase

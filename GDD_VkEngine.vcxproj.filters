@@ -177,14 +177,17 @@
     <ClCompile Include="GameManager\VulkanManager\Components\VertexBuffer.cpp">
       <Filter>Source Files\GameManager\VulkanManager\Components</Filter>
     </ClCompile>
-    <ClCompile Include="GameManager\EntityManager\BodyManager\RigidBodyBase\RigidBodyBase.cpp">
-      <Filter>Source Files\GameManager\EntityManager\BodyManager\RigidBodies</Filter>
-    </ClCompile>
-    <ClCompile Include="GameManager\EntityManager\BodyManager\RigidBodyBase\Square.cpp">
-      <Filter>Source Files\GameManager\EntityManager\BodyManager\RigidBodies</Filter>
-    </ClCompile>
     <ClCompile Include="GameManager\EntityManager\UniformBufferObject.cpp">
       <Filter>Source Files\GameManager\EntityManager</Filter>
+    </ClCompile>
+    <ClCompile Include="GameManager\EntityManager\BodyManager\RigidBodies\RigidBodyBase.cpp">
+      <Filter>Source Files\GameManager\EntityManager\BodyManager\RigidBodies</Filter>
+    </ClCompile>
+    <ClCompile Include="GameManager\EntityManager\BodyManager\RigidBodies\Square.cpp">
+      <Filter>Source Files\GameManager\EntityManager\BodyManager\RigidBodies</Filter>
+    </ClCompile>
+    <ClCompile Include="GameManager\EntityManager\BodyManager\RigidBodies\Triangle.cpp">
+      <Filter>Source Files\GameManager\EntityManager\BodyManager\RigidBodies</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -248,14 +251,17 @@
     <ClInclude Include="GameManager\VulkanManager\Components\VertexBuffer.h">
       <Filter>Header Files\GameManager\VulkanManager\Components</Filter>
     </ClInclude>
-    <ClInclude Include="GameManager\EntityManager\BodyManager\RigidBodyBase\RigidBodyBase.h">
-      <Filter>Header Files\GameManager\EntityManager\BodyManager\RigidBodies</Filter>
-    </ClInclude>
-    <ClInclude Include="GameManager\EntityManager\BodyManager\RigidBodyBase\Square.h">
-      <Filter>Header Files\GameManager\EntityManager\BodyManager\RigidBodies</Filter>
-    </ClInclude>
     <ClInclude Include="GameManager\EntityManager\UniformBufferObject.h">
       <Filter>Header Files\GameManager\EntityManager</Filter>
+    </ClInclude>
+    <ClInclude Include="GameManager\EntityManager\BodyManager\RigidBodies\RigidBodyBase.h">
+      <Filter>Header Files\GameManager\EntityManager\BodyManager\RigidBodies</Filter>
+    </ClInclude>
+    <ClInclude Include="GameManager\EntityManager\BodyManager\RigidBodies\Square.h">
+      <Filter>Header Files\GameManager\EntityManager\BodyManager\RigidBodies</Filter>
+    </ClInclude>
+    <ClInclude Include="GameManager\EntityManager\BodyManager\RigidBodies\Triangle.h">
+      <Filter>Header Files\GameManager\EntityManager\BodyManager\RigidBodies</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

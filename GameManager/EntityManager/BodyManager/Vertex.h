@@ -6,16 +6,16 @@
 
 #define GLM_FORCE_RADIANS
 #include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-
-#include <iostream>
-#include <stdexcept>
-#include <functional>
-#include <cstdlib>
-#include <string>
-#include <algorithm>
-#include <vector>
-#include <chrono>
+//#include <glm/gtc/matrix_transform.hpp>
+//
+//#include <iostream>
+//#include <stdexcept>
+//#include <functional>
+//#include <cstdlib>
+//#include <string>
+//#include <algorithm>
+//#include <vector>
+//#include <chrono>
 #include <array>
 
 class Vertex

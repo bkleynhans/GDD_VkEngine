@@ -39,7 +39,7 @@ public:
     void setPWindowManager(WindowManager* pWindow);
     GLFWwindow* getPWindow();
     
-    void setPEntityManager(EntityManager* pEntity);    
+    void setPEntityManager(EntityManager* pEntity);
     
     static VkInstance* pInstance;
     static VkSurfaceKHR* pSurface;
