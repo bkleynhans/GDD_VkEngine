@@ -1,0 +1,165 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="GameManager" Collapsed="true">
+    <Position X="9.5" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAABgAAAAAAAQACAAACAAAAAIQAAAIAAAAAIABQAAA=</HashCode>
+      <FileName>GameManager\GameManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WindowManager" Collapsed="true">
+    <Position X="6" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAAAAAAACAAAAAAAAAAAQAwAgAAAAAAABAAAA=</HashCode>
+      <FileName>GameManager\WindowManager\WindowManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EntityManager" Collapsed="true">
+    <Position X="7.75" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQEBQAAAAEAAAAAAARAEAABAAQAQAAAsBAAEAAAAAEA=</HashCode>
+      <FileName>GameManager\EntityManager\EntityManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UniformBufferObject" Collapsed="true">
+    <Position X="6" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAACAAAAAAAAAAAAAQAAAQQAAAAAAAAAAA=</HashCode>
+      <FileName>GameManager\EntityManager\UniformBufferObject.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BodyManager" Collapsed="true">
+    <Position X="6" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAABMAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>GameManager\EntityManager\BodyManager\BodyManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Vertex" Collapsed="true">
+    <Position X="7.75" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACBAAgAQAAAAIAQIAAIggCAAAAAgAAAAAA=</HashCode>
+      <FileName>GameManager\EntityManager\BodyManager\Vertex.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RigidBodyBase" Collapsed="true">
+    <Position X="7.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAAAMAEAAAAAAAEAAAAAAAQAAAEAAAEAAAAgAA=</HashCode>
+      <FileName>GameManager\EntityManager\BodyManager\RigidBodies\RigidBodyBase.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Square" Collapsed="true">
+    <Position X="6" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAAAAAAAgAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>GameManager\EntityManager\BodyManager\RigidBodies\Square.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Triangle" Collapsed="true">
+    <Position X="8.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAAAAAABAAAAAAAAEAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GameManager\EntityManager\BodyManager\RigidBodies\Triangle.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VulkanManager" Collapsed="true">
+    <Position X="9.5" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>4IAAAICgxAQAkaEgAKAABCSKTQCEEgQQAIAAAwBCQAI=</HashCode>
+      <FileName>GameManager\VulkanManager\VulkanManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ComponentsBase" Collapsed="true">
+    <Position X="2.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAEQACAAoIAwYAAhYIgBCQESAQQEgaASAgSAAAgBAA=</HashCode>
+      <FileName>GameManager\VulkanManager\ComponentsBase.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CommandBuffers" Collapsed="true">
+    <Position X="1.75" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAgAAAAAAIAAAAAAAAAAAAAAIAAAAIAAAAA=</HashCode>
+      <FileName>GameManager\VulkanManager\Components\CommandBuffers.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Framebuffers" Collapsed="true">
+    <Position X="3.75" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQAAAAAAAAAAIBAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GameManager\VulkanManager\Components\Framebuffers.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GlfwExtensionProperties" Collapsed="true">
+    <Position X="1.75" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAAAiAIACAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GameManager\VulkanManager\Components\GlfwExtensionProperties.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GpuProperties" Collapsed="true">
+    <Position X="1.75" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAEAIgAAACAAACAAgABAgEQAAgAAAIAQAA=</HashCode>
+      <FileName>GameManager\VulkanManager\Components\GpuProperties.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GraphicsPipeline" Collapsed="true">
+    <Position X="1.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABAAAAIAIAAAAAAAAAAAAAAAAAAAAAEAAAAAAQ=</HashCode>
+      <FileName>GameManager\VulkanManager\Components\GraphicsPipeline.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LogicalDevice" Collapsed="true">
+    <Position X="3.75" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAEAACAAAAAAABAQgIACAAAAAAAAAAAAAIAAAA=</HashCode>
+      <FileName>GameManager\VulkanManager\Components\LogicalDevice.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QueueFamilyIndices" Collapsed="true">
+    <Position X="1.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQQAAIAAAAAAAAAAAIAAAAAAAAAAAAAAAgAAgEAAAA=</HashCode>
+      <FileName>GameManager\VulkanManager\Components\QueueFamilyIndices.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RenderPass" Collapsed="true">
+    <Position X="3.75" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEBAAAAA=</HashCode>
+      <FileName>GameManager\VulkanManager\Components\RenderPass.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Swapchain" Collapsed="true">
+    <Position X="3.75" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAKADAYACoBEIBAggAQIAAQAEAIAoACBQgAAAgAQ=</HashCode>
+      <FileName>GameManager\VulkanManager\Components\Swapchain.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VertexBuffer" Collapsed="true">
+    <Position X="3.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ARAAAACAAAAAAABAAAAAAAAAQAAAAABAAIAAAAEAEAA=</HashCode>
+      <FileName>GameManager\VulkanManager\Components\VertexBuffer.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VulkanExtensionProperties" Collapsed="true">
+    <Position X="1.75" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAAAAAMAAAAAAABAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GameManager\VulkanManager\Components\VulkanExtensionProperties.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VulkanLayerProperties" Collapsed="true">
+    <Position X="3.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAEAAAAIAAIgAAAAAQAAQAAAAA=</HashCode>
+      <FileName>GameManager\VulkanManager\Components\VulkanLayerProperties.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
