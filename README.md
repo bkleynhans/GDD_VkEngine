@@ -6,7 +6,7 @@ The only installation requirement to work with this project, is a basic Vulkan S
 
 <ol>
   <li>Download the Vulkan SDK at https://vulkan.lunarg.com/sdk/home</li>
-  <li>Perform an installation using the default values</li>
+  <li>Perform an installation using the default options</li>
   <li>Clone this repo</li>    
     git clone https://github.com/bkleynhans/GDD_VkEngine.git    
   <li>Compile the program in <b>64-bit</b></li>
