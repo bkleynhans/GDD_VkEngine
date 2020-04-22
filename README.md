@@ -43,7 +43,7 @@ The VertexBuffer and related classes need to be updated so they can display any 
 The following diagrams constitute the current condition of the project.  Any changes that are made to the code base that influence the class diagrams need to be represented here.
 
 ## Overall Class Summary
-<img src="ClassDiagram.png" alt="Overall Summary"/>
+<img src="./ClassDiagram.png" alt="Overall Summary"/><br>
 
 <p><strong><font color='red'>
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! PLEASE NOTE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
