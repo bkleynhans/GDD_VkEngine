@@ -8,7 +8,12 @@ This is a work in progress of creating a Vulkan-based game engine with extensive
 * [Current State](#current-state)
 * [Intended Final Solution](#intended-final-solution)
 * [Next Steps](#next-steps)
-* [Class Diagrams](#class-diagrams)
+* [Design](#design)
+  * [Proposed Solution](#proposed-solution)
+  * [Class Diagrams](#class-diagrams)
+    * [Components Base Class with Derived Classes](#components-base-class-with-derived-classes)
+    * [Rigid Bodies Base Class with Derived Classes](#rigid-bodies-base-class-with-derived-classes)
+    * [Managers and Non-Derived Classes](#managers-and-non-derived-classes)
 <!--te-->
 
 # Installation Instructions
@@ -39,11 +44,25 @@ Ultimately all components will be instantiated once and added to the EntitManage
 # Next Steps
 The VertexBuffer and related classes need to be updated so they can display any shape that is created within the EntityManager on screen.  My suggestion would be to continue working through the Vulkan Tutorial by Alexander Overvoorde (included in the root of the project and at his website https://vulkan-tutorial.com) from page 199, as the project currently represents the project as at page 198.
 
-# Class Diagrams
+# Design
+## Proposed Solution
+The following is the proposed solution for a Vulkan-based engine design.
+<img src="https://github.com/bkleynhans/GDD_VkEngine/blob/MultipleEntityExpansion/BaseEngineDesign.png" alt="Proposed Solution"/><br>
+
+## Class Diagrams
 The following diagrams constitute the current condition of the project.  Any changes that are made to the code base that influence the class diagrams need to be represented here.
 
-## Overall Class Summary
+### Overall Class Summary
 <img src="https://github.com/bkleynhans/GDD_VkEngine/blob/MultipleEntityExpansion/ClassDiagram.png" alt="Overall Summary"/><br>
+
+### Components Base Class with Derived Classes
+<img src="https://github.com/bkleynhans/GDD_VkEngine/blob/MultipleEntityExpansion/Components.png" alt="Components"/><br>
+
+### Rigid Bodies Base Class with Derived Classes
+<img src="https://github.com/bkleynhans/GDD_VkEngine/blob/MultipleEntityExpansion/RigidBodies.png" alt="Rigid Bodies"/><br>
+
+### Managers and Non-Derived Classes
+<img src="https://github.com/bkleynhans/GDD_VkEngine/blob/MultipleEntityExpansion/ManagersAndOthers.png" alt="Masters and Others"/><br>
 
 <p><strong><font color='red'>
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! PLEASE NOTE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
