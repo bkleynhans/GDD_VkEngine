@@ -59,7 +59,7 @@ The following diagrams constitute the current condition of the project.  Any cha
 <img src="https://github.com/bkleynhans/GDD_VkEngine/blob/MultipleEntityExpansion/Components.png" alt="Components"/><br>
 
 ### Rigid Bodies Base Class with Derived Classes
-<img src="https://github.com/bkleynhans/GDD_VkEngine/blob/MultipleEntityExpansion/RigidBodies.png" alt="Rigid Bodies"/><br>
+<img src="https://github.com/bkleynhans/GDD_VkEngine/blob/MultipleEntityExpansion/RigidBodies.PNG" alt="Rigid Bodies"/><br>
 
 ### Managers and Non-Derived Classes
 <img src="https://github.com/bkleynhans/GDD_VkEngine/blob/MultipleEntityExpansion/ManagersAndOthers.png" alt="Masters and Others"/><br>
